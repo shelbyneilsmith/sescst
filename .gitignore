@@ -53,7 +53,7 @@ coverage.xml
 docs/_build/
 
 # Gulp stuff
-node_modules/
+node_modules
 gulpfile.js
 package.json
 
