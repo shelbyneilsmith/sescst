@@ -6,7 +6,7 @@ from flask import Flask
 from flask.ext.bcrypt import Bcrypt
 from flask.ext.sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
+app = Flask(__name__, static_path='/static')
 app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
