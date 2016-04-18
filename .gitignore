@@ -52,4 +52,9 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# Gulp stuff
+node_modules/
+gulpfile.js
+package.json
+
 *.DS_Store
