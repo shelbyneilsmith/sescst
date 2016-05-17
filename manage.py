@@ -11,5 +11,11 @@ manager = Manager(app)
 
 manager.add_command('db', MigrateCommand)
 
+from app.util.email import send_email
+@manager.command
+def test_email(to='shelby@yellowberri.com'):
+	send_email(to, 'test email!', 'yeah!')
+
+
 if __name__ == '__main__':
 	manager.run()

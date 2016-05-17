@@ -1,0 +1,30 @@
+<!-- <span class="user-role">{[postData.urole]} <a ng-show="editAccess(postData.id, postType, true)" class="edit-link" ng-click='editPostField()'>Edit</a></span>
+ -->
+<span class="user-role"><postfield admin-only='true' type='select' label='' keys='"urole"' init-value='postData.urole'></postfield></span>
+
+
+<ul class="post-details list-unstyled">
+	<li><postfield admin-only='false' type='text' label='Username' keys='"username"' init-value='postData.name'></postfield></li>
+
+	<li><postfield admin-only='false' type='password' label='Password' keys='"password"' init-value='postData.password'></postfield></li>
+
+	<li><postfield admin-only='false' type='text' label='Full Name' keys='["first_name", "last_name"]' init-value="{first_name: postData.first_name, last_name: postData.last_name}"></postfield></li>
+
+	<li><postfield admin-only='false' type='email' label='Email Address' keys='"email"' init-value='postData.email'></postfield></li>
+
+	<li><postfield admin-only='true' type='money' label='Salary' keys='"salary"' init-value='postData.salary'></postfield></li>
+
+	<li><postfield admin-only='true' type='multiselect' label='Districts' keys='"districts"' init-value='postData.districts'></postfield></li>
+
+	<li><postfield admin-only='true' type='multiselect' label='Schools' keys='"schools"' init-value='postData.schools'></postfield></li>
+</ul>
+
+<hr />
+
+<h3>User Activity</h3>
+<ul>
+	<li><a href="#">Activity Logs</a></li>
+	<li><a href="#">Expense Sheets</a></li>
+	<li><a href="#">Saved Reports</a></li>
+</ul>
+<br /><br />

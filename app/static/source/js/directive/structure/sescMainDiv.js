@@ -8,7 +8,7 @@ module.exports = function() {
 		restrict: 'A',
 		replace: true,
 		scope: '=',
-		templateUrl: '/static/partials/sescst-main.html',
-		controller: 'sescMainCtrl'
+		templateUrl: '../templates/partials/sescst-main.html',
+		controller: 'mainCtrl'
 	};
 };

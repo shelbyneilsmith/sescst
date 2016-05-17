@@ -4,9 +4,7 @@
  */
 'use strict';
 
-module.exports = ['$scope', '$filter', 'UserAuth', function($scope, $filter, UserAuth) {
-	$scope.loggedIn = UserAuth.loggedIn;
-
+module.exports = ['$scope', '$filter', function($scope, $filter) {
 	$scope.sidebarNav = ['one', 'two', 'three'];
 	$scope.blah = "BLAH";
 }];

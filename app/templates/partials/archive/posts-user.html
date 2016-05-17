@@ -1,0 +1,18 @@
+<table class="table table-striped table-hover table-responsive">
+	<thead>
+		<tr>
+			<th>Username</th>
+			<th>Full Name</th>
+			<th>Access Role</th>
+			<!-- <th>Is Active</th> -->
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="post in postList.posts">
+			<td><a href="/#/post?id={[ post.id ]}&amp;post_type={[ postType ]}">{[ post.name ]}</a></td>
+			<td>{[ post.first_name]} {[ post.last_name ]}</td>
+			<td>{[ post.urole ]}</td>
+			<!-- <td><span ng-class="post.active ? 'text-success' : ''">{[ post.active ]}</td> -->
+		</tr>
+	</tbody>
+</table>

@@ -4,6 +4,13 @@
  */
 'use strict';
 
-module.exports = ['$scope', '$routeParams', function($scope, $routeParams) {
+module.exports = ['$scope', '$routeParams', '$http', '$log', '$location', 'helpers', function($scope, $routeParams, $http, $log, $location, helpers) {
+	setTimeout(function() {
+		$('.alert').fadeOut('fast');
+	}, 6000);
+
+	helpers.getCurrentUser(function(userData) {
+		$scope.curUser = userData;
+	});
 
 }];

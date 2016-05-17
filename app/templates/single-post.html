@@ -1,0 +1,9 @@
+<h1>{[ postType ]} - {[ postData.name ]}</h1>
+
+<div ng-include src="singleTemplate"></div>
+
+<!-- <a href="/#/edit?post_id={[ postData.id ]}" class="btn btn-primary">Edit {[ postType ]}</a>
+ -->
+ {% if current_user.urole == "admin" %}
+<button ng-click="deletePost(postData.id, postType)" class="btn btn-primary">Delete {[ postType ]}</button>
+{% endif %}

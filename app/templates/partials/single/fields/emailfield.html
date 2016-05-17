@@ -1,0 +1,2 @@
+<strong ng-if="label">{[ label ]}:</strong> <span ng-hide='editMode'>{[ fieldData.value ]} </span>
+<input type='email' focus-me='{[ editMode ]}' ng-show='editMode' placeholder='{[ fieldData.value ]}' ng-model='fieldData.newValue' />

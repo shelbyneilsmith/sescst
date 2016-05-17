@@ -1,0 +1,26 @@
+<header id="app-masthead">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-4">
+				<a href="/#/"><img src="static/img/sesc_logo.png" width="160" alt="SESC" /></a>
+			</div>
+
+			<nav id="user-nav" class='col-sm-8'>
+				<ul class='list-inline'>
+					{% if current_user.is_authenticated %}
+						{% if current_user.urole == "admin" %}
+		 					<li><a href="/#/posts?post_type=User">User Management</a></li>
+		 					<li><a href="/#/posts?post_type=District">Districts</a></li>
+		 					<li><a href="/#/posts?post_type=School">Schools</a></li>
+	 					{% endif %}
+ 						<li><a href='/#/post?id={{ current_user.id }}&amp;post_type=User' target="_self">My Account</a></li>
+						<li><a href='{{url_for("login_bp.logout")}}' target="_self">Log out</a></li>
+					{% else %}
+						<li><a href="{{ url_for('login_bp.reset') }}" target="_self">Reset Password</a></li>
+						<li><a href='{{url_for("login_bp.login")}}' target="_self">Sign In</a></li>
+					{% endif %}
+				</ul>
+			</nav>
+		</div>
+	</div>
+</header>

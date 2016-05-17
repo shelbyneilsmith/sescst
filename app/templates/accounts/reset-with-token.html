@@ -1,0 +1,19 @@
+<!-- extend app base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-2 col-md-offset-5">
+		<h2>Reset Password</h2>
+		<form action="{{ url_for('email_bp.reset_with_token', token=token) }}" method="POST">
+			<fieldset class="form-group">
+				{{ form.password.label(class_="sr-only") }}<br />
+				{{ form.password(type="{[ passwordInputType ]}",size=40,class_="form-control",placeholder=form.password.label.text) }}
+				<hideshowpass></hideshowpass>
+			</fieldset>
+			{{ form.csrf_token }}
+			<input type="submit" class="btn btn-primary" value="Change my password" />
+		</form>
+	</div>
+</div>
+{% endblock %}

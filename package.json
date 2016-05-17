@@ -26,6 +26,8 @@
   },
   "dependencies": {
     "angular": "^1.5.3",
-    "angular-route": "^1.5.3"
+    "angular-route": "^1.5.3",
+    "inflection": "^1.10.0",
+    "nginflection": "^1.1.10"
   }
 }

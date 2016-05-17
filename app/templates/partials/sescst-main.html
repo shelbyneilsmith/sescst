@@ -1,0 +1,5 @@
+<section id="app-main" class="{{ 'col-md-9' if current_user.is_authenticated else 'col-md-12' }}">
+	<div class="container-fluid">
+		<ng-view />
+	</div>
+</section>

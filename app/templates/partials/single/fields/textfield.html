@@ -1,0 +1,7 @@
+<strong ng-if="label">{[ label ]}:</strong>
+
+<span ng-if="isArray(keys)" ng-repeat='key in keys track by $index' ng-hide='editMode'>{[ fieldData.value[key] ]} </span>
+<input ng-if="isArray(keys)" ng-repeat='key in keys track by $index' type='text' focus-me='{[ editMode ]}' ng-show='editMode' placeholder='{[ fieldData.value[key] ]}' ng-model='fieldData.newValue[key]' />
+
+<span ng-if="!isArray(keys)" ng-hide='editMode'>{[ fieldData.value ]} </span>
+<input ng-if="!isArray(keys)" type='text' focus-me='{[ editMode ]}' ng-show='editMode' placeholder='{[ fieldData.value ]}' ng-model='fieldData.newValue' />

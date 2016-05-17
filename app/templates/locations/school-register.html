@@ -1,0 +1,24 @@
+<!-- extend app base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-2 col-md-offset-5">
+		<h2>Create a New School</h2>
+		<form action="" method="post" name="register">
+			{{ form.hidden_tag() }}
+			<fieldset class="form-group">
+				<label for="school_name" class="sr-only">School Name:</label>
+				{{ form.school_name(size=40,class_="form-control",placeholder="School Name") }}<br />
+				{% for error in form.school_name.errors %}
+					<span style="color: red;">[{{ error }}]</span>
+				{% endfor %}
+
+			</fieldset>
+			<!-- <p>{{ form.is_admin }} <label for="is_admin"><strong>This user is an Administrator</strong></strong></p> -->
+			<p><input type="submit" class="btn btn-success" value="Create School"></p>
+		</form>
+	</div>
+</div>
+
+{% endblock %}

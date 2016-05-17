@@ -8,7 +8,7 @@ module.exports = function() {
 		restrict: 'A',
 		replace: true,
 		scope: '=',
-		templateUrl: '/static/partials/sescst-sidebar.html',
+		templateUrl: '../templates/partials/sescst-sidebar.html',
 		controller: 'sescSidebarCtrl'
 	};
 };

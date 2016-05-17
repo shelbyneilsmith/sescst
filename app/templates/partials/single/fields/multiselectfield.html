@@ -1,0 +1,10 @@
+<strong ng-if="label">{[ label ]}:</strong>
+<ul class="list-unstyled" ng-hide='editMode'>
+	<li ng-repeat="item in fieldData.value">
+		{[item.name]}
+	</li>
+</ul>
+
+<select multiple='multiple' focus-me='{[ editMode ]}'  ng-show='editMode'>
+	<option ng-repeat='item in fieldData.value' value='item.name' selected="selected">{[ item.name ]}</option>
+</select>

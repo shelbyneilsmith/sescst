@@ -1,0 +1,11 @@
+<ul class="post-details list-unstyled">
+	<li><strong>Users:</strong>
+		<ul class='list-unstyled'>
+			<li ng-repeat="user in postData.users">
+				{[user]}
+			</li>
+		</ul>
+	</li>
+
+	<postfield editable='editAccess(postData.id, postType, true)' type='multiselect' label='Schools' value='postData.schools'></postfield>
+</div>

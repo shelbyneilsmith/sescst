@@ -3,17 +3,43 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>SESC Staff Tools</title>
+		<base href="/">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="/static/css/staff-tools.min.css" />
 	</head>
-	<body>
+	<body ng-app="sescstafftools" ng-cloak>
+		{% include 'partials/header.html' %}
+
 		{% with messages = get_flashed_messages() %}
 			{% if messages %}
-				<ul>
-					{% for message in messages %}
-						<li>{{ message }}</li>
-					{% endfor %}
-				</ul>
+				<div class="container-fluid">
+					<div class="alert alert-danger">
+						<ul>
+							{% for message in messages %}
+								<li>{{ message }}</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
 			{% endif %}
 		{% endwith %}
-		{% block content %}{% endblock %}
+
+		<div class="container-fluid">
+			{% block content %}{% endblock %}
+		</div>
+
+		{% include 'partials/footer.html' %}
+
+		<!-- main app script -->
+		<script src="/static/js/main.min.js"></script>
+
+		<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
+		<script type="text/javascript">
+			(function($) {
+				$('select').select2({width: '100%'});
+			})(jQuery);
+		</script>
+
 	</body>
 </html>
