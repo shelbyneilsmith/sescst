@@ -1,5 +1,6 @@
 <!-- extend app base layout -->
 {% extends "base.html" %}
+{% import 'macros/forms.html' as form_macros %}
 
 {% block content %}
 <div class="row">
@@ -8,11 +9,7 @@
 		<form action="" method="post" name="register">
 			{{ form.hidden_tag() }}
 			<fieldset class="form-group">
-				<label for="school_name" class="sr-only">School Name:</label>
-				{{ form.school_name(size=40,class_="form-control",placeholder="School Name") }}<br />
-				{% for error in form.school_name.errors %}
-					<span style="color: red;">[{{ error }}]</span>
-				{% endfor %}
+				{{ form_macros.text_field(form, "school_name", form.school_name) }}
 
 			</fieldset>
 			<!-- <p>{{ form.is_admin }} <label for="is_admin"><strong>This user is an Administrator</strong></strong></p> -->

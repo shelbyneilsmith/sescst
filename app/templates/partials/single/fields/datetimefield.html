@@ -1,0 +1,5 @@
+<strong ng-if="label">{[ label ]}:</strong>
+<span ng-hide='editMode'>{[ fieldData.displayValue | date : "MMM d, y"  : '+0500' ]} </span>
+<dynamic-element ng-if='editAccess(postID, postType, adminOnly)' html='editBtn'></dynamic-element>
+
+<date-picker-field ng-show='editMode' field-name='' init-date="fieldData.value" model="fieldData.value"></date-picker-field>

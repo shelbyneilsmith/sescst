@@ -1,0 +1,21 @@
+<!-- extend app base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-2 col-md-offset-5">
+		<h2>Application Settings</h2>
+		<div ng-controller='appSettingsCtrl'>
+			<hr />
+			<h3>Access Roles</h3>
+ 			<repeater-field label='Role' placeholder='New Access Role' data='curRoles'></repeater-field>
+
+			<h3>Activity Types</h3>
+ 			<repeater-field label='Activity Type' placeholder='New Activity Type' data='curActivityTypes'></repeater-field>
+
+			<button class="btn btn-success" ng-click="saveAppSettings()">Save Settings</button>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

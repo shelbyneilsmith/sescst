@@ -14,9 +14,10 @@ module.exports = ['$scope', '$routeParams', '$http', '$log', '$filter', 'helpers
 		$scope.postData = results;
 	});
 
+
 	$scope.editAccess = function(post_id, post_type, admin_only) {
 		var admin_only = typeof admin_only !== 'undefined' ? admin_only : false;
-		if ($scope.curUser['urole'] === 'admin') {
+		if ($scope.curUser['urole'] === 'Administrator') {
 			return true;
 		}
 

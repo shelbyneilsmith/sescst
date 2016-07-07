@@ -9,7 +9,7 @@ module.exports = ['$scope', '$routeParams', '$http', '$log', '$filter', '$templa
 
 
 	// fire the API request
-	$http.post('/api/list-posts', {"post_type": $scope.postType})
+	$http.post('/api/get_posts', {"post_type": $scope.postType})
 		.then(function(results) {
 			$scope.postList = results.data;
 

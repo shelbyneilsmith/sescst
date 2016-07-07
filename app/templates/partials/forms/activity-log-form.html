@@ -1,0 +1,68 @@
+<h2>Create New Activity Report</h2>
+<form action="" method="post" name="create-activity-log">
+	{{ activity_log_form.hidden_tag() }}
+	<fieldset class="form-group">
+		<label for="name">{{activity_log_form.name.label.text}}:</label>
+		{{ activity_log_form.name(size=40,class_="form-control") }}<br />
+		{% for error in activity_log_form.name.errors %}
+			<span class="form-error">{{ error }}</span>
+		{% endfor %}
+
+		<label for="log_date_start">{{activity_log_form.log_date_start.label.text}}:</label>
+		{{ activity_log_form.log_date_start(class_="datepicker form-control") }}<br />
+		{% for error in activity_log_form.log_date_start.errors %}
+			<span class="form-error">{{ error }}</span>
+		{% endfor %}
+
+		<label for="log_date_end">{{activity_log_form.log_date_end.label.text}}:</label>
+		{{ activity_log_form.log_date_end(class_="datepicker form-control") }}<br />
+		{% for error in activity_log_form.log_date_end.errors %}
+			<span class="form-error">{{ error }}</span>
+		{% endfor %}
+
+		<label for="consultant">{{ activity_log_form.consultant.label.text }}:</label><br />
+		{{ activity_log_form.consultant(class_="form-control", placeholder=activity_log_form.consultant.label.text) }}
+		{% for error in activity_log_form.consultant.errors %}
+			<span class="form-error">{{ error }}</span>
+		{% endfor %}
+
+		<label for="log_schools">{{ activity_log_form.log_schools.label.text }}:</label><br />
+		{{ activity_log_form.log_schools(multiple="multiple",class_="form-control", placeholder=activity_log_form.log_schools.label.text) }}
+		{% for error in activity_log_form.log_schools.errors %}
+			<span class="form-error">{{ error }}</span>
+		{% endfor %}
+
+		<br /><br />
+
+		<label for="log_districts">{{ activity_log_form.log_districts.label.text }}:</label><br />
+		{{ activity_log_form.log_districts(multiple="multiple",class_="form-control", placeholder=activity_log_form.log_districts.label.text) }}
+		{% for error in activity_log_form.log_districts.errors %}
+			<span class="form-error">{{ error }}</span>
+		{% endfor %}
+
+		<label for="activity_types">{{ activity_log_form.activity_types.label.text }}:</label><br />
+		{{ activity_log_form.activity_types(multiple="multiple",class_="form-control", placeholder=activity_log_form.activity_types.label.text) }}
+		{% for error in activity_log_form.activity_types.errors %}
+			<span class="form-error">{{ error }}</span>
+		{% endfor %}
+
+		<label for="activity_contact">{{activity_log_form.activity_contact.label.text}}:</label>
+		{{ activity_log_form.activity_contact(size=40,class_="form-control") }}<br />
+		{% for error in activity_log_form.activity_contact.errors %}
+			<span class="form-error">{{ error }}</span>
+		{% endfor %}
+
+		<label for="event_costs">{{activity_log_form.event_costs.label.text}}:</label>
+		{{ activity_log_form.event_costs(size=40,class_="form-control") }}<br />
+		{% for error in activity_log_form.event_costs.errors %}
+			<span class="form-error">{{ error }}</span>
+		{% endfor %}
+
+		<label for="report_notes">{{activity_log_form.report_notes.label.text}}:</label>
+		{{ activity_log_form.report_notes(size=40,class_="form-control") }}<br />
+		{% for error in activity_log_form.report_notes.errors %}
+			<span class="form-error">{{ error }}</span>
+		{% endfor %}
+
+	</fieldset>
+</form>

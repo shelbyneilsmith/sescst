@@ -1,5 +1,6 @@
 <!-- extend app base layout -->
 {% extends "base.html" %}
+{% import 'macros/forms.html' as form_macros %}
 
 {% block content %}
 <div class="row">
@@ -8,17 +9,10 @@
 		<form action="" method="post" name="register">
 			{{ form.hidden_tag() }}
 			<fieldset class="form-group">
-				<label for="district_name" class="sr-only">{{ form.district_name.label }}:</label>
-				{{ form.district_name(size=40,class_="form-control",placeholder="District Name") }}<br />
-				{% for error in form.district_name.errors %}
-					<span style="color: red;">[{{ error }}]</span>
-				{% endfor %}
+				{{ form_macros.text_field(form, "district_name", form.district_name) }}
+				<br />
 
-				<label for="district_schools">Set District Schools:</label><br />
-				{{ form.district_schools(multiple="multiple") }}
-				{% for error in form.district_schools.errors %}
-					<span style="color: red;">[{{ error }}]</span>
-				{% endfor %}
+				{{ form_macros.multi_select_field(form, "district_schools", form.district_schools, "{postType: 'School'}", "['name', 'id']") }}
 
 			</fieldset>
 			<!-- <p>{{ form.is_admin }} <label for="is_admin"><strong>This user is an Administrator</strong></strong></p> -->

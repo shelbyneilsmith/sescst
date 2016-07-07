@@ -77,7 +77,7 @@ function buildScript(file) {
     return stream.on('error', handleErrors)
         .pipe(source('main.js'))
         .pipe(buffer())
-        .pipe(uglify())
+        // .pipe(uglify())
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(paths.js.dist))
         .pipe(notify({ message: 'Scripts task complete' }));

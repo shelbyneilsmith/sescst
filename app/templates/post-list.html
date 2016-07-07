@@ -1,5 +1,5 @@
-<h1>{[ postType | pluralize ]}</h1>
+<h1>{[ postType | underscoreless | pluralize ]}</h1>
 
- <div ng-include="getListTemplate()"></div>
+<div ng-include="getListTemplate()"></div>
 
-<a class="btn btn-primary" href="/admin/create-{[ postType | lowercase | dasherize ]}">Create {[postType]}</a>
+<a class="btn btn-primary" href="/admin/create-{[ postType | lowercase | dasherize ]}">Create {[postType | underscoreless]}</a>

@@ -4,7 +4,7 @@
  */
 'use strict';
 
-module.exports = ['$scope', '$routeParams', '$http', '$log', '$location', 'helpers', function($scope, $routeParams, $http, $log, $location, helpers) {
+module.exports = ['$scope', '$routeParams', '$http', '$log', '$rootScope', '$location', 'helpers', function($scope, $routeParams, $http, $log, $rootScope, $location, helpers) {
 	setTimeout(function() {
 		$('.alert').fadeOut('fast');
 	}, 6000);

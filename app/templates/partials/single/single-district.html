@@ -1,4 +1,7 @@
+<h1>District - {[ postData.name ]}</h1>
 <ul class="post-details list-unstyled">
+	<li class="hover-link"><postfield admin-only='true' type='text' field-data='{ initValue: postData.name }' label='District Name' keys='"name"'></postfield></li>
+
 	<li><strong>Users:</strong>
 		<ul class='list-unstyled'>
 			<li ng-repeat="user in postData.users">
@@ -7,5 +10,5 @@
 		</ul>
 	</li>
 
-	<postfield editable='editAccess(postData.id, postType, true)' type='multiselect' label='Schools' value='postData.schools'></postfield>
-</div>
+	<li class="hover-link"><postfield admin-only='true' type='multiselect' field-data='{ postType: "School", optionKeyVal: ["name", "id"], initValue: postData.schools }' label='Schools' keys='"schools"' relationship="true"></postfield></li>
+</ul>

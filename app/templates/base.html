@@ -4,8 +4,10 @@
 		<meta charset="UTF-8">
 		<title>SESC Staff Tools</title>
 		<base href="/">
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" rel="stylesheet" />
-		<link rel="stylesheet" href="/static/css/staff-tools.min.css" />
+ 		<link rel="stylesheet" href="/static/css/staff-tools.min.css" />
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
+
+		<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 	</head>
 	<body ng-app="sescstafftools" ng-cloak>
 		{% include 'partials/header.html' %}
@@ -32,14 +34,19 @@
 
 		<!-- main app script -->
 		<script src="/static/js/main.min.js"></script>
-
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
-		<script type="text/javascript">
-			(function($) {
-				$('select').select2({width: '100%'});
-			})(jQuery);
-		</script>
+		<!--
+		    IE8 support, see AngularJS Internet Explorer Compatibility http://docs.angularjs.org/guide/ie
+		    For Firefox 3.6, you will also need to include jQuery and ECMAScript 5 shim
+		  -->
+		  <!--[if lt IE 9]>
+		    <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.2.0/es5-shim.js"></script>
+		    <script>
+		      document.createElement('ui-select');
+		      document.createElement('ui-select-match');
+		      document.createElement('ui-select-choices');
+		    </script>
+		  <![endif]-->
 
 	</body>
 </html>

@@ -1,0 +1,21 @@
+<h1>Activity Log - {[ postData.name ]}</h1>
+<a href="/#/post?id={[ postData.expense_sheet ]}&amp;post_type=Expense_Sheet">View Expense Sheet for this Activity Log</a>
+<hr />
+
+<ul class="post-details list-unstyled">
+	<li class="hover-link"><postfield admin-only='false' type='text' field-data='{ initValue: postData.name }' label='Activity Title' keys='"name"'></postfield></li>
+
+	<li class="hover-link"><postfield admin-only='false' type='datetime' field-data='{ initValue: postData.log_date_start }' label='Log Start Date' keys='"log_date_start"'></postfield></li>
+
+	<li class="hover-link"><postfield admin-only='false' type='datetime' field-data='{ initValue: postData.log_date_end }' label='Log End Date' keys='"log_date_end"'></postfield></li>
+
+	<li class="hover-link"><postfield admin-only='false' type='select' field-data='{ postType: "User", optionKeyVal: ["username", "id"], postFilter: "(User.urole==&#39;Consultant&#39;)", initValue: postData.user }' label='Consultant' keys='"user"' relationship="true"></postfield></li>
+
+	<li class="hover-link"><postfield admin-only='false' type='multiselect' field-data='{ postType: "District", optionKeyVal: ["name", "id"], initValue: postData.districts }' label='Log Districts' keys='"districts"' relationship="true"></postfield></li>
+
+	<li class="hover-link"><postfield admin-only='false' type='multiselect' field-data='{ postType: "School", optionKeyVal: ["name", "id"], initValue: postData.schools }' label='Log Schools' keys='"schools"' relationship="true"></postfield></li>
+</ul>
+
+<hr />
+
+<br /><br />

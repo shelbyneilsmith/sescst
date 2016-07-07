@@ -11,14 +11,14 @@
 				<label for="username" class="sr-only">Username:</label>
 				{{ form.username(size=40,class_="form-control",placeholder="Username") }}<br />
 				{% for error in form.username.errors %}
-					<span style="color: red;">[{{ error }}]</span>
+					<span class="form-error">{{ error }}</span>
 				{% endfor %}
 
 				<label for="password" class="sr-only">Password:</label>
 				{{ form.password(type="{[ passwordInputType ]}",size=40,class_="form-control",placeholder="Password") }}
 				<hideshowpass></hideshowpass>
 				{% for error in form.password.errors %}
-					<br /><span style="color: red;">[{{ error }}]</span>
+					<br /><span class="form-error">{{ error }}</span>
 				{% endfor %}
 			</fieldset>
 	<!-- 		<p>{{ form.remember_me }} Remember Me</p>

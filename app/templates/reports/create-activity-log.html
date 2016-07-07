@@ -1,0 +1,76 @@
+<!-- extend app base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+{% import 'macros/forms.html' as form_macros %}
+
+<div class="row">
+	<div sidebar></div>
+	<div class="col-md-5">
+		<div ng-controller="ActivityLogFormCtrl">
+			<h2>Create New Activity Report</h2>
+			<form action="" method="post" name="create-activity-log">
+				{{ activity_log_form.hidden_tag() }}
+				<fieldset class="form-group">
+					{{ form_macros.text_field(activity_log_form, "name", activity_log_form.name) }}
+					<br />
+
+					{{ form_macros.datepicker_field(activity_log_form, "log_date_start", activity_log_form.log_date_start) }}
+					<br />
+
+					{{ form_macros.datepicker_field(activity_log_form, "log_date_end", activity_log_form.log_date_end) }}
+					<br />
+
+					{{ form_macros.select_field(activity_log_form, "consultant", activity_log_form.consultant, "{postType: 'User', postFilter: '(User.urole==\"Consultant\")'}", "['username', 'id']") }}
+					<br /><br />
+
+					{{ form_macros.multi_select_field(activity_log_form, "log_districts", activity_log_form.log_districts, "{postType: 'District'}", "['name', 'id']") }}
+					<br /><br />
+
+					{{ form_macros.multi_select_field(activity_log_form, "log_schools", activity_log_form.log_schools, "{postType: 'School'}", "['name', 'id']") }}
+					<br /><br />
+
+					{{ form_macros.multi_select_field(activity_log_form, "activity_types", activity_log_form.activity_types, "{postType: 'Activity_Type'}", "['name', 'id']") }}
+					<br /><br />
+
+					{{ form_macros.text_field(activity_log_form, "activity_contact", activity_log_form.activity_contact) }}
+					<br />
+
+					{{ form_macros.text_field(activity_log_form, "event_costs", activity_log_form.event_costs) }}
+					<br />
+
+					{{ form_macros.textarea_field(activity_log_form, "report_notes", activity_log_form.report_notes) }}
+
+				</fieldset>
+
+				<h2>Create New Expense Sheet</h2>
+				{{ expense_sheet_form.hidden_tag() }}
+				<fieldset class="form-group">
+					{{ form_macros.number_field(expense_sheet_form, "to_mileage", expense_sheet_form.to_mileage) }}
+					<br />
+
+					{{ form_macros.number_field(expense_sheet_form, "from_mileage", expense_sheet_form.from_mileage) }}
+					<br />
+
+					{{ form_macros.number_field(expense_sheet_form, "mileage_reimbursement", expense_sheet_form.mileage_reimbursement) }}
+					<br />
+
+					{{ form_macros.repeater_field(expense_sheet_form, "itemized_meals", expense_sheet_form.itemized_meals, "[{fieldID: 'item_name', fieldType: 'text', fieldLabel: 'Item', filter: ''},{fieldID: 'item_cost', fieldType: 'number', fieldLabel: 'Cost', filter: 'currency'}]") }}
+					<br />
+
+					{{ form_macros.repeater_field(expense_sheet_form, "hotel_reimbursement", expense_sheet_form.hotel_reimbursement, "[{fieldID: 'item_name', fieldType: 'text', fieldLabel: 'Item', filter: ''},{fieldID: 'item_cost', fieldType: 'number', fieldLabel: 'Cost', filter: 'currency'}]") }}
+					<br />
+
+					{{ form_macros.repeater_field(expense_sheet_form, "cell_phone_reimbursement", expense_sheet_form.cell_phone_reimbursement, "[{fieldID: 'item_name', fieldType: 'text', fieldLabel: 'Item', filter: ''},{fieldID: 'item_cost', fieldType: 'number', fieldLabel: 'Cost', filter: 'currency'}]") }}
+					<br />
+
+					{{ form_macros.repeater_field(expense_sheet_form, "other_reimbursement", expense_sheet_form.other_reimbursement, "[{fieldID: 'item_name', fieldType: 'text', fieldLabel: 'Item', filter: ''},{fieldID: 'item_cost', fieldType: 'number', fieldLabel: 'Cost', filter: 'currency'}]") }}
+				</fieldset>
+				<p><input type="submit" class="btn btn-success" value="Save Activity Log &amp; Expense Sheet" /></p>
+			</form>
+
+		</div>
+	</div>
+</div>
+
+{% endblock %}

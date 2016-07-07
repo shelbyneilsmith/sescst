@@ -1,7 +1,12 @@
 @charset 'utf-8';
 
-@import "../../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+// $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
+// $bootstrap-sass-asset-helper: true;
+@import '../../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 
+@import 'ui-select';
+
+// custom styles
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
@@ -50,27 +55,34 @@
 	font-size: 1.2em;
 	font-weight: bold;
 	margin-bottom: 30px;
+
+	select, .select2 {
+		font-size: .8em;
+		font-weight: normal;
+	}
 }
 
 .post-details {
 	& > li {
 		margin-bottom: 15px;
 		font-size: 1em;
-
-		.edit-link {
-			opacity: 0;
-		}
-
-		&:hover {
-			.edit-link {
-				opacity: 1;
-			}
-		}
 	}
 }
 
 .edit-link, .save-link, .cancel-link {
 	cursor: pointer;
+}
+
+.hover-link {
+	.edit-link {
+		opacity: 0;
+	}
+
+	&:hover {
+		.edit-link {
+			opacity: 1;
+		}
+	}
 }
 
 // form.post-field {
@@ -99,6 +111,7 @@
 }
 
 #app-main {
+	padding-bottom: 60px;
 }
 
 #app-footer {
@@ -113,6 +126,23 @@
 
 .truthy {
 	color: light-green;
+}
+
+.select2 > .select2-choice.ui-select-match {
+	/* Because of the inclusion of Bootstrap */
+	height: 29px;
+}
+
+.selectize-control > .selectize-dropdown {
+	top: 36px;
+}
+
+.form-error {
+	display: block;
+	background: red;
+	color: white;
+	padding: 5px 10px;
+	margin: 5px 0 20px;
 }
 
 /* Sticky footer styles

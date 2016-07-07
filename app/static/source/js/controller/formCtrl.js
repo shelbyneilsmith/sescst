@@ -4,7 +4,8 @@
  */
 'use strict';
 
-module.exports = ['$scope', function($scope) {
+module.exports = ['$scope', '$log', function($scope, $log) {
 	// defaults
 	$scope.passwordInputType = 'password';
+
 }];

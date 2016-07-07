@@ -1,0 +1,47 @@
+<h2>Create New Expense Sheet</h2>
+<form action="" method="post" name="create-expense-sheet">
+	{{ expense_sheet_form.hidden_tag() }}
+	<fieldset class="form-group">
+		<label for="to_mileage">{{expense_sheet_form.to_mileage.label.text}}:</label>
+		{{ expense_sheet_form.to_mileage(type="number", size=20,class_="form-control",placeholder=expense_sheet_form.to_mileage.label.text) }}<br />
+		{% for error in expense_sheet_form.to_mileage.errors %}
+			<span class="form-error">{{ error }}</span>
+		{% endfor %}
+
+		<label for="from_mileage">{{expense_sheet_form.from_mileage.label.text}}:</label>
+		{{ expense_sheet_form.from_mileage(type="number", size=20,class_="form-control",placeholder=expense_sheet_form.from_mileage.label.text) }}<br />
+		{% for error in expense_sheet_form.from_mileage.errors %}
+			<span class="form-error">{{ error }}</span>
+		{% endfor %}
+
+		<label for="mileage_reimbursement">{{expense_sheet_form.mileage_reimbursement.label.text}}:</label>
+		{{ expense_sheet_form.mileage_reimbursement(type="number", size=20,class_="form-control",placeholder=expense_sheet_form.mileage_reimbursement.label.text) }}<br />
+		{% for error in expense_sheet_form.mileage_reimbursement.errors %}
+			<span class="form-error">{{ error }}</span>
+		{% endfor %}
+
+		<label for="itemized_meals">{{expense_sheet_form.itemized_meals.label.text}}:</label>
+		{{ expense_sheet_form.itemized_meals(type="text", size=20,class_="form-control",placeholder=expense_sheet_form.itemized_meals.label.text) }}<br />
+		{% for error in expense_sheet_form.itemized_meals.errors %}
+			<span class="form-error">{{ error }}</span>
+		{% endfor %}
+
+		<label for="hotel_reimbursement">{{expense_sheet_form.hotel_reimbursement.label.text}}:</label>
+		{{ expense_sheet_form.hotel_reimbursement(type="text", size=20,class_="form-control",placeholder=expense_sheet_form.hotel_reimbursement.label.text) }}<br />
+		{% for error in expense_sheet_form.hotel_reimbursement.errors %}
+			<span class="form-error">{{ error }}</span>
+		{% endfor %}
+
+		<label for="cell_phone_reimbursement">{{expense_sheet_form.cell_phone_reimbursement.label.text}}:</label>
+		{{ expense_sheet_form.cell_phone_reimbursement(type="text", size=20,class_="form-control",placeholder=expense_sheet_form.cell_phone_reimbursement.label.text) }}<br />
+		{% for error in expense_sheet_form.cell_phone_reimbursement.errors %}
+			<span class="form-error">{{ error }}</span>
+		{% endfor %}
+
+		<label for="other_reimbursement">{{expense_sheet_form.other_reimbursement.label.text}}:</label>
+		{{ expense_sheet_form.other_reimbursement(type="text", size=20,class_="form-control",placeholder=expense_sheet_form.other_reimbursement.label.text) }}<br />
+		{% for error in expense_sheet_form.other_reimbursement.errors %}
+			<span class="form-error">{{ error }}</span>
+		{% endfor %}
+	</fieldset>
+</form>

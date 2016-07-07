@@ -1,7 +1,8 @@
 ''' general application views blueprint '''
 # app/views/general.py
 
-from flask import Blueprint, render_template
+import os
+from flask import Blueprint, render_template, send_from_directory
 from flask.ext.login import login_required
 
 general = Blueprint('general', __name__)
@@ -16,6 +17,11 @@ def serve_partial(path):
 @login_required
 def app_pages():
     return render_template('index.html')
+
+# favicon route
+@general.route('/favicon.png')
+def favicon():
+	return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.png', mimetype='image/vnd.microsoft.icon')
 
 # view for 404 errors!
 @general.errorhandler(404)

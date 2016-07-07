@@ -6,12 +6,16 @@ module.exports = ['$routeProvider', '$locationProvider', function($routeProvider
 		})
 		.when('/posts', {
 			templateUrl: '../templates/post-list.html',
-			controller: require('../controller/postListCtrl')
+			controller: require('../controller/posts/postListCtrl')
 		})
 		.when('/post', {
 			templateUrl: '../templates/single-post.html',
 			controller: 'PostCtrl'
 		})
+		// .when('/create-activity-log', {
+		// 	templateUrl: '../templates/partials/reports/activity-log-form.html',
+		// 	controller: 'ActivityLogFormCtrl'
+		// })
 		.when('/confirm', {
 			templateUrl: '../templates/confirm.html',
 			controller: require('../controller/confirmCtrl')

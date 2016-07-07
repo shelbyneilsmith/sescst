@@ -2,73 +2,36 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% import 'macros/forms.html' as form_macros %}
 <div class="row">
 	<div class="col-md-2 col-md-offset-5">
 		<h2>Create a New User</h2>
 		<form action="" method="post" name="register">
 			{{ form.hidden_tag() }}
 			<fieldset class="form-group">
-				<label for="username" class="sr-only">{{form.username.label.text}}:</label>
-				{{ form.username(size=40,class_="form-control",placeholder=form.username.label.text) }}<br />
-				{% for error in form.username.errors %}
-					<span style="color: red;">[{{ error }}]</span>
-				{% endfor %}
-				<label for="first_name" class="sr-only">{{form.first_name.label.text}}:</label>
-				{{ form.first_name(size=40,class_="form-control",placeholder=form.first_name.label.text) }}<br />
-				{% for error in form.first_name.errors %}
-					<span style="color: red;">[{{ error }}]</span>
-				{% endfor %}
-				<label for="last_name" class="sr-only">{{form.last_name.label.text}}:</label>
-				{{ form.last_name(size=40,class_="form-control",placeholder=form.last_name.label.text) }}<br />
-				{% for error in form.last_name.errors %}
-					<span style="color: red;">[{{ error }}]</span>
-				{% endfor %}
+				{{ form_macros.text_field(form, "username", form.username) }}
 
-				<label for="email" class="sr-only">{{form.salary.label.text}}:</label>
-				{{ form.email(size=40,class_="form-control",placeholder=form.email.label.text) }}<br />
-				{% for error in form.email.errors %}
-					<span style="color: red;">[{{ error }}]</span>
-				{% endfor %}
+				{{ form_macros.text_field(form, "first_name", form.first_name) }}
+				{{ form_macros.text_field(form, "last_name", form.last_name) }}
 
-				<label for="salary" class="sr-only">{{ form.salary.label.text }}:</label>
-				{{ form.salary(size=40,class_="form-control",placeholder=form.salary.label.text) }}<br />
-				{% for error in form.salary.errors %}
-					<span style="color: red;">[{{ error }}]</span>
-				{% endfor %}
+				{{ form_macros.text_field(form, "email", form.email) }}
 
-				<label for="password" class="sr-only">{{ form.password.label.text }}:</label>
-				{{ form.password(type="{[ passwordInputType ]}",size=40,class_="form-control",placeholder=form.password.label.text) }}
-				<hideshowpass></hideshowpass>
-				{% for error in form.password.errors %}
-					<br /><span style="color: red;">[{{ error }}]</span>
-				{% endfor %}
+				{{ form_macros.number_field(form, "salary", form.salary) }}
+
+				{{ form_macros.password_field(form, "password", form.password) }}
 			</fieldset>
 
 			<fieldset class="form-group">
-				<label for="user_schools">{{ form.user_schools.label.text }}:</label><br />
-				{{ form.user_schools(multiple="multiple",class_="form-control", placeholder=form.user_schools.label.text) }}
-				{% for error in form.user_schools.errors %}
-					<span style="color: red;">[{{ error }}]</span>
-				{% endfor %}
-
+				{{ form_macros.multi_select_field(form, "user_schools", form.user_schools, "{postType: 'School'}", "['name', 'id']") }}
 				<br /><br />
 
-				<label for="user_districts">{{ form.user_districts.label.text }}:</label><br />
-				{{ form.user_districts(multiple="multiple",class_="form-control", placeholder=form.user_districts.label.text) }}
-				{% for error in form.user_districts.errors %}
-					<span style="color: red;">[{{ error }}]</span>
-				{% endfor %}
-
+				{{ form_macros.multi_select_field(form, "user_districts", form.user_districts, "{postType: 'District'}", "['name', 'id']") }}
 				<br /><br />
 
-				<label for="urole">Set {{ form.urole.label.text }}:</label>
-				{{ form.urole(class_="form-control") }}
-				{% for error in form.urole.errors %}
-					<span style="color: red;">[{{ error }}]</span>
-				{% endfor %}
+				{{ form_macros.select_field(form, "urole", form.urole, "{postType: 'Role', only: 'name'}", "['name', 'id']") }}
 
 			</fieldset>
-			<!-- <p>{{ form.is_admin }} <label for="is_admin"><strong>This user is an Administrator</strong></strong></p> -->
+
 			<p><input type="submit" class="btn btn-success" value="Create User"></p>
 		</form>
 	</div>

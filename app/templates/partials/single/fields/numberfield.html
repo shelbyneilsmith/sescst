@@ -1,8 +1,9 @@
 <strong ng-if="label">{[ label ]}:</strong>
 
-<span ng-if="isArray(keys)" ng-repeat='key in keys track by $index' ng-hide='editMode'>{[ fieldData.value[key] ]} </span>
-<input ng-if="isArray(keys)" ng-repeat='key in keys track by $index' type='number' focus-me='{[ editMode ]}' ng-show='editMode' placeholder='{[ fieldData.value[key] ]}' ng-model='fieldData.newValue[key]' />
+<span ng-if="isArray(keys)" ng-repeat='key in keys track by $index' ng-hide='editMode'>{[ fieldData.displayValue[key] ]} </span>
+<input ng-if="isArray(keys)" ng-repeat='key in keys track by $index' type='number' focus-me='{[ editMode ]}' ng-show='editMode' placeholder='{[ fieldData.displayValue[key] ]}' ng-model='fieldData.value[key]' />
 
+<span ng-if="!isArray(keys)" ng-hide='editMode'>{[ fieldData.displayValue ]} </span>
+<input ng-if="!isArray(keys)" type='number' focus-me='{[ editMode ]}' ng-show='editMode' placeholder='{[ fieldData.displayValue ]}' ng-model='fieldData.value' />
 
-<span ng-if="!isArray(keys)" ng-hide='editMode'>{[ fieldData.value ]} </span>
-<input ng-if="!isArray(keys)" type='number' focus-me='{[ editMode ]}' ng-show='editMode' placeholder='{[ fieldData.value ]}' ng-model='fieldData.newValue' />
+<dynamic-element ng-if='editAccess(postID, postType, adminOnly)' html='editBtn'></dynamic-element>

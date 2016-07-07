@@ -34,5 +34,15 @@ module.exports = angular.module('helper-services', [])
 					});
 
 			},
+			getPosts: function(post_type, filter, callback) {
+				var filter = typeof filter !== 'undefined' ? filter : '';
+				$http.post('/api/get_posts', {"post_type": post_type, "post_filter": filter})
+					.then(function(results) {
+						// $log.log(results);
+						callback(results.data.posts);
+					}, function(error) {
+						$log.log(error);
+					});
+			},
 		};
 	}]);

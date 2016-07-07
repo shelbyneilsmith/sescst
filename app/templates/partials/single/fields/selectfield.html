@@ -1,6 +1,5 @@
 <strong ng-if="label">{[ label ]}:</strong>
-<span ng-hide='editMode'>{[ fieldData.value ]} </span>
-{[ options ]}
-<select focus-me='{[ editMode ]}' ng-show='editMode'>
-	<!-- <option ng-repeat='item in fieldData.value' value='item.name' selected="selected">{[ item.name ]}</option> -->
-</select>
+<span ng-hide='editMode'>{[ fieldData.displayValue ]} </span>
+<dynamic-element ng-if='editAccess(postID, postType, adminOnly)' html='editBtn'></dynamic-element>
+
+<select-2-field ng-if='editMode' field-name='' multiple='false' label="{[ label ]}" select-options="{postType: optionsPostType, postFilter: optionsPostFilter, only: optionsOnly}" model="fieldData.value" key-val="[optionKey, optionVal]" min-width="300px"></select-2-field>

@@ -8,12 +8,12 @@ from werkzeug.exceptions import HTTPException
 from sqlalchemy.exc import IntegrityError
 import json
 
-from .. import db
+from .. import db, login_required
+from ..model import User, District, School, Role, Activity_Type, Activity_Log, Expense_Sheet
+from ..schemas import UserSchema, RoleSchema, DistrictSchema, SchoolSchema, Activity_TypeSchema, Activity_LogSchema, Expense_SheetSchema
 from ..forms.admin import RegisterUserForm, RegisterDistrictForm, RegisterSchoolForm
-from ..model import User, District, School
 from ..util.security import ts
 from ..util.email import send_email
-from ..schemas import UserSchema, DistrictSchema, SchoolSchema
 
 admin_bp = Blueprint('admin_bp', __name__)
 
@@ -42,7 +42,7 @@ def confirm_email(user):
 
 # view for the create user page
 @admin_bp.route('/admin/create-user', methods=["GET", "POST"])
-@login_required
+# @login_required(role='Administrator')
 def register_account():
 	form = RegisterUserForm()
 	if form.validate_on_submit():
@@ -53,10 +53,10 @@ def register_account():
 			email=form.email.data,
 			password=form.password.data,
 			salary=form.salary.data,
-			districts=form.user_districts.data,
-			schools=form.user_schools.data,
 			urole=form.urole.data
 		)
+		saveMultiSelectField(user, form.user_districts.data, 'District', 'districts')
+		saveMultiSelectField(user, form.user_schools.data, 'School', 'schools')
 		db.session.add(user)
 		db.session.commit()
 
@@ -87,14 +87,15 @@ def register_account():
 
 # view for the create district page
 @admin_bp.route('/admin/create-district', methods=["GET", "POST"])
-@login_required
+@login_required(role='Administrator')
 def create_district():
 	form = RegisterDistrictForm()
 	if form.validate_on_submit():
 		district = District(
 			name=form.district_name.data,
-			schools=form.district_schools.data
+			# schools=form.district_schools.data
 		)
+		district.set_rel_vals(json.loads(form.district_schools.data), 'School', 'schools')
 		db.session.add(district)
 		db.session.commit()
 
@@ -104,10 +105,16 @@ def create_district():
 
 	return render_template('locations/district-register.html', form=form)
 
+# view for the application settings page (admins only)
+@admin_bp.route('/admin/settings', methods=["GET", "POST"])
+@login_required(role='Administrator')
+def admin_page():
+	return render_template('app-settings.html')
+
 
 # view for the create school page
 @admin_bp.route('/admin/create-school', methods=["GET", "POST"])
-@login_required
+@login_required(role='Administrator')
 def create_school():
 	form = RegisterSchoolForm()
 	if form.validate_on_submit():
@@ -132,13 +139,18 @@ def get_cur_user():
 
 	return jsonify({'current_user': current_user_data})
 
-def retrieve_posts(post_type, post_id=None, schema=False, many=False):
+def retrieve_posts(post_type, post_id=None, post_filter=None, schema=False, many=False):
 	classy_pt = getattr(sys.modules[__name__], post_type)
 
 	if post_id:
 		posts = classy_pt.query.filter_by(id=post_id).first()
 	else:
-		posts = classy_pt.query.all()
+		if post_filter:
+			post_filter = eval(post_filter)
+
+			posts = classy_pt.query.filter(post_filter).all()
+		else:
+			posts = classy_pt.query.all()
 
 	if schema:
 		class_schema = getattr(sys.modules[__name__], post_type + "Schema")
@@ -147,12 +159,15 @@ def retrieve_posts(post_type, post_id=None, schema=False, many=False):
 	return posts
 
 
-@admin_bp.route('/api/list-posts', methods=['GET', 'POST'])
+@admin_bp.route('/api/get_posts', methods=['GET', 'POST'])
 def get_posts():
 	data = json.loads(request.data.decode())
 	post_type = data["post_type"]
+	post_filter = None
+	if 'post_filter' in data:
+		post_filter = data["post_filter"]
 
-	result = retrieve_posts(post_type, None, True, True)
+	result = retrieve_posts(post_type, None, post_filter, True, True)
 
 	return jsonify({'posts': result.data})
 
@@ -162,7 +177,7 @@ def get_post():
 	post_type = data["post_type"]
 	post_id = data["id"]
 
-	result = retrieve_posts(post_type, post_id, True)
+	result = retrieve_posts(post_type, post_id, None, True)
 
 	return jsonify({'post': result.data})
 
@@ -198,19 +213,33 @@ def save_post_field():
 	post_id = data["post_id"]
 	field_key = data["field_key"]
 	field_val = data["field_value"]
+	relationship = data["relationship"]
 
 	classy_pt = getattr(sys.modules[__name__], post_type)
 	post = classy_pt.query.filter_by(id=post_id).first()
 
 	try:
-		if (type(field_key) is list):
+		if isinstance(field_key, list):
 			for key in field_key:
 				setattr(post, key, field_val[key])
 		else:
-			setattr(post, field_key, field_val)
+			if relationship:
+				if field_key.endswith('s'):
+					rel_type = field_key.capitalize()[:-1]
+					post.set_rel_vals(field_val, rel_type, field_key)
+				else:
+					rel_type = field_key.capitalize()
+					post.set_rel_val(field_val, rel_type, field_key)
+
+			else:
+				if isinstance(field_val, dict):
+					json_data = json.dumps(field_val)
+					field_val = json_data
+
+				setattr(post, field_key, field_val)
 
 		db.session.commit()
-	except IntegrityError as e:
+	except IntegrityError:
 		db.session.rollback()
 		if field_key == 'email':
 			raise ExceptionHandler('There is already another user with the email address: ' + field_val)
@@ -219,6 +248,52 @@ def save_post_field():
 	post = class_schema().dump(post)
 	return jsonify({'post': post, 'field_value': field_val, 'field_key': field_key, 'success': 'Field saved!'})
 
+# route for getting all access roles in system
+@admin_bp.route('/api/get_access_roles', methods=["GET"])
+def get_access_roles():
+	roles = []
+	db_roles = Role.query.all()
+	for role in db_roles:
+		roles.append(role.name)
+
+	return jsonify({'roles': roles})
+
+def multiple_post_save(post_type, posts_data):
+	classy_pt = getattr(sys.modules[__name__], post_type)
+	for post in posts_data:
+		if not classy_pt.query.filter_by(name=post).first():
+			new_post = classy_pt(
+				name=post,
+				description=''
+				)
+			db.session.add(new_post)
+			db.session.commit()
+
+def multiple_post_delete(post_type, posts_data):
+	classy_pt = getattr(sys.modules[__name__], post_type)
+	db_posts = classy_pt.query.all()
+	for db_post in db_posts:
+		if db_post.name not in posts_data:
+			db.session.delete(db_post)
+			db.session.commit()
+
+# route for saving the application settings
+@admin_bp.route('/api/save_app_settings', methods=["POST"])
+def save_app_settings():
+	data = json.loads(request.data.decode())
+	roles = data["roles"]
+	activity_types = data["activity_types"]
+
+	## ROLE MANAGEMENT
+	multiple_post_save("Role", roles)
+	multiple_post_delete("Role", roles)
+
+	## ACTIVITY TYPE MANAGEMENT
+	multiple_post_save("Activity_Type", activity_types)
+	multiple_post_delete("Activity_Type", activity_types)
+
+	flash('Application settings saved.')
+	return '/admin/settings'
 
 # error handlers
 class ExceptionHandler(Exception):

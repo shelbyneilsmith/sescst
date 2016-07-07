@@ -1,0 +1,21 @@
+<h1>Expense Sheet for: {[ postData.activity_log.name ]}</h1>
+<a href="/#/post?id={[ postData.activity_log.id ]}&amp;post_type=Activity_Log">View Activity Log for this Expense Sheet</a>
+<hr />
+
+<ul class="post-details list-unstyled">
+	<li class="hover-link"><postfield admin-only='false' type='number' field-data='{ initValue: postData.to_mileage }' label='To Mileage' keys='"to_mileage"'></postfield></li>
+	<li class="hover-link"><postfield admin-only='false' type='number' field-data='{ initValue: postData.from_mileage }' label='From Mileage' keys='"from_mileage"'></postfield></li>
+
+	<li class="hover-link"><postfield admin-only='false' type='number' field-data='{ initValue: postData.mileage_reimbursement }' label='Mileage Reimbursement' keys='"mileage_reimbursement"'></postfield></li>
+
+	<li class="hover-link"><postfield admin-only='false' type='repeater' field-data='{ initValue: postData.itemized_meals }' label='Itemized Meals' keys='"itemized_meals"'></postfield></li>
+	<li class="hover-link"><postfield admin-only='false' type='repeater' field-data='{ initValue: postData.hotel_reimbursement }' label='Hotel Reimbursement' keys='"hotel_reimbursement"'></postfield></li>
+	<li class="hover-link"><postfield admin-only='false' type='repeater' field-data='{ initValue: postData.cell_phone_reimbursement }' label='Cell Phone Reimbursement' keys='"cell_phone_reimbursement"'></postfield></li>
+	<li class="hover-link"><postfield admin-only='false' type='repeater' field-data='{ initValue: postData.other_reimbursement }' label='Other Reimbursements' keys='"other_reimbursement"'></postfield></li>
+
+</ul>
+
+<hr />
+
+
+<br /><br />
