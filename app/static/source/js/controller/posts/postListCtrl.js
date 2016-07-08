@@ -6,10 +6,12 @@
 
 module.exports = ['$scope', '$routeParams', '$http', '$log', '$filter', '$templateCache', function($scope, $routeParams, $http, $log, $filter, $templateCache) {
 	$scope.postType = $routeParams.post_type;
-
+	$scope.postFilter = typeof $routeParams.post_filter !== 'undefined' ? $routeParams.post_filter : '';
+	$scope.postFilterKey = typeof $routeParams.post_filter_key !== 'undefined' ? $routeParams.post_filter_key : '';
+	$scope.postFilterVal = typeof $routeParams.post_filter_val !== 'undefined' ? $routeParams.post_filter_val : '';
 
 	// fire the API request
-	$http.post('/api/get_posts', {"post_type": $scope.postType})
+	$http.post('/api/get_posts', {"post_type": $scope.postType, "post_filter": $scope.postFilter})
 		.then(function(results) {
 			$scope.postList = results.data;
 

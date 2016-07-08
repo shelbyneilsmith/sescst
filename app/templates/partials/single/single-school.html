@@ -1,7 +1,7 @@
 <h1>School - {[ postData.name ]}</h1>
 
 <ul class="post-details list-unstyled">
-	<li class="hover-link"><postfield admin-only='true' type='text' field-data='{ initValue: postData.name }' label='School Name' keys='"name"'></postfield></li>
+	<li class="hover-link"><postfield admin-only='true' type='text' field-data='{ initValue: postData.name }' label='School Name' keys='"name"' is-title="true"></postfield></li>
 
 	<li class="hover-link"><postfield admin-only='true' type='select' field-data='{ postType: "District", optionKeyVal: ["name", "id"], initValue: postData.district }' label='District' keys='"district"' relationship="true"></postfield></li>
 </ul>

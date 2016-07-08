@@ -1,1 +1,4 @@
-<p>There are not currently any {[ postType | underscoreless | lowercase | pluralize ]} in the system.</p>
+<p>There are not currently any {[ postType | underscoreless | lowercase | pluralize ]}
+	<span ng-if="!postFilter">in the system.</span>
+	<span ng-if="postFilter">for {[postFilterVal ]}.</span>
+</p>

@@ -89,7 +89,7 @@ module.exports = ['$http', '$log', '$timeout', 'helpers', function($http, $log, 
 												$scope.outputValue = JSON.stringify($scope.outputValue);
 											}
 										}
-										$log.log($scope.outputValue);
+										// $log.log($scope.outputValue);
 									}
 								}
 							});

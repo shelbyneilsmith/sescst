@@ -12,10 +12,6 @@ module.exports = ['$routeProvider', '$locationProvider', function($routeProvider
 			templateUrl: '../templates/single-post.html',
 			controller: 'PostCtrl'
 		})
-		// .when('/create-activity-log', {
-		// 	templateUrl: '../templates/partials/reports/activity-log-form.html',
-		// 	controller: 'ActivityLogFormCtrl'
-		// })
 		.when('/confirm', {
 			templateUrl: '../templates/confirm.html',
 			controller: require('../controller/confirmCtrl')

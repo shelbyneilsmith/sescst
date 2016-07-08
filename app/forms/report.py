@@ -1,7 +1,7 @@
 # app/forms/report.py
 
 from flask.ext.wtf import Form
-from wtforms import TextField, BooleanField, SelectField, IntegerField, FieldList, FormField
+from wtforms import TextField, BooleanField, IntegerField, FieldList, FormField
 from wtforms import Form as NoCsrfForm
 from wtforms.widgets import TextArea
 from wtforms.fields.html5 import EmailField, DateField

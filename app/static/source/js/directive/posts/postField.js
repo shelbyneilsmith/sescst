@@ -19,6 +19,7 @@ module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers',
 			keys: "=",
 			adminOnly: "=",
 			relationship: '=',
+			isTitle: '=',
 			inData: '=fieldData',
 		},
 		template: tpl,
@@ -129,14 +130,16 @@ module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers',
 						scope.saveValue = JSON.stringify(scope.fieldData.value);
 					}
 				}
-				$log.log(scope.relation);
 
 				scope.editMode = false;
 
 				$http.post('/api/save_post_field', {post_id: scope.$parent.postData.id, post_type: scope.$parent.postType, field_key: scope.keys, field_value: scope.saveValue, relationship: scope.relation})
 					.then(function(results) {
 						jQuery(element[0]).append('<span id="field-save-msg" class="success">' + results.data.success + '</span>');
-						$log.log(results.data);
+						if (scope.isTitle) {
+							scope.$parent.postData.name = scope.saveValue;
+						}
+						// $log.log(results.data);
 					}, function(error) {
 						jQuery(element[0]).append('<span id="field-save-msg" class="error">' + error.data.error + '</span>');
 						$log.log(error.data);

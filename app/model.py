@@ -2,7 +2,6 @@
 
 import sys
 import datetime
-# from flask.ext.security import Security, UserMixin, RoleMixin
 from sqlalchemy.ext.hybrid import hybrid_property
 from . import db, bcrypt
 
@@ -14,9 +13,6 @@ class Base(db.Model):
 	date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
 	date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
-	# def update(self, **kwargs):
-	#         for key, value in  kwargs.items():
-	# 		setattr(self, key, value)
 	def _find_or_create_relationship_value(self, rel_type, val_name):
 		classy_rt = getattr(sys.modules[__name__], rel_type)
 		q = classy_rt.query.filter_by(name=val_name)
@@ -104,11 +100,8 @@ class User(Base):
 	salary = db.Column(db.Integer)
 	districts = db.relationship('District', secondary=district_identifier, back_populates="users")
 	schools = db.relationship('School', secondary=school_identifier, back_populates="users")
-	# activity_logs = db.relationship('Activity_Log', backref='users', lazy='dynamic')
 	activity_logs = db.relationship("Activity_Log", back_populates="user")
-	# expense_sheets = db.relationship('Expense_Sheet', backref='users', lazy='dynamic')
 	expense_sheets = db.relationship("Expense_Sheet", back_populates="user")
-	# report_urls = db.relationship('Report_URL', backref='users', lazy='dynamic')
 	report_urls = db.relationship("Report_URL", back_populates="user")
 	is_active = db.Column(db.Boolean, default=False)
 	urole = db.Column(db.String(255), nullable=False)
@@ -186,18 +179,14 @@ class Activity_Log(Base):
 	name = db.Column(db.String(255), unique=True, nullable=False)
 	log_date_start = db.Column(db.DateTime)
 	log_date_end = db.Column(db.DateTime)
-	# consultant = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	user = db.relationship("User", back_populates="activity_logs")
 
-	# districts = db.relationship('District', secondary=district_identifier_al, backref=db.backref('activity_logs', lazy='dynamic'))
 	districts = db.relationship("District", secondary=district_identifier_al, back_populates="activity_logs")
 
-	# schools = db.relationship('School', secondary=school_identifier_al, backref=db.backref('activity_logs', lazy='dynamic'))
 	schools = db.relationship("School", secondary=school_identifier_al, back_populates="activity_logs")
 
-	# activity_types = db.relationship('Activity_Type', secondary=activity_type_identifier_al, backref=db.backref('activity_logs', lazy='dynamic'))
 	activity_types = db.relationship("Activity_Type", secondary=activity_type_identifier_al, back_populates="activity_logs")
 
 	activity_contact = db.Column(db.String(255))
@@ -219,7 +208,6 @@ class Expense_Sheet(Base):
 	districts = db.relationship("District", secondary=district_identifier_es, back_populates="expense_sheets")
 	schools = db.relationship("School", secondary=school_identifier_es, back_populates="expense_sheets")
 
-	# user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	activity_log_id = db.Column(db.Integer, db.ForeignKey('activity_logs.id'))
 	activity_log = db.relationship('Activity_Log', back_populates='expense_sheet')
 
@@ -241,7 +229,6 @@ class Report_URL(Base):
 
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 	url = db.Column(db.String(255), nullable=False)
-	# user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	user = db.relationship("User", back_populates="report_urls")
@@ -258,7 +245,6 @@ class District(Base):
 
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 	name = db.Column(db.String(255), unique=True, nullable=False)
-	# schools = db.relationship('School', backref='district', lazy='dynamic')
 	users = db.relationship("User", secondary=district_identifier, back_populates="districts")
 
 	schools = db.relationship("School", uselist=True, back_populates="district")
@@ -266,7 +252,6 @@ class District(Base):
 	activity_logs = db.relationship("Activity_Log", secondary=district_identifier_al, back_populates="districts")
 	expense_sheets = db.relationship("Expense_Sheet", secondary=district_identifier_es, back_populates="districts")
 
-	# schools = db.relationship('School', secondary=school_identifier, backref=db.backref('district', lazy='dynamic'))
 
 	def __str__(self):
 		return self.name

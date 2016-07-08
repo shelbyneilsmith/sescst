@@ -3,7 +3,7 @@
 <span class="user-role"><postfield admin-only='true' type='select' field-data='{ postType: "Role", only: "name", initValue: postData.urole }' label='Access Role' keys='"urole"'></postfield></span>
 
 <ul class="post-details list-unstyled">
-	<li class="hover-link"><postfield admin-only='false' type='text' field-data='{ initValue: postData.name }' label='Username' keys='"username"'></postfield></li>
+	<li class="hover-link"><postfield admin-only='false' type='text' field-data='{ initValue: postData.name }' label='Username' keys='"username"' is-title="true"></postfield></li>
 
 	<li class="hover-link"><postfield admin-only='false' type='password' field-data='{ initValue: postData.password }' label='Password' keys='"password"'></postfield></li>
 
@@ -22,8 +22,8 @@
 
 <h3>User Activity</h3>
 <ul>
-	<li><a href="/#/posts?post_type=Activity_Log">Activity Logs</a></li>
-	<li><a href="/#/posts?post_type=Expense_Sheet">Expense Sheets</a></li>
-	<li><a href="/#/posts?post_type=Report_URL">Saved Reports</a></li>
+	<li><a href="/#/posts?post_type=Activity_Log&post_filter_key=User&post_filter_val={[ postData.name ]}&post_filter=(Activity_Log.user_id==&#39;{[ postData.id ]}&#39;)">Activity Logs</a></li>
+	<li><a href="/#/posts?post_type=Expense_Sheet&post_filter_key=User&post_filter_val={[ postData.name ]}&post_filter=(Expense_Sheet.user_id==&#39;{[ postData.id ]}&#39;)">Expense Sheets</a></li>
+	<li><a href="/#/posts?post_type=Report_URL&post_filter_key=User&post_filter_val={[ postData.name ]}&post_filter=(Report_URL.user_id==&#39;{[ postData.id ]}&#39;)">Saved Reports</a></li>
 </ul>
 <br /><br />
