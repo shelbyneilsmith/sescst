@@ -1,19 +1,31 @@
-<h1>Expense Sheet for: {[ postData.activity_log.name ]}</h1>
+<h1>Expense Sheet for: {[ postData.activity_log.name ? postData.activity_log.name : postData.expense_sheet_start | date : "MMM d, y" : '+0500' ]}</h1>
 <a href="/#/post?id={[ postData.activity_log.id ]}&amp;post_type=Activity_Log">View Activity Log for this Expense Sheet</a>
 <hr />
 
 <ul class="post-details list-unstyled">
-	<li class="hover-link"><postfield admin-only='false' type='number' field-data='{ initValue: postData.to_mileage }' label='To Mileage' keys='"to_mileage"'></postfield></li>
-	<li class="hover-link"><postfield admin-only='false' type='number' field-data='{ initValue: postData.from_mileage }' label='From Mileage' keys='"from_mileage"'></postfield></li>
+	<li class="hover-link"><postfield admin-only='true' type='select' field-data='{ postType: "User", optionKeyVal: ["username", "id"], initValue: postData.user }' label='Expense Sheet Creator' keys='"user"' relationship="true"></postfield></li>
 
-	<li class="hover-link"><postfield admin-only='false' type='number' field-data='{ initValue: postData.mileage_reimbursement }' label='Mileage Reimbursement' keys='"mileage_reimbursement"'></postfield></li>
+	<li ng-if="postData.activity_log"><strong>Activity Start Date: </strong>{[postData.activity_log.activity_date_start | date : "MMM d, y" : '+0500']}</li>
+	<li ng-if="postData.activity_log"><strong>Activity End Date: </strong>{[postData.activity_log.activity_date_end | date : "MMM d, y" : '+0500']}</li>
+	<li ng-if="!postData.activity_log" class="hover-link"><postfield admin-only='false' type='datetime' field-data='{ initValue: postData.expense_sheet_start }' label='Activity Start Date' keys='"expense_sheet_start"'></postfield></li>
+	<li ng-if="!postData.activity_log" class="hover-link"><postfield admin-only='false' type='datetime' field-data='{ initValue: postData.expense_sheet_end }' label='Activity End Date' keys='"expense_sheet_end"'></postfield></li>
+
+	<li class="hover-link"><postfield formatted-output="{[ postData.total_mileage ]} mi." admin-only='false' type='number' field-data='{ initValue: postData.total_mileage }' label='Total Mileage' keys='"total_mileage"'></postfield></li>
+
+	<li><strong>Mileage Reimbursement: </strong>{[ (postData.total_mileage * (globalSettings.mileage_reimbursement * 0.01)) | currency ]}</li>
+
+	<li class="hover-link"><postfield admin-only='false' type='text' field-data='{ initValue: postData.travel_route_from }' label='Travel Route From' keys='"travel_route_from"'></postfield></li>
+	<li class="hover-link"><postfield admin-only='false' type='repeater' field-data='{ initValue: postData.travel_route_to }' label='Travel Route To' keys='"travel_route_to"'></postfield></li>
+
+	<li><strong>Cell Phone Reimbursement: </strong>{[ globalSettings.cell_reimbursement | currency ]}</li>
 
 	<li class="hover-link"><postfield admin-only='false' type='repeater' field-data='{ initValue: postData.itemized_meals }' label='Itemized Meals' keys='"itemized_meals"'></postfield></li>
 	<li class="hover-link"><postfield admin-only='false' type='repeater' field-data='{ initValue: postData.hotel_reimbursement }' label='Hotel Reimbursement' keys='"hotel_reimbursement"'></postfield></li>
-	<li class="hover-link"><postfield admin-only='false' type='repeater' field-data='{ initValue: postData.cell_phone_reimbursement }' label='Cell Phone Reimbursement' keys='"cell_phone_reimbursement"'></postfield></li>
 	<li class="hover-link"><postfield admin-only='false' type='repeater' field-data='{ initValue: postData.other_reimbursement }' label='Other Reimbursements' keys='"other_reimbursement"'></postfield></li>
 
 </ul>
+<hr />
+<h4>Total Expenses: {[postData.expense_total | currency]}</h4>
 
 <hr />
 

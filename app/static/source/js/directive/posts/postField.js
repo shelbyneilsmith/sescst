@@ -21,6 +21,7 @@ module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers',
 			relationship: '=',
 			isTitle: '=',
 			inData: '=fieldData',
+			formattedOutput: '@?',
 		},
 		template: tpl,
 		controller: ['$scope', function($scope) {
@@ -34,53 +35,82 @@ module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers',
 			$scope.fieldInclude = '../templates/partials/single/fields/' + $scope.fieldType + 'field.html';
 			$scope.editMode = false;
 
-			$scope.$watch('inData', function(newValue) {
-				if (newValue !== undefined) {
-					var inDataVal = $scope.inData.initValue;
-					if ($scope.fieldType === 'repeater') {
-						inDataVal = JSON.parse($scope.inData.initValue);
-					}
-					if ($scope.fieldType === 'datetime') {
-						inDataVal = $filter('date')($scope.inData.initValue, "MMM d, y", '+0500');
-					}
-					$scope.fieldData = {displayValue: inDataVal, value: inDataVal, newValue: '', oldValue: null, selectOptions: $scope.selectOptions};
+			$scope.applyFilter = function(model, filter) {
+				if (filter) {
+					return $filter(filter)(model);
+				} else {
+					return model;
 				}
-				if ($scope.inData && ($scope.fieldType === "select" || $scope.fieldType === "multiselect")) {
-					$scope.optionsPostType = $scope.inData.postType;
-					$scope.optionsPostFilter = $scope.inData.postFilter;
-					$scope.optionsOnly = $scope.inData.only;
+			};
 
-					if ($scope.inData.optionKeyVal) {
-						$scope.optionKey = $scope.inData.optionKeyVal[0];
-						$scope.optionVal = $scope.inData.optionKeyVal[1];
-					} else {
-						if ($scope.optionsOnly) {
-							$scope.optionKey = $scope.optionsOnly;
-							$scope.optionVal = $scope.optionsOnly;
-						} else {
-							$scope.optionKey = $scope.inData.initValue;
-							$scope.optionVal = $scope.inData.initValue;
+			$scope.$watch('formattedOutput', function(newValue) {
+				if (newValue && (typeof $scope.fieldData !== 'undefined')) {
+					$scope.fieldData.displayValue = newValue;
+				}
+			});
+
+			$scope.$watch('inData', function(newValue) {
+				// $timeout(function() {
+					if (typeof newValue !== 'undefined') {
+						var inDataVal = newValue.initValue;
+						if ($scope.fieldType === 'repeater') {
+							inDataVal = newValue.initValue;
 						}
-					}
+						if ($scope.fieldType === 'datetime') {
+							inDataVal = $filter('date')(newValue.initValue, "MMM d, y", '+0500');
+						}
 
-					if (typeof $scope.fieldData.value === 'object') {
-						$scope.fieldData.displayValue = $scope.fieldData.value[$scope.optionKey];
-					} else {
-						$scope.fieldData.displayValue = $scope.fieldData.value;
+						$scope.fieldData = {displayValue: inDataVal, value: inDataVal, newValue: '', oldValue: null, selectOptions: $scope.selectOptions};
 					}
-					if($scope.fieldType === "multiselect") {
-						$scope.fieldData.displayValue = [];
+					if (newValue && ($scope.fieldType === "select" || $scope.fieldType === "multiselect")) {
+						if (typeof $scope.inData.selectOptions !== 'undefined') {
+							$scope.selectOptions = $scope.inData.selectOptions;
+						} else {
+							$scope.optionsPostType = newValue.postType;
+							$scope.optionsPostFilter = newValue.postFilter;
+							$scope.optionsOnly = newValue.only;
 
-						for (var j=0; j < $scope.fieldData.value.length; j++) {
-							if (typeof $scope.fieldData.value[j] === 'object') {
-								$scope.fieldData.displayValue.push($scope.fieldData.value[j][$scope.optionKey]);
+							$scope.selectOptions = {postType: $scope.optionsPostType, postFilter: $scope.optionsPostFilter, only: $scope.optionsOnly};
+						}
+
+						if (newValue.optionKeyVal) {
+							$scope.optionKey = newValue.optionKeyVal[0];
+							$scope.optionVal = newValue.optionKeyVal[1];
+						} else {
+							if ($scope.optionsOnly) {
+								$scope.optionKey = $scope.optionsOnly;
+								$scope.optionVal = $scope.optionsOnly;
 							} else {
-								$scope.fieldData.displayValue.push($scope.fieldData.value[j]);
+								$scope.optionKey = 0;
+								$scope.optionVal = 1;
 							}
 						}
 
+						if ($scope.fieldData.value) {
+							if ((typeof $scope.fieldData.value === 'object')) {
+								$scope.fieldData.displayValue = $scope.fieldData.value[$scope.optionKey];
+							} else {
+								$scope.fieldData.displayValue = $scope.fieldData.value;
+							}
+							if($scope.fieldType === "multiselect") {
+								$scope.fieldData.displayValue = [];
+
+								if (typeof $scope.fieldData.value !== 'undefined') {
+									for (var j=0; j < $scope.fieldData.value.length; j++) {
+										if (typeof $scope.fieldData.value[j] === 'object') {
+											$scope.fieldData.displayValue.push($scope.fieldData.value[j][$scope.optionKey]);
+										} else {
+											$scope.fieldData.displayValue.push($scope.fieldData.value[j]);
+										}
+									}
+								}
+							}
+						}
 					}
-				}
+					if ($scope.formattedOutput) {
+						$scope.fieldData.displayValue = $scope.formattedOutput;
+					}
+				// }, 500);
 			});
 
 			$scope.isArray = angular.isArray;
@@ -95,8 +125,15 @@ module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers',
 		link: function(scope, element, attrs) {
 
 			scope.editPostField = function() {
-				scope.fieldData.oldDisplayValue = scope.fieldData.displayValue;
-				scope.fieldData.oldValue = JSON.parse(JSON.stringify(scope.fieldData.value));
+				if ((typeof scope.fieldData.displayValue !== 'undefined') && (typeof scope.fieldData.value !== 'undefined')) {
+					scope.fieldData.oldDisplayValue = scope.fieldData.displayValue;
+
+					if (scope.fieldData.value.constructor.toString().indexOf("Object") != -1) {
+						scope.fieldData.oldValue = JSON.parse(JSON.stringify(scope.fieldData.value));
+					} else {
+						scope.fieldData.oldValue = scope.fieldData.value;
+					}
+				}
 
 				$('#field-save-msg').fadeOut('fast', function() {
 					$('#field-save-msg').remove();
@@ -105,7 +142,6 @@ module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers',
 			};
 
 			scope.savePostField = function() {
-				// $log.log(scope.fieldData.value);
 				if (scope.fieldData.newValue) {
 					scope.fieldData.displayValue = scope.fieldData.newValue;
 					scope.saveValue = scope.fieldData.newValue;
@@ -113,6 +149,11 @@ module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers',
 				} else {
 					scope.fieldData.displayValue = scope.fieldData.value;
 					scope.saveValue = scope.fieldData.value;
+
+					if (typeof scope.inData.selectOptions !== 'undefined') {
+						scope.fieldData.displayValue = scope.fieldData.value[scope.optionKey];
+						scope.saveValue = scope.fieldData.value[scope.optionVal];
+					}
 
 					if (scope.inData.optionKeyVal) {
 						scope.fieldData.displayValue = scope.fieldData.value[scope.optionKey];
@@ -126,9 +167,6 @@ module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers',
 						}
 					}
 
-					if (scope.fieldType === 'repeater') {
-						scope.saveValue = JSON.stringify(scope.fieldData.value);
-					}
 				}
 
 				scope.editMode = false;
@@ -136,9 +174,7 @@ module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers',
 				$http.post('/api/save_post_field', {post_id: scope.$parent.postData.id, post_type: scope.$parent.postType, field_key: scope.keys, field_value: scope.saveValue, relationship: scope.relation})
 					.then(function(results) {
 						jQuery(element[0]).append('<span id="field-save-msg" class="success">' + results.data.success + '</span>');
-						if (scope.isTitle) {
-							scope.$parent.postData.name = scope.saveValue;
-						}
+						scope.$parent.postData[scope.keys] = scope.saveValue;
 						// $log.log(results.data);
 					}, function(error) {
 						jQuery(element[0]).append('<span id="field-save-msg" class="error">' + error.data.error + '</span>');

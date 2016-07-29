@@ -1,39 +1,46 @@
 {% macro text_field(form, field_name, field) %}
-	<label for="{{field_name}}">{{field.label.text}}:</label>
-	{{ field(size=40,class_="form-control") }}<br />
-	{% for error in field.errors %}
-		<span class='form-error'>{{ error }}</span>
-	{% endfor %}
+	<div class='text-field' data-toggle='fieldset'>
+		<label for="{{field_name}}">{{field.label.text}}:</label><br />
+		<form-field name='{{field_name}}' type='text'></form-field>
+		{% for error in field.errors %}
+			<br /><span class='form-error'>{{ error }}</span>
+		{% endfor %}
+	</div>
 {% endmacro %}
 
 {% macro number_field(form, field_name, field) %}
-	<label for="{{field_name}}">{{field.label.text}}:</label>
-	{{ field(type="number", size=20,class_="form-control") }}<br />
-	{% for error in field.errors %}
-		<span class='form-error'>{{ error }}</span>
-	{% endfor %}
+	<div class='number-field' data-toggle='fieldset'>
+		<label for="{{field_name}}">{{field.label.text}}:</label><br />
+		<form-field name='{{field_name}}' type='number'></form-field>
+		{% for error in field.errors %}
+			<br /><span class='form-error'>{{ error }}</span>
+		{% endfor %}
+	</div>
 {% endmacro %}
 
 {% macro password_field(form, field_name, field) %}
-	<label for="{{field_name}}">{{field.label.text}}:</label>
-	{{ field(type="{[ passwordInputType ]}",size=40,class_="form-control") }}
-	<hideshowpass></hideshowpass>
-	{% for error in field.errors %}
-		<span class='form-error'>{{ error }}</span>
-	{% endfor %}
+	<div class='password-field' data-toggle='fieldset'>
+		<label for="{{field_name}}">{{field.label.text}}:</label><br />
+		<form-field name='{{field_name}}' placeholder='New Password' type='password'></form-field>
+		{% for error in field.errors %}
+			<br /><span class='form-error'>{{ error }}</span>
+		{% endfor %}
+	</div>
 {% endmacro %}
 
 {% macro textarea_field(form, field_name, field) %}
-	<label for="{{field_name}}">{{field.label.text}}:</label>
-	{{ field(size=40,class_="form-control",rows="4") }}<br />
-	{% for error in field.errors %}
-		<span class='form-error'>{{ error }}</span>
-	{% endfor %}
+	<div class='textarea-field' data-toggle='fieldset'>
+		<label for="{{field_name}}">{{field.label.text}}:</label><br />
+		<form-field name='{{field_name}}' type='textarea' rows='4'></form-field>
+		{% for error in field.errors %}
+			<br /><span class='form-error'>{{ error }}</span>
+		{% endfor %}
+	</div>
 {% endmacro %}
 
 {% macro repeater_field(form, field_name, field, fields_data) %}
-	<div data-toggle='fieldset'>
-		<wtf-repeater-field label="{{ field.label.text }}" field-name="{{ field_name }}" fields="{{ fields_data }}"></wtf-repeater-field>
+	<div class='repeater-field' data-toggle='fieldset'>
+		<complex-repeater-field label="{{ field.label.text }}" field-name="{{ field_name }}" fields="{{ fields_data }}"></complex-repeater-field>
 
 		{% for error in field.errors %}
 			<span class='form-error'>{{ error }}</span>
@@ -42,25 +49,31 @@
 {% endmacro %}
 
 {% macro datepicker_field(form, field_name, field) %}
-	<label for="{{field_name}}">{{field.label.text}}:</label>
-	<date-picker-field field-name='{{ field_name }}'></date-picker-field>
-	{% for error in field.errors %}
-		<span class='form-error'>{{ error }}</span>
-	{% endfor %}
+	<div class='datepicker-field' data-toggle='fieldset'>
+		<label for="{{field_name}}">{{field.label.text}}:</label>
+		<form-field name='{{field_name}}' type='date'></form-field>
+		{% for error in field.errors %}
+			<br /><span class='form-error'>{{ error }}</span>
+		{% endfor %}
+	</div>
 {% endmacro %}
 
 {% macro select_field(form, field_name, field, select_options, key_val) %}
-	<label for="{{field_name}}">{{field.label.text}}:</label>
-	<select-2-field field-name='{{ field_name }}' multiple='false' label="{{field.label.text}}" min-width="100%" select-options="{{select_options}}" key-val="{{key_val}}"></select-2-field>
-	{% for error in field.errors %}
-		<span class='form-error'>{{ error }}</span>
-	{% endfor %}
+	<div class='select-field' data-toggle='fieldset'>
+		<label for="{{field_name}}">{{field.label.text}}:</label>
+		<form-field name='{{field_name}}' placeholder='{{field.label.text}}' type='select' select-options="{{select_options}}" key-val="{{key_val}}"></form-field>
+		{% for error in field.errors %}
+			<span class='form-error'>{{ error }}</span>
+		{% endfor %}
+	</div>
 {% endmacro %}
 
 {% macro multi_select_field(form, field_name, field, select_options, key_val) %}
-	<label for="{{field_name}}">{{field.label.text}}:</label>
-	<select-2-field field-name='{{ field_name }}' multiple='true' label="{{field.label.text}}" min-width="100%" select-options="{{select_options}}" key-val="{{key_val}}"></select-2-field>
-	{% for error in field.errors %}
-		<span class='form-error'>{{ error }}</span>
-	{% endfor %}
+	<div class='multi-select-field' data-toggle='fieldset'>
+		<label for="{{field_name}}">{{field.label.text}}:</label>
+		<form-field name='{{field_name}}' placeholder='{{field.label.text}}' type='multiselect' select-options="{{select_options}}" key-val="{{key_val}}"></form-field>
+		{% for error in field.errors %}
+			<span class='form-error'>{{ error }}</span>
+		{% endfor %}
+	</div>
 {% endmacro %}

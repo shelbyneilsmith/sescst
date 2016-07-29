@@ -29,6 +29,7 @@ angular.module('sescstafftools', [
 	'main-controller',
 	'sescst-structure',
 	'helper-services',
+	'utility-services',
 	'sescst-forms',
 	'app-filters',
 	'sescst-posts',

@@ -1,9 +1,9 @@
 <strong ng-if="label">{[ label ]}:</strong>
 
 <span ng-if="isArray(keys)" ng-repeat='key in keys track by $index' ng-hide='editMode'>{[ fieldData.displayValue[key] ]} </span>
-<input ng-if="isArray(keys)" ng-repeat='key in keys track by $index' type='text' focus-me='{[ editMode ]}' ng-show='editMode' placeholder='{[ fieldData.displayValue[key] ]}' ng-model='fieldData.newValue[key]' />
+<form-field ng-if="isArray(keys)" ng-repeat='key in keys track by $index' auto-focus='{[ ($index === 0) && editMode ]}' model='fieldData.newValue[key]' ng-show='editMode' placeholder='{[ fieldData.displayValue[key] ]}' type='text'></form-field>
 
 <span ng-if="!isArray(keys)" ng-hide='editMode'>{[ fieldData.displayValue ]} </span>
-<input ng-if="!isArray(keys)" type='text' focus-me='{[ editMode ]}' ng-show='editMode' placeholder='{[ fieldData.displayValue ]}' ng-model='fieldData.newValue' />
+<form-field ng-if="!isArray(keys)" auto-focus='{[ editMode ]}' model='fieldData.newValue' ng-show='editMode' placeholder='{[ fieldData.displayValue ]}' type='text'></form-field>
 
 <dynamic-element ng-if='editAccess(postID, postType, adminOnly)' html='editBtn'></dynamic-element>

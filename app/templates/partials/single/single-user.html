@@ -1,9 +1,9 @@
-<h1>User - {[ postData.name ]}</h1>
+<h1>User - {[ postData.username ]}</h1>
 
 <span class="user-role"><postfield admin-only='true' type='select' field-data='{ postType: "Role", only: "name", initValue: postData.urole }' label='Access Role' keys='"urole"'></postfield></span>
 
 <ul class="post-details list-unstyled">
-	<li class="hover-link"><postfield admin-only='false' type='text' field-data='{ initValue: postData.name }' label='Username' keys='"username"' is-title="true"></postfield></li>
+	<li class="hover-link"><postfield admin-only='false' type='text' field-data='{ initValue: postData.username }' label='Username' keys='"username"' is-title="true"></postfield></li>
 
 	<li class="hover-link"><postfield admin-only='false' type='password' field-data='{ initValue: postData.password }' label='Password' keys='"password"'></postfield></li>
 
@@ -11,7 +11,14 @@
 
 	<li class="hover-link"><postfield admin-only='false' type='email' field-data='{ initValue: postData.email }' label='Email Address' keys='"email"'></postfield></li>
 
-	<li class="hover-link"><postfield admin-only='true' type='money' field-data='{ initValue: postData.salary }' label='Salary' keys='"salary"'></postfield></li>
+	<li class="hover-link"><postfield admin-only='true' type='number' field-data='{ initValue: postData.contract_days }' label='Contract Days' keys='"contract_days"'></postfield></li>
+
+
+	<li><strong>Employee Daily Cost: </strong>{[ (postData.salary/postData.contract_days) | currency ]}/day</li>
+
+	<li class="hover-link"><postfield admin-only='true' type='money' field-data='{ initValue: postData.salary }' label='Employee Total Cost' keys='"salary"'></postfield></li>
+
+	<li class="hover-link"><postfield formatted-output="{[ postData.cell_reimbursement | cellreimformat ]}" admin-only='false' type='select' field-data='{ initValue: [(postData.cell_reimbursement | cellreimformat), postData.cell_reimbursement], selectOptions: [["Full ($" + globalSettings.cell_reimbursement + "/mo)", (globalSettings.cell_reimbursement * 100)], ["Half ($" + (globalSettings.cell_reimbursement * 0.5) + "/mo)", ((globalSettings.cell_reimbursement * 0.5) * 100)], ["No Reimbursement", 0]] }' label='Cell Phone Reimbursement Rate' keys='"cell_reimbursement"'></postfield></li>
 
 	<li class="hover-link"><postfield admin-only='true' type='multiselect' field-data='{ postType: "District", optionKeyVal: ["name", "id"], initValue: postData.districts }' label='Districts' keys='"districts"' relationship="true"></postfield></li>
 

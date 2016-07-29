@@ -3,17 +3,22 @@
 <hr />
 
 <ul class="post-details list-unstyled">
+	<li class="hover-link"><postfield admin-only='true' type='select' field-data='{ postType: "User", optionKeyVal: ["username", "id"], initValue: postData.user }' label='Activity Log Creator' keys='"user"' relationship="true"></postfield></li>
+
 	<li class="hover-link"><postfield admin-only='false' type='text' field-data='{ initValue: postData.name }' label='Activity Title' keys='"name"' is-title="true"></postfield></li>
 
-	<li class="hover-link"><postfield admin-only='false' type='datetime' field-data='{ initValue: postData.log_date_start }' label='Log Start Date' keys='"log_date_start"'></postfield></li>
+	<li class="hover-link"><postfield admin-only='false' type='multiselect' field-data='{ postType: "Activity_Type", optionKeyVal: ["name", "id"], initValue: postData.activity_types }' label='Activity Types' keys='"activity_types"' relationship="true"></postfield></li>
 
-	<li class="hover-link"><postfield admin-only='false' type='datetime' field-data='{ initValue: postData.log_date_end }' label='Log End Date' keys='"log_date_end"'></postfield></li>
+	<li class="hover-link"><postfield admin-only='false' type='datetime' field-data='{ initValue: postData.activity_date_start }' label='Activity Start Date' keys='"activity_date_start"'></postfield></li>
 
-	<li class="hover-link"><postfield admin-only='false' type='select' field-data='{ postType: "User", optionKeyVal: ["username", "id"], postFilter: "(User.urole==&#39;Consultant&#39;)", initValue: postData.user }' label='Consultant' keys='"user"' relationship="true"></postfield></li>
+	<li class="hover-link"><postfield admin-only='false' type='datetime' field-data='{ initValue: postData.activity_date_end }' label='Activity End Date' keys='"activity_date_end"'></postfield></li>
 
-	<li class="hover-link"><postfield admin-only='false' type='multiselect' field-data='{ postType: "District", optionKeyVal: ["name", "id"], initValue: postData.districts }' label='Log Districts' keys='"districts"' relationship="true"></postfield></li>
 
-	<li class="hover-link"><postfield admin-only='false' type='multiselect' field-data='{ postType: "School", optionKeyVal: ["name", "id"], initValue: postData.schools }' label='Log Schools' keys='"schools"' relationship="true"></postfield></li>
+	<li class="hover-link"><postfield admin-only='false' type='multiselect' field-data='{ postType: "District", optionKeyVal: ["name", "id"], initValue: postData.districts }' label='Participating Districts' keys='"districts"' relationship="true"></postfield></li>
+
+	<li class="hover-link"><postfield admin-only='false' type='multiselect' field-data='{ postType: "School", optionKeyVal: ["name", "id"], initValue: postData.schools }' label='Participating Schools' keys='"schools"' relationship="true"></postfield></li>
+
+	<li class="hover-link"><postfield admin-only='false' type='textarea' field-data='{ initValue: postData.report_notes }' label='Report Notes' keys='"report_notes"' is-title="true"></postfield></li>
 </ul>
 
 <hr />

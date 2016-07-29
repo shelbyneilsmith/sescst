@@ -12,59 +12,67 @@
 			<form action="" method="post" name="create-activity-log">
 				{{ activity_log_form.hidden_tag() }}
 				<fieldset class="form-group">
-					{{ form_macros.text_field(activity_log_form, "name", activity_log_form.name) }}
-					<br />
+					<div class="form-field">
+						{{ form_macros.text_field(activity_log_form, "name", activity_log_form.name) }}
+					</div>
 
-					{{ form_macros.datepicker_field(activity_log_form, "log_date_start", activity_log_form.log_date_start) }}
-					<br />
+					<div class="form-field">
+						{{ form_macros.multi_select_field(activity_log_form, "activity_types", activity_log_form.activity_types, "{postType: 'Activity_Type'}", "['name', 'id']") }}
+					</div>
 
-					{{ form_macros.datepicker_field(activity_log_form, "log_date_end", activity_log_form.log_date_end) }}
-					<br />
+					<div class="form-field">
+						{{ form_macros.datepicker_field(activity_log_form, "activity_date_start", activity_log_form.activity_date_start) }}
+					</div>
 
-					{{ form_macros.select_field(activity_log_form, "consultant", activity_log_form.consultant, "{postType: 'User', postFilter: '(User.urole==\"Consultant\")'}", "['username', 'id']") }}
-					<br /><br />
+					<div class="form-field">
+						{{ form_macros.datepicker_field(activity_log_form, "activity_date_end", activity_log_form.activity_date_end) }}
+					</div>
 
-					{{ form_macros.multi_select_field(activity_log_form, "log_districts", activity_log_form.log_districts, "{postType: 'District'}", "['name', 'id']") }}
-					<br /><br />
+					<div class="form-field">
+						{{ form_macros.multi_select_field(activity_log_form, "log_districts", activity_log_form.log_districts, "{postType: 'District'}", "['name', 'id']") }}
+					</div>
 
-					{{ form_macros.multi_select_field(activity_log_form, "log_schools", activity_log_form.log_schools, "{postType: 'School'}", "['name', 'id']") }}
-					<br /><br />
+					<div class="form-field">
+						{{ form_macros.multi_select_field(activity_log_form, "log_schools", activity_log_form.log_schools, "{postType: 'School'}", "['name', 'id']") }}
+					</div>
 
-					{{ form_macros.multi_select_field(activity_log_form, "activity_types", activity_log_form.activity_types, "{postType: 'Activity_Type'}", "['name', 'id']") }}
-					<br /><br />
+					<div class="form-field">
+						{{ form_macros.text_field(activity_log_form, "activity_contact", activity_log_form.activity_contact) }}
+					</div>
 
-					{{ form_macros.text_field(activity_log_form, "activity_contact", activity_log_form.activity_contact) }}
-					<br />
-
-					{{ form_macros.text_field(activity_log_form, "event_costs", activity_log_form.event_costs) }}
-					<br />
-
-					{{ form_macros.textarea_field(activity_log_form, "report_notes", activity_log_form.report_notes) }}
+					<div class="form-field">
+						{{ form_macros.textarea_field(activity_log_form, "report_notes", activity_log_form.report_notes) }}
+					</div>
 
 				</fieldset>
 
 				<h2>Create New Expense Sheet</h2>
 				{{ expense_sheet_form.hidden_tag() }}
 				<fieldset class="form-group">
-					{{ form_macros.number_field(expense_sheet_form, "to_mileage", expense_sheet_form.to_mileage) }}
-					<br />
+					<div class="form-field">
+						{{ form_macros.number_field(expense_sheet_form, "total_mileage", expense_sheet_form.total_mileage) }}
+					</div>
 
-					{{ form_macros.number_field(expense_sheet_form, "from_mileage", expense_sheet_form.from_mileage) }}
-					<br />
+					<div class="form-field">
+						<h3>Travel Route</h3>
+						{{ form_macros.text_field(expense_sheet_form, "travel_route_from", 	expense_sheet_form.travel_route_from) }}
+						<br /><br />
+						{{ form_macros.repeater_field(expense_sheet_form, "travel_route_to", expense_sheet_form.travel_route_to, "[{'field_id': 'destination', field_type: 'text', field_label: 'Destination Location', filter: ''}]") }}
+					</div>
 
-					{{ form_macros.number_field(expense_sheet_form, "mileage_reimbursement", expense_sheet_form.mileage_reimbursement) }}
-					<br />
+					<div class="form-field">
+						{{ form_macros.repeater_field(expense_sheet_form, "itemized_meals", expense_sheet_form.itemized_meals, "[{'field_id': 'meal', field_type: 'text', field_label: 'Meal', filter: ''}, {'field_id': 'place', field_type: 'text', field_label: 'Place', filter: ''}, {'field_id': 'cost', field_type: 'money', field_label: 'Cost', filter: 'currency'}]") }}
+						<br />
+						<span><em>Only reimbursed for overnight stays</em></span>
+					</div>
 
-					{{ form_macros.repeater_field(expense_sheet_form, "itemized_meals", expense_sheet_form.itemized_meals, "[{fieldID: 'item_name', fieldType: 'text', fieldLabel: 'Item', filter: ''},{fieldID: 'item_cost', fieldType: 'number', fieldLabel: 'Cost', filter: 'currency'}]") }}
-					<br />
+					<div class="form-field">
+						{{ form_macros.repeater_field(expense_sheet_form, "hotel_reimbursement", expense_sheet_form.hotel_reimbursement, "[{'field_id': 'hotel_name', field_type: 'text', field_label: 'Hotel Name', filter: ''}, {'field_id': 'location', field_type: 'text', field_label: 'Location', filter: ''}, {'field_id': 'cost', field_type: 'money', field_label: 'Cost', filter: 'currency'}]") }}
+					</div>
 
-					{{ form_macros.repeater_field(expense_sheet_form, "hotel_reimbursement", expense_sheet_form.hotel_reimbursement, "[{fieldID: 'item_name', fieldType: 'text', fieldLabel: 'Item', filter: ''},{fieldID: 'item_cost', fieldType: 'number', fieldLabel: 'Cost', filter: 'currency'}]") }}
-					<br />
-
-					{{ form_macros.repeater_field(expense_sheet_form, "cell_phone_reimbursement", expense_sheet_form.cell_phone_reimbursement, "[{fieldID: 'item_name', fieldType: 'text', fieldLabel: 'Item', filter: ''},{fieldID: 'item_cost', fieldType: 'number', fieldLabel: 'Cost', filter: 'currency'}]") }}
-					<br />
-
-					{{ form_macros.repeater_field(expense_sheet_form, "other_reimbursement", expense_sheet_form.other_reimbursement, "[{fieldID: 'item_name', fieldType: 'text', fieldLabel: 'Item', filter: ''},{fieldID: 'item_cost', fieldType: 'number', fieldLabel: 'Cost', filter: 'currency'}]") }}
+					<div class="form-field">
+						{{ form_macros.repeater_field(expense_sheet_form, "other_reimbursement", expense_sheet_form.other_reimbursement, "[{'field_id': 'item_name', field_type: 'text', field_label: 'Item', filter: ''}, {'field_id': 'item_cost', field_type: 'money', field_label: 'Cost', filter: 'currency'}]") }}
+					</div>
 				</fieldset>
 				<p><input type="submit" class="btn btn-success" value="Save Activity Log &amp; Expense Sheet" /></p>
 			</form>

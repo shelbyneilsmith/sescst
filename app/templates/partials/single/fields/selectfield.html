@@ -2,4 +2,4 @@
 <span ng-hide='editMode'>{[ fieldData.displayValue ]} </span>
 <dynamic-element ng-if='editAccess(postID, postType, adminOnly)' html='editBtn'></dynamic-element>
 
-<select-2-field ng-if='editMode' field-name='' multiple='false' label="{[ label ]}" select-options="{postType: optionsPostType, postFilter: optionsPostFilter, only: optionsOnly}" model="fieldData.value" key-val="[optionKey, optionVal]" min-width="300px"></select-2-field>
+<form-field ng-if='editMode' model='fieldData.value' placeholder='{[ label ]}' type='select' select-options="selectOptions" key-val="[optionKey, optionVal]"></form-field>

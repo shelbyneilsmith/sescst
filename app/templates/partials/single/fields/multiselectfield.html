@@ -6,4 +6,4 @@
 	</tr>
 </table>
 
-<select-2-field ng-if='editMode' field-name='' multiple='true' label="{[ label ]}" select-options="{postType: optionsPostType, postFilter: optionsPostFilter, only: optionsOnly}" model="fieldData.value" key-val="[optionKey, optionVal]" min-width="300px"></select-2-field>
+<form-field ng-if='editMode' model='fieldData.value' placeholder='{[ label ]}' type='multiselect' select-options="{postType: optionsPostType, postFilter: optionsPostFilter, only: optionsOnly}" key-val="[optionKey, optionVal]"></form-field>

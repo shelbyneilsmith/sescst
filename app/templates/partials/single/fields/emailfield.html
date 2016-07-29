@@ -1,4 +1,4 @@
 <strong ng-if="label">{[ label ]}:</strong> <span ng-hide='editMode'>{[ fieldData.displayValue ]} </span>
 <dynamic-element ng-if='editAccess(postID, postType, adminOnly)' html='editBtn'></dynamic-element>
 
-<input type='email' focus-me='{[ editMode ]}' ng-show='editMode' placeholder='{[ fieldData.displayValue ]}' ng-model='fieldData.value' />
+<form-field ng-show='editMode' auto-focus='{[ editMode ]}' model='fieldData.value' placeholder='{[ fieldData.displayValue ]}' type='email'></form-field>

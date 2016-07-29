@@ -3,6 +3,6 @@
 
 <!-- <a href="/#/edit?post_id={[ postData.id ]}" class="btn btn-primary">Edit {[ postType ]}</a>
  -->
- {% if current_user.urole == "Administrator" %}
+{% if current_user.urole == "Administrator" %}
 <button ng-click="deletePost(postData.id, postType)" class="btn btn-primary">Delete {[ postType | underscoreless ]}</button>
 {% endif %}

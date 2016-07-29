@@ -11,11 +11,11 @@
   display: none !important;
 }
 
-.form-group {
-	margin-bottom: 15px;
-	padding-bottom: 15px;
-	border-bottom: 1px solid #dee;
-}
+// .form-group {
+// 	margin-bottom: 15px;
+// 	padding-bottom: 15px;
+// 	border-bottom: 1px solid #dee;
+// }
 .login .show-password-checkbox {
 	float: right;
 	text-align: right;
@@ -66,6 +66,12 @@
 	& > li {
 		margin-bottom: 15px;
 		font-size: 1em;
+		padding: 8px 10px;
+		background: #ededed;
+
+		textarea {
+			width: 100%;
+		}
 	}
 }
 
@@ -151,6 +157,41 @@
 	font-weight: bold;
 	font-style: italic;
 	margin-bottom: 20px;
+}
+
+.table:last-of-type {
+	margin-bottom: 0;
+}
+
+.form-field {
+	margin-bottom: 10px;
+	padding: 10px 20px 20px;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+
+	textarea {
+		width: 100%;
+	}
+	.repeater-field {
+		table {
+			thead th {
+				font-size: .9em;
+			}
+			tr {
+				th, td {
+					padding: 8px 8px 8px 0;
+
+					input {
+						width: 100%;
+					}
+
+					&:last-of-type {
+						text-align: right;
+					}
+				}
+			}
+		}
+	}
 }
 
 /* Sticky footer styles

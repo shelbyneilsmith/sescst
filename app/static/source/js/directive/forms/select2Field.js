@@ -19,7 +19,7 @@ module.exports = ['$http', '$log', '$timeout', 'helpers', function($http, $log, 
 		restrict: 'E',
 		scope: {
 			selectOptions: '=',
-			model: '=',
+			model: '=?',
 			keyVal: '=',
 			multiple: '=',
 			label: '@',
@@ -31,74 +31,76 @@ module.exports = ['$http', '$log', '$timeout', 'helpers', function($http, $log, 
 			$scope.options = {};
 			$scope.options.Multiple = $scope.multiple;
 
-			if ($scope.keyVal) {
+			if ((typeof $scope.keyVal !== 'undefined') && (typeof $scope.keyVal[0] !== 'undefined')) {
 				$scope.optionKey = $scope.keyVal[0];
 				$scope.optionVal = $scope.keyVal[1];
 			} else {
-				if ($scope.optionsConfig.only) {
-					$scope.optionKey = $scope.optionsConfig.only;
-					$scope.optionVal = $scope.optionsConfig.only;
+				if ($scope.selectOptions.only) {
+					$scope.optionKey = $scope.selectOptions.only;
+					$scope.optionVal = $scope.selectOptions.only;
+				} else if ($scope.selectOptions.constructor.toString().indexOf("Array") !== -1) {
+					$scope.optionKey = 0;
+					$scope.optionVal = 1;
 				} else {
 					$scope.optionKey = $scope.model;
 					$scope.optionVal = $scope.model;
 				}
 			}
 
-			var unbindModelWatch = $scope.$watch('model', function(newValue) {
+			var buildSelectmodel = function(selectOptions) {
+				$scope.uiSelectOptions = selectOptions;
+				$scope.selectModel = '';
+				if ($scope.selectOptions.only) {
+					if ($scope.model) {
+						$scope.selectModel = {};
+						$scope.selectModel[$scope.optionKey] = $scope.model;
+					}
 
-				if (typeof $scope.selectOptions === 'object') {
-					$scope.optionsConfig = $scope.selectOptions;
-						helpers.getPosts($scope.optionsConfig.postType, $scope.optionsConfig.postFilter, function(results) {
-							$scope.uiSelectOptions = results;
-							$scope.selectModel = '';
-							if ($scope.optionsConfig.only) {
-								if ($scope.model) {
-									$scope.selectModel = {};
-									$scope.selectModel[$scope.optionKey] = $scope.model;
-								}
-
-								$scope.uiSelectOptions = [];
-								for (var i=0; i < results.length; i++) {
-									$scope.uiSelectOptions[i] = {};
-									$scope.uiSelectOptions[i][$scope.optionKey] = results[i][$scope.optionsConfig.only];
-									$scope.uiSelectOptions[i][$scope.optionVal] = results[i][$scope.optionsConfig.only];
-								}
-							} else {
-								if ($scope.model) {
-									$scope.selectModel = $scope.model;
-								}
-							}
-
-							$scope.$watch('selectModel', function(newValue) {
-								$scope.outputValue = '';
-								if (typeof newValue !== 'undefined') {
-									if (typeof $scope.model !== 'undefined') {
-										if ($scope.optionsConfig.only) {
-											$scope.model = newValue[$scope.optionKey];
-										} else {
-											$scope.model = newValue;
-										}
-										// $log.log($scope.model);
-									} else {
-										if ($scope.optionsConfig.only) {
-											$scope.outputValue = newValue[$scope.optionKey];
-										} else {
-											$scope.outputValue = newValue;
-
-											if (typeof $scope.outputValue === "object") {
-												$scope.outputValue = JSON.stringify($scope.outputValue);
-											}
-										}
-										// $log.log($scope.outputValue);
-									}
-								}
-							});
-						});
+					$scope.uiSelectOptions = [];
+					for (var i=0; i < selectOptions.length; i++) {
+						$scope.uiSelectOptions[i] = {};
+						$scope.uiSelectOptions[i][$scope.optionKey] = selectOptions[i][$scope.selectOptions.only];
+						$scope.uiSelectOptions[i][$scope.optionVal] = selectOptions[i][$scope.selectOptions.only];
+					}
 				} else {
-					$scope.uiSelectOptions = $scope.selectOptions;
-					$scope.optionKey = 0;
-					$scope.optionVal = 1;
+					if ($scope.model) {
+						$scope.selectModel = $scope.model;
+					}
 				}
+				$log.log($scope.selectModel);
+			}
+
+			var unbindModelWatch = $scope.$watch('model', function(newValue) {
+				if ($scope.selectOptions.constructor.toString().indexOf("Array") != -1) {
+					buildSelectmodel($scope.selectOptions);
+				} else {
+					if (typeof $scope.selectOptions === 'object') {
+						helpers.getPosts($scope.selectOptions.postType, $scope.selectOptions.postFilter, function(results) {
+							buildSelectmodel(results);
+						});
+					}
+				}
+
+				$scope.$watch('selectModel', function(newValue) {
+					$scope.outputValue = '';
+					if (typeof newValue !== 'undefined') {
+						if ($scope.selectOptions.only) {
+							$scope.model = newValue[$scope.optionKey];
+							$scope.outputValue = newValue[$scope.optionKey];
+						} else if ($scope.selectOptions.constructor.toString().indexOf("Array") != -1) {
+							$scope.model = newValue;
+							$scope.outputValue = newValue[$scope.optionVal];
+						} else {
+							$scope.model = newValue;
+							$scope.outputValue = newValue;
+
+							if (typeof $scope.outputValue === "object") {
+								$scope.outputValue = JSON.stringify($scope.outputValue);
+							}
+						}
+
+					}
+				});
 
 				// unbind after watching once
 				unbindModelWatch();

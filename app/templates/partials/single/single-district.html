@@ -2,13 +2,25 @@
 <ul class="post-details list-unstyled">
 	<li class="hover-link"><postfield admin-only='true' type='text' field-data='{ initValue: postData.name }' label='District Name' keys='"name"' is-title="true"></postfield></li>
 
+	<li class="hover-link"><postfield admin-only='false' type='multiselect' field-data='{ postType: "Location_Service", optionKeyVal: ["name", "id"], initValue: postData.location_services }' label='District Services' keys='"location_services"' relationship="true"></postfield></li>
+
+	<li class="hover-link">
+		<postfield admin-only='true' type='multiselect' field-data='{ postType: "School", optionKeyVal: ["name", "id"], initValue: postData.schools }' label='Schools' keys='"schools"' relationship="true"></postfield>
+		<span ng-if="postData.schools.length <= 0"><em>Please add schools to this district.</em></span>
+	</li>
+
 	<li><strong>Users:</strong>
-		<ul class='list-unstyled'>
+		<p ng-if="postData.users.length <= 0"><em>There are no users associated with this district.</em></p>
+		<ul ng-if="postData.users.length > 0" class='list-unstyled'>
 			<li ng-repeat="user in postData.users">
-				{[user]}
+				{[user.name]} <small><strong>({[user.urole]})</strong></small>
 			</li>
 		</ul>
 	</li>
+</ul>
 
-	<li class="hover-link"><postfield admin-only='true' type='multiselect' field-data='{ postType: "School", optionKeyVal: ["name", "id"], initValue: postData.schools }' label='Schools' keys='"schools"' relationship="true"></postfield></li>
+<h3>District Data Resources</h3>
+<ul>
+	<li ng-repeat="link in postData.data_links['field_rows'] track by $index"><a href="{[ link[1].field_val ]}" target="_blank">{[ link[0].field_val ]}</a></li>
+	<li ng-repeat="link in globalSettings.global_data_links track by $index"><a href="{[ link.link_url ]}" target="_blank">{[ link.link_title ]}</a></li>
 </ul>

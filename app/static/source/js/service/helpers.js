@@ -44,5 +44,21 @@ module.exports = angular.module('helper-services', [])
 						$log.log(error);
 					});
 			},
+			isJson: function(str) {
+				try {
+					JSON.parse(str);
+				} catch (e) {
+					return false;
+				}
+				return true;
+			},
+			clone: function(obj) {
+				if (null == obj || "object" != typeof obj) return obj;
+				var copy = obj.constructor();
+				for (var attr in obj) {
+					if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+				}
+				return copy;
+			},
 		};
 	}]);

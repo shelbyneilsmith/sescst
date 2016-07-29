@@ -9,11 +9,12 @@ from sqlalchemy.exc import IntegrityError
 import json
 
 from .. import db, login_required
-from ..model import User, District, School, Role, Activity_Type, Activity_Log, Expense_Sheet
-from ..schemas import UserSchema, RoleSchema, DistrictSchema, SchoolSchema, Activity_TypeSchema, Activity_LogSchema, Expense_SheetSchema
+from ..model import AppSettings, User, District, School, Role, Activity_Type, Activity_Log, Expense_Sheet, School_Type, School_Level, Location_Service
+from ..schemas import AppSettingsSchema, UserSchema, RoleSchema, DistrictSchema, SchoolSchema, Activity_TypeSchema, Activity_LogSchema, Expense_SheetSchema, School_TypeSchema, School_LevelSchema, Location_ServiceSchema
 from ..forms.admin import RegisterUserForm, RegisterDistrictForm, RegisterSchoolForm
 from ..util.security import ts
 from ..util.email import send_email
+from ..util.helpers import saveSelectField, saveMultiSelectField
 
 admin_bp = Blueprint('admin_bp', __name__)
 
@@ -53,6 +54,8 @@ def register_account():
 			email=form.email.data,
 			password=form.password.data,
 			salary=form.salary.data,
+			contract_days=form.contract_days.data,
+			cell_reimbursement=form.cell_reimbursement.data,
 			urole=form.urole.data
 		)
 		saveMultiSelectField(user, form.user_districts.data, 'District', 'districts')
@@ -85,6 +88,12 @@ def register_account():
 	return render_template('accounts/user-register.html', form=form)
 
 
+# view for the application settings page (admins only)
+@admin_bp.route('/admin/settings', methods=["GET", "POST"])
+@login_required(role='Administrator')
+def admin_page():
+	return render_template('app-settings.html')
+
 # view for the create district page
 @admin_bp.route('/admin/create-district', methods=["GET", "POST"])
 @login_required(role='Administrator')
@@ -93,23 +102,18 @@ def create_district():
 	if form.validate_on_submit():
 		district = District(
 			name=form.district_name.data,
-			# schools=form.district_schools.data
+			data_links=form.district_data_links.data
 		)
-		district.set_rel_vals(json.loads(form.district_schools.data), 'School', 'schools')
+		saveMultiSelectField(district, form.district_schools.data, 'School', 'schools')
+		saveMultiSelectField(district, form.district_services.data, 'Location_Service', 'location_services')
 		db.session.add(district)
 		db.session.commit()
 
-		flash('New district has been created.')
+		flash('New District has been created.')
 
 		return redirect('/#/posts?post_type=District')
 
 	return render_template('locations/district-register.html', form=form)
-
-# view for the application settings page (admins only)
-@admin_bp.route('/admin/settings', methods=["GET", "POST"])
-@login_required(role='Administrator')
-def admin_page():
-	return render_template('app-settings.html')
 
 
 # view for the create school page
@@ -119,12 +123,16 @@ def create_school():
 	form = RegisterSchoolForm()
 	if form.validate_on_submit():
 		school = School(
-			name=form.school_name.data
+			name=form.school_name.data,
+			data_links=form.school_data_links.data
 		)
+		saveSelectField(school, form.school_type.data, 'School_Type', 'school_type')
+		saveMultiSelectField(school, form.school_levels.data, 'School_Level', 'school_levels')
+		saveMultiSelectField(school, form.school_services.data, 'Location_Service', 'location_services')
 		db.session.add(school)
 		db.session.commit()
 
-		flash('New school has been created.')
+		flash('New School has been created.')
 
 		return redirect('/#/posts?post_type=School')
 
@@ -203,7 +211,8 @@ def delete_post():
 	db.session.delete(deleted_post)
 	db.session.commit()
 
-	flash(post_type + ' deleted.')
+	post_type_label = post_type.title().replace("_", " ")
+	flash(post_type_label + ' deleted.')
 	return '/#/posts?post_type=' + post_type
 
 @admin_bp.route('/api/save_post_field', methods=['POST'])
@@ -225,10 +234,10 @@ def save_post_field():
 		else:
 			if relationship:
 				if field_key.endswith('s'):
-					rel_type = field_key.capitalize()[:-1]
+					rel_type = field_key.replace("_", " ").title().replace(" ", "_")[:-1]
 					post.set_rel_vals(field_val, rel_type, field_key)
 				else:
-					rel_type = field_key.capitalize()
+					rel_type = field_key.replace("_", " ").title().replace(" ", "_")
 					post.set_rel_val(field_val, rel_type, field_key)
 
 			else:
@@ -259,13 +268,13 @@ def get_access_roles():
 	return jsonify({'roles': roles})
 
 def multiple_post_save(post_type, posts_data):
+	posts_data = json.loads(posts_data)
 	classy_pt = getattr(sys.modules[__name__], post_type)
-	for post in posts_data:
-		if not classy_pt.query.filter_by(name=post).first():
-			new_post = classy_pt(
-				name=post,
-				description=''
-				)
+
+	for row in posts_data:
+		post_name = row["name"]
+		if not classy_pt.query.filter_by(name=post_name).first():
+			new_post = classy_pt(**row)
 			db.session.add(new_post)
 			db.session.commit()
 
@@ -277,12 +286,32 @@ def multiple_post_delete(post_type, posts_data):
 			db.session.delete(db_post)
 			db.session.commit()
 
+def updateSettingsRow(setting_name, setting_val):
+	post = AppSettings.query.filter_by(setting_name=setting_name).first()
+	if post:
+		setattr(post, 'setting_name', setting_name)
+		setattr(post, 'setting_val', setting_val)
+	else:
+		post = AppSettings(
+			setting_name=setting_name,
+			setting_val=setting_val
+		)
+		db.session.add(post)
+
+	db.session.commit()
+
 # route for saving the application settings
 @admin_bp.route('/api/save_app_settings', methods=["POST"])
 def save_app_settings():
 	data = json.loads(request.data.decode())
 	roles = data["roles"]
 	activity_types = data["activity_types"]
+	school_types = data["school_types"]
+	school_levels = data["school_levels"]
+	location_services = data["location_services"]
+	mileage_reimbursement = data["mileage_reimbursement"]
+	cell_reimbursement = data["cell_reimbursement"]
+	global_data_links = data["global_data_links"]
 
 	## ROLE MANAGEMENT
 	multiple_post_save("Role", roles)
@@ -292,8 +321,30 @@ def save_app_settings():
 	multiple_post_save("Activity_Type", activity_types)
 	multiple_post_delete("Activity_Type", activity_types)
 
+	## SCHOOL TYPE MANAGEMENT
+	multiple_post_save("School_Type", school_types)
+	multiple_post_delete("School_Type", school_types)
+
+	## SCHOOL LEVEL MANAGEMENT
+	multiple_post_save("School_Level", school_levels)
+	multiple_post_delete("School_Level", school_levels)
+
+	## DISTRICT/SCHOOL SERVICES MANAGEMENT
+	multiple_post_save("Location_Service", location_services)
+	multiple_post_delete("Location_Service", location_services)
+
+	## MILEAGE REIMBURSEMENT MANAGEMENT
+	updateSettingsRow("mileage_reimbursement", mileage_reimbursement)
+
+	## CELL PHONE REIMBURSEMENT MANAGEMENT
+	updateSettingsRow("cell_reimbursement", cell_reimbursement)
+
+	## GLOBAL DATA LINKS MANAGEMENT
+	updateSettingsRow("global_data_links", global_data_links)
+
 	flash('Application settings saved.')
 	return '/admin/settings'
+
 
 # error handlers
 class ExceptionHandler(Exception):

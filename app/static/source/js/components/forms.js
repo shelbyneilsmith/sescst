@@ -5,6 +5,8 @@ module.exports = angular.module('sescst-forms', [])
 
 	.directive('formInclude', require('../directive/forms/formInclude'))
 
+	.directive('formField', require('../directive/forms/formField'))
+
 	.directive('hideshowpass', require('../directive/forms/hideShowPassword'))
 	.directive('focusMe', require('../directive/forms/focusField'))
 	// .directive('blurMe', require('../directive/forms/blurField'))
@@ -13,5 +15,5 @@ module.exports = angular.module('sescst-forms', [])
 
 	.directive('select2Field', require('../directive/forms/select2Field'))
 	.directive('datePickerField', require('../directive/forms/datePickerField'))
-	.directive('repeaterField', require('../directive/forms/repeaterField'))
-	.directive('wtfRepeaterField', require('../directive/forms/wtfRepeaterField'))
+	.directive('simpleRepeaterForm', require('../directive/forms/simpleRepeaterForm'))
+	.directive('complexRepeaterField', require('../directive/forms/complexRepeaterField'))
