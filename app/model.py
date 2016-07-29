@@ -215,7 +215,7 @@ class Activity_Log(Base):
 	activity_types = db.relationship("Activity_Type", secondary=activity_type_identifier_al, back_populates="activity_logs")
 
 	activity_contact = db.Column(db.String(255))
-	event_costs = db.Column(db.String(255))
+	# event_costs = db.Column(db.String(255))
 	report_notes = db.Column(db.String(255))
 	expense_sheet = db.relationship('Expense_Sheet', uselist=False, back_populates='activity_log')
 

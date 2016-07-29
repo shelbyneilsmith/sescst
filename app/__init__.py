@@ -82,12 +82,12 @@ try:
 	from .views.login import login_bp
 	from .views.admin import admin_bp
 	from .views.email import email_bp
-	# from .views.reports import reports_bp
+	from .views.reports import reports_bp
 
 	app.register_blueprint(general)
 	app.register_blueprint(login_bp)
 	app.register_blueprint(admin_bp)
 	app.register_blueprint(email_bp)
-	# app.register_blueprint(reports_bp)
+	app.register_blueprint(reports_bp)
 except:
 	pass

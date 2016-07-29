@@ -67,7 +67,7 @@ class Activity_LogSchema(ma.ModelSchema):
 	schools = fields.Nested('SchoolSchema', many=True, exclude=('district_id'), dump_only=True)
 	activity_types = fields.Nested('Activity_TypeSchema', many=True, only=('id', 'name'), dump_only=True)
 	activity_contact = fields.Str()
-	event_costs = fields.Str()
+	# event_costs = fields.Str()
 	report_notes = fields.Str()
 	expense_sheet = fields.Nested('Expense_SheetSchema', only=('id'), dump_only=True)
 
@@ -80,7 +80,6 @@ class Expense_SheetSchema(ma.ModelSchema):
 	total_mileage = fields.Int()
 	travel_route_from = fields.Str()
 	travel_route_to = fields.Str()
-	mileage_reimbursement = fields.Int()
 	itemized_meals = fields.Str()
 	hotel_reimbursement = fields.Str()
 	other_reimbursement = fields.Str()
