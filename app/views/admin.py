@@ -1,8 +1,9 @@
 ''' admin screen views blueprint '''
 # app/views/admin.py
 
-import sys
-from flask import Blueprint, render_template, flash, redirect, session, url_for, request, jsonify
+# import sys
+from flask import Blueprint
+# from flask import Blueprint, render_template, flash, redirect, session, url_for, request, jsonify
 # from flask.ext.login import login_required, current_user
 # from werkzeug.exceptions import HTTPException
 # from sqlalchemy.exc import IntegrityError
