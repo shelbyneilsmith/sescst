@@ -299,7 +299,7 @@ class School(Base):
 	name = db.Column(db.String(255), unique=True, nullable=False)
 
 	school_type_id = db.Column(db.Integer, db.ForeignKey('school_types.id'))
-    	school_type = db.relationship("School_Type", back_populates="schools")
+	school_type = db.relationship("School_Type", back_populates="schools")
 
 	school_levels = db.relationship("School_Level", secondary=school_identifier_level, back_populates="schools")
 	location_services = db.relationship("Location_Service", secondary=service_identifier_school, back_populates="schools")
