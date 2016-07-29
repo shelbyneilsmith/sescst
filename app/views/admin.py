@@ -18,125 +18,102 @@ from ..util.helpers import saveSelectField, saveMultiSelectField
 
 admin_bp = Blueprint('admin_bp', __name__)
 
-def confirm_email(user):
-	try:
-		# Now we'll send the email confirmation link
-		subject = "Please confirm your email"
+# # view for the create user page
+# @admin_bp.route('/admin/create-user', methods=["GET", "POST"])
+# # @login_required(role='Administrator')
+# def register_account():
+# 	form = RegisterUserForm()
+# 	if form.validate_on_submit():
+# 		user = User(
+# 			username=form.username.data,
+# 			first_name=form.first_name.data,
+# 			last_name=form.last_name.data,
+# 			email=form.email.data,
+# 			password=form.password.data,
+# 			salary=form.salary.data,
+# 			contract_days=form.contract_days.data,
+# 			cell_reimbursement=form.cell_reimbursement.data,
+# 			urole=form.urole.data
+# 		)
+# 		saveMultiSelectField(user, form.user_districts.data, 'District', 'districts')
+# 		saveMultiSelectField(user, form.user_schools.data, 'School', 'schools')
+# 		db.session.add(user)
+# 		db.session.commit()
 
-		token = ts.dumps(user.email, salt='email-confirm-key')
+# 		# # Now we'll send the email confirmation link
+# 		# subject = "Please confirm your email"
 
-		confirm_url = url_for(
-			'email_bp.user_confirm_email',
-			token=token,
-			_external=True
-		)
-		html = render_template(
-			'email/activate.html',
-			confirm_url=confirm_url
-		)
+# 		# token = ts.dumps(user.email, salt='email-confirm-key')
 
-		send_email(user.email, subject, html)
+# 		# confirm_url = url_for(
+# 		# 	'email_bp.user_confirm_email',
+# 		# 	token=token,
+# 		# 	_external=True
+# 		# )
 
-		return True
-	except:
-		return False
+# 		# html = render_template(
+# 		# 	'email/activate.html',
+# 		# 	confirm_url=confirm_url
+# 		# )
 
-# view for the create user page
-@admin_bp.route('/admin/create-user', methods=["GET", "POST"])
+# 		# send_email(user.email, subject, html)
+# 		# flash('New user has been created. A confirmation email has been sent to the user\'s email address')
+# 		confirm_email(user)
+
+# 		return redirect('/#/posts?post_type=User')
+
+# 	return render_template('accounts/user-register.html', form=form)
+
+
+# # view for the application settings page (admins only)
+# @admin_bp.route('/admin/settings', methods=["GET", "POST"])
 # @login_required(role='Administrator')
-def register_account():
-	form = RegisterUserForm()
-	if form.validate_on_submit():
-		user = User(
-			username=form.username.data,
-			first_name=form.first_name.data,
-			last_name=form.last_name.data,
-			email=form.email.data,
-			password=form.password.data,
-			salary=form.salary.data,
-			contract_days=form.contract_days.data,
-			cell_reimbursement=form.cell_reimbursement.data,
-			urole=form.urole.data
-		)
-		saveMultiSelectField(user, form.user_districts.data, 'District', 'districts')
-		saveMultiSelectField(user, form.user_schools.data, 'School', 'schools')
-		db.session.add(user)
-		db.session.commit()
+# def admin_page():
+# 	return render_template('app-settings.html')
 
-		# # Now we'll send the email confirmation link
-		# subject = "Please confirm your email"
+# # view for the create district page
+# @admin_bp.route('/admin/create-district', methods=["GET", "POST"])
+# @login_required(role='Administrator')
+# def create_district():
+# 	form = RegisterDistrictForm()
+# 	if form.validate_on_submit():
+# 		district = District(
+# 			name=form.district_name.data,
+# 			data_links=form.district_data_links.data
+# 		)
+# 		saveMultiSelectField(district, form.district_schools.data, 'School', 'schools')
+# 		saveMultiSelectField(district, form.district_services.data, 'Location_Service', 'location_services')
+# 		db.session.add(district)
+# 		db.session.commit()
 
-		# token = ts.dumps(user.email, salt='email-confirm-key')
+# 		flash('New District has been created.')
 
-		# confirm_url = url_for(
-		# 	'email_bp.user_confirm_email',
-		# 	token=token,
-		# 	_external=True
-		# )
+# 		return redirect('/#/posts?post_type=District')
 
-		# html = render_template(
-		# 	'email/activate.html',
-		# 	confirm_url=confirm_url
-		# )
-
-		# send_email(user.email, subject, html)
-		# flash('New user has been created. A confirmation email has been sent to the user\'s email address')
-		confirm_email(user)
-
-		return redirect('/#/posts?post_type=User')
-
-	return render_template('accounts/user-register.html', form=form)
+# 	return render_template('locations/district-register.html', form=form)
 
 
-# view for the application settings page (admins only)
-@admin_bp.route('/admin/settings', methods=["GET", "POST"])
-@login_required(role='Administrator')
-def admin_page():
-	return render_template('app-settings.html')
+# # view for the create school page
+# @admin_bp.route('/admin/create-school', methods=["GET", "POST"])
+# @login_required(role='Administrator')
+# def create_school():
+# 	form = RegisterSchoolForm()
+# 	if form.validate_on_submit():
+# 		school = School(
+# 			name=form.school_name.data,
+# 			data_links=form.school_data_links.data
+# 		)
+# 		saveSelectField(school, form.school_type.data, 'School_Type', 'school_type')
+# 		saveMultiSelectField(school, form.school_levels.data, 'School_Level', 'school_levels')
+# 		saveMultiSelectField(school, form.school_services.data, 'Location_Service', 'location_services')
+# 		db.session.add(school)
+# 		db.session.commit()
 
-# view for the create district page
-@admin_bp.route('/admin/create-district', methods=["GET", "POST"])
-@login_required(role='Administrator')
-def create_district():
-	form = RegisterDistrictForm()
-	if form.validate_on_submit():
-		district = District(
-			name=form.district_name.data,
-			data_links=form.district_data_links.data
-		)
-		saveMultiSelectField(district, form.district_schools.data, 'School', 'schools')
-		saveMultiSelectField(district, form.district_services.data, 'Location_Service', 'location_services')
-		db.session.add(district)
-		db.session.commit()
+# 		flash('New School has been created.')
 
-		flash('New District has been created.')
+# 		return redirect('/#/posts?post_type=School')
 
-		return redirect('/#/posts?post_type=District')
-
-	return render_template('locations/district-register.html', form=form)
-
-
-# view for the create school page
-@admin_bp.route('/admin/create-school', methods=["GET", "POST"])
-@login_required(role='Administrator')
-def create_school():
-	form = RegisterSchoolForm()
-	if form.validate_on_submit():
-		school = School(
-			name=form.school_name.data,
-			data_links=form.school_data_links.data
-		)
-		saveSelectField(school, form.school_type.data, 'School_Type', 'school_type')
-		saveMultiSelectField(school, form.school_levels.data, 'School_Level', 'school_levels')
-		saveMultiSelectField(school, form.school_services.data, 'Location_Service', 'location_services')
-		db.session.add(school)
-		db.session.commit()
-
-		flash('New School has been created.')
-
-		return redirect('/#/posts?post_type=School')
-
-	return render_template('locations/school-register.html', form=form)
+# 	return render_template('locations/school-register.html', form=form)
 
 
 # API ROUTES
