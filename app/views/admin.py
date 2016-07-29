@@ -10,7 +10,7 @@ import json
 
 from .. import db, login_required
 from ..model import AppSettings, User, District, School, Role, Activity_Type, Activity_Log, Expense_Sheet, School_Type, School_Level, Location_Service
-# from ..schemas import AppSettingsSchema, UserSchema, RoleSchema, DistrictSchema, SchoolSchema, Activity_TypeSchema, Activity_LogSchema, Expense_SheetSchema, School_TypeSchema, School_LevelSchema, Location_ServiceSchema
+from ..schemas import AppSettingsSchema
 from ..forms.admin import RegisterUserForm, RegisterDistrictForm, RegisterSchoolForm
 from ..util.security import ts
 from ..util.email import confirm_email
