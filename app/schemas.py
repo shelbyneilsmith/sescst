@@ -1,6 +1,9 @@
 from . import ma
 from marshmallow import fields, validate
-from .model import Role, User, District, School, Activity_Log, Expense_Sheet, Activity_Type, School_Type, School_Level, Location_Service, Report_URL
+
+# from .model import User
+# from .model import Role, User, District, School, Activity_Log, Expense_Sheet, Activity_Type
+# from .model import School_Type, School_Level, Location_Service, Report_URL
 
 class RoleSchema(ma.ModelSchema):
 	id = fields.Int(dump_only=True)
