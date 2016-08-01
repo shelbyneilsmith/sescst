@@ -40,28 +40,28 @@ class UserSchema(ma.ModelSchema):
 	active = fields.Boolean(attribute='is_active', missing=False)
 	urole = fields.Str(dump_only=True)
 
-# class DistrictSchema(ma.ModelSchema):
-# 	id = fields.Int(dump_only=True)
-# 	name = fields.Str(required=True)
-# 	schools = fields.Nested('SchoolSchema', many=True, exclude=('district_id'), dump_only=True)
-# 	users = fields.Nested('UserSchema', many=True, only=('name', 'urole'), dump_only=True)
-# 	location_services = fields.Nested('Location_ServiceSchema', many=True, only=('id', 'name'), dump_only=True)
-# 	data_links = fields.Str()
+class DistrictSchema(ma.ModelSchema):
+	id = fields.Int(dump_only=True)
+	name = fields.Str(required=True)
+	schools = fields.Nested('SchoolSchema', many=True, exclude=('district_id'), dump_only=True)
+	users = fields.Nested('UserSchema', many=True, only=('name', 'urole'), dump_only=True)
+	location_services = fields.Nested('Location_ServiceSchema', many=True, only=('id', 'name'), dump_only=True)
+	data_links = fields.Str()
 
 # class SchoolSchema(ma.ModelSchema):
 # 	id = fields.Int(dump_only=True)
 # 	name = fields.Str(required=True)
 # 	district = fields.Nested('DistrictSchema', only=('id', 'name'), dump_only=True)
 # 	users = fields.Nested('UserSchema', many=True, only=('name', 'urole'), dump_only=True)
-#     	school_type = fields.Nested('School_TypeSchema', only=('id', 'name'), dump_only=True)
+# 	school_type = fields.Nested('School_TypeSchema', only=('id', 'name'), dump_only=True)
 # 	school_levels = fields.Nested('School_LevelSchema', many=True, only=('id', 'name'), dump_only=True)
 # 	location_services = fields.Nested('Location_ServiceSchema', many=True, only=('id', 'name'), dump_only=True)
 # 	data_links = fields.Str()
 
-# class Activity_TypeSchema(ma.ModelSchema):
-# 	id = fields.Int(dump_only=True)
-# 	name = fields.Str(required=True)
-# 	description = fields.Str()
+class Activity_TypeSchema(ma.ModelSchema):
+	id = fields.Int(dump_only=True)
+	name = fields.Str(required=True)
+	description = fields.Str()
 
 # class Activity_LogSchema(ma.ModelSchema):
 # 	id = fields.Int(dump_only=True)
@@ -104,8 +104,8 @@ class UserSchema(ma.ModelSchema):
 # 	name = fields.Str(required=True)
 # 	schools = fields.Nested('SchoolSchema', many=True, exclude=('district_id'), dump_only=True)
 
-# class Location_ServiceSchema(ma.ModelSchema):
-# 	id = fields.Int(dump_only=True)
-# 	name = fields.Str(required=True)
-# 	districts = fields.Nested('DistrictSchema', many=True, exclude=('schools'), dump_only=True)
-# 	schools = fields.Nested('SchoolSchema', many=True, exclude=('district_id'), dump_only=True)
+class Location_ServiceSchema(ma.ModelSchema):
+	id = fields.Int(dump_only=True)
+	name = fields.Str(required=True)
+	districts = fields.Nested('DistrictSchema', many=True, exclude=('schools'), dump_only=True)
+	schools = fields.Nested('SchoolSchema', many=True, exclude=('district_id'), dump_only=True)
