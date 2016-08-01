@@ -48,15 +48,15 @@ class DistrictSchema(ma.ModelSchema):
 	location_services = fields.Nested('Location_ServiceSchema', many=True, only=('id', 'name'), dump_only=True)
 	data_links = fields.Str()
 
-# class SchoolSchema(ma.ModelSchema):
-# 	id = fields.Int(dump_only=True)
-# 	name = fields.Str(required=True)
-# 	district = fields.Nested('DistrictSchema', only=('id', 'name'), dump_only=True)
-# 	users = fields.Nested('UserSchema', many=True, only=('name', 'urole'), dump_only=True)
-# 	school_type = fields.Nested('School_TypeSchema', only=('id', 'name'), dump_only=True)
-# 	school_levels = fields.Nested('School_LevelSchema', many=True, only=('id', 'name'), dump_only=True)
-# 	location_services = fields.Nested('Location_ServiceSchema', many=True, only=('id', 'name'), dump_only=True)
-# 	data_links = fields.Str()
+class SchoolSchema(ma.ModelSchema):
+	id = fields.Int(dump_only=True)
+	name = fields.Str(required=True)
+	district = fields.Nested('DistrictSchema', only=('id', 'name'), dump_only=True)
+	users = fields.Nested('UserSchema', many=True, only=('name', 'urole'), dump_only=True)
+	# school_type = fields.Nested('School_TypeSchema', only=('id', 'name'), dump_only=True)
+	# school_levels = fields.Nested('School_LevelSchema', many=True, only=('id', 'name'), dump_only=True)
+	location_services = fields.Nested('Location_ServiceSchema', many=True, only=('id', 'name'), dump_only=True)
+	data_links = fields.Str()
 
 class Activity_TypeSchema(ma.ModelSchema):
 	id = fields.Int(dump_only=True)
@@ -90,9 +90,9 @@ class Activity_TypeSchema(ma.ModelSchema):
 # 	hotel_reimbursement = fields.Str()
 # 	other_reimbursement = fields.Str()
 
-# class Report_URLSchema(ma.ModelSchema):
-# 	id = fields.Int(dump_only=True)
-# 	user_id = fields.Nested('UserSchema', only=('id'), dump_only=True)
+class Report_URLSchema(ma.ModelSchema):
+	id = fields.Int(dump_only=True)
+	user_id = fields.Nested('UserSchema', only=('id'), dump_only=True)
 
 # class School_TypeSchema(ma.ModelSchema):
 # 	id = fields.Int(dump_only=True)
