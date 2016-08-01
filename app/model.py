@@ -1,3 +1,4 @@
+''' application model '''
 # stafftools/model.py
 
 import sys

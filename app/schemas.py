@@ -1,3 +1,4 @@
+''' application model schemas for marshmallow '''
 # stafftools/schemas.py
 
 from . import ma
