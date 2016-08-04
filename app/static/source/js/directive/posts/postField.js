@@ -128,7 +128,7 @@ module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers',
 		link: function(scope, element, attrs) {
 
 			scope.editPostField = function() {
-				if ((typeof scope.fieldData.displayValue !== 'undefined') && (typeof scope.fieldData.value !== 'undefined')) {
+				if (scope.fieldData.value && (typeof scope.fieldData.displayValue !== 'undefined') && (typeof scope.fieldData.value !== 'undefined')) {
 					scope.fieldData.oldDisplayValue = scope.fieldData.displayValue;
 
 					if (scope.fieldData.value.constructor.toString().indexOf("Object") != -1) {
