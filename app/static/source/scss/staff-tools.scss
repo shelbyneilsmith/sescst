@@ -5,6 +5,8 @@
 @import '../../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 
 @import 'ui-select';
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700,700italic,400italic);
+@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400italic,700,700italic);
 
 // custom styles
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
@@ -13,13 +15,18 @@
 
 html, body {
 	background: #ededed;
+	font-family: "Roboto", sans-serif;;
 }
 
-// .form-group {
-// 	margin-bottom: 15px;
-// 	padding-bottom: 15px;
-// 	border-bottom: 1px solid #dee;
-// }
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Roboto Condensed", sans-serif;;
+	margin-bottom: 0.809em;
+	font-weight: 700;
+	text-rendering: optimizeLegibility;
+	text-transform: uppercase;
+}
+
 .login .show-password-checkbox {
 	float: right;
 	text-align: right;
