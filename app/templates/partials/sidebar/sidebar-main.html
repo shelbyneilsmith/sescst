@@ -1,0 +1,9 @@
+{% if current_user.is_authenticated %}
+<section id="main-sidebar" class="app-sidebar col-md-3">
+	<ul class="list-unstyled">
+		<li><a href="/admin/create-activity-log" ng-class="{ active: isActive('/admin/create-activity-log') }">Create Activity Log/Expense Sheet</a></li>
+		<li><a href="/#/posts?post_type=Activity_Log" ng-class="{ active: isActive('/posts?post_type=Activity_Log') }">View Activity Logs</a></li>
+		<li><a href="/#/posts?post_type=Expense_Sheet" ng-class="{ active: isActive('/posts?post_type=Expense_Sheet') }">View Expense Sheets</a></li>
+	</ul>
+</section>
+{% endif %}

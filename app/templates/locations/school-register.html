@@ -4,32 +4,35 @@
 
 {% block content %}
 <div class="row">
-	<div class="col-md-4 col-md-offset-4">
-		<h2>Create a New School</h2>
-		<form action="" method="post" name="register">
-			{{ form.hidden_tag() }}
-			<fieldset class="form-group">
-				<div class="form-field">
-					{{ form_macros.text_field(form, "school_name", form.school_name) }}
-				</div>
+	<sidebar></sidebar>
+	<div id="app-main" class="col-md-9">
+		<div class="container-fluid">
+			<h2>Create a New School</h2>
+			<form action="" method="post" name="register">
+				{{ form.hidden_tag() }}
+				<fieldset class="form-group">
+					<div class="form-field">
+						{{ form_macros.text_field(form, "school_name", form.school_name) }}
+					</div>
 
-				<div class="form-field">
-					{{ form_macros.select_field(form, "school_type", form.school_type, "{postType: 'School_Type'}", "['name', 'id']") }}
-				</div>
-				<div class="form-field">
-					{{ form_macros.multi_select_field(form, "school_levels", form.school_levels, "{postType: 'School_Level'}", "['name', 'id']") }}
-				</div>
-				<div class="form-field">
-					{{ form_macros.multi_select_field(form, "school_services", form.school_services, "{postType: 'Location_Service'}", "['name', 'id']") }}
-				</div>
+					<div class="form-field">
+						{{ form_macros.select_field(form, "school_type", form.school_type, "{postType: 'School_Type'}", "['name', 'id']") }}
+					</div>
+					<div class="form-field">
+						{{ form_macros.multi_select_field(form, "school_levels", form.school_levels, "{postType: 'School_Level'}", "['name', 'id']") }}
+					</div>
+					<div class="form-field">
+						{{ form_macros.multi_select_field(form, "school_services", form.school_services, "{postType: 'Location_Service'}", "['name', 'id']") }}
+					</div>
 
-				<div class="form-field">
-					{{ form_macros.repeater_field(form, "school_data_links", form.school_data_links, "[{field_id: 'link_title', field_type: 'text', field_label: 'Link Title', filter: ''},{field_id: 'link_url', field_type: 'text', field_label: 'Link URL', filter: ''}]") }}
-				</div>
-			</fieldset>
-			<!-- <p>{{ form.is_admin }} <label for="is_admin"><strong>This user is an Administrator</strong></strong></p> -->
-			<p><input type="submit" class="btn btn-success" value="Create School"></p>
-		</form>
+					<div class="form-field">
+						{{ form_macros.repeater_field(form, "school_data_links", form.school_data_links, "[{field_id: 'link_title', field_type: 'text', field_label: 'Link Title', filter: ''},{field_id: 'link_url', field_type: 'text', field_label: 'Link URL', filter: ''}]") }}
+					</div>
+				</fieldset>
+				<!-- <p>{{ form.is_admin }} <label for="is_admin"><strong>This user is an Administrator</strong></strong></p> -->
+				<p><input type="submit" class="btn btn-success" value="Create School"></p>
+			</form>
+		</div>
 	</div>
 </div>
 

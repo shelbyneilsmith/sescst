@@ -4,32 +4,35 @@
 
 {% block content %}
 <div class="row">
-	<div class="col-md-4 col-md-offset-4">
-		<h2>Create a New District</h2>
-		<form action="" method="post" name="register">
-			{{ form.hidden_tag() }}
-			<fieldset class="form-group">
-				<div class="form-field">
-					{{ form_macros.text_field(form, "district_name", form.district_name) }}
-				</div>
+	<sidebar></sidebar>
+	<div id="app-main" class="col-md-9">
+		<div class="container-fluid">
+			<h2>Create a New District</h2>
+			<form action="" method="post" name="register">
+				{{ form.hidden_tag() }}
+				<fieldset class="form-group">
+					<div class="form-field">
+						{{ form_macros.text_field(form, "district_name", form.district_name) }}
+					</div>
 
-				<div class="form-field">
-					{{ form_macros.multi_select_field(form, "district_schools", form.district_schools, "{postType: 	'School'}", "['name', 'id']") }}
-				</div>
+					<div class="form-field">
+						{{ form_macros.multi_select_field(form, "district_schools", form.district_schools, "{postType: 	'School'}", "['name', 'id']") }}
+					</div>
 
-				<div class="form-field">
-					{{ form_macros.multi_select_field(form, "district_services", form.district_services, "{postType: 'Location_Service'}", "['name', 'id']") }}
-				</div>
+					<div class="form-field">
+						{{ form_macros.multi_select_field(form, "district_services", form.district_services, "{postType: 'Location_Service'}", "['name', 'id']") }}
+					</div>
 
-				<div class="form-field">
-					{{ form_macros.repeater_field(form, "district_data_links", form.district_data_links, "[{fieldID: 'link_title', fieldType: 'text', fieldLabel: 'Link Title', filter: ''},{fieldID: 'link_url', fieldType: 'text', fieldLabel: 'Link URL', filter: ''}]") }}
-				</div>
+					<div class="form-field">
+						{{ form_macros.repeater_field(form, "district_data_links", form.district_data_links, "[{fieldID: 'link_title', fieldType: 'text', fieldLabel: 'Link Title', filter: ''},{fieldID: 'link_url', fieldType: 'text', fieldLabel: 'Link URL', filter: ''}]") }}
+					</div>
 
 
-			</fieldset>
-			<!-- <p>{{ form.is_admin }} <label for="is_admin"><strong>This user is an Administrator</strong></strong></p> -->
-			<p><input type="submit" class="btn btn-success" value="Create District"></p>
-		</form>
+				</fieldset>
+				<!-- <p>{{ form.is_admin }} <label for="is_admin"><strong>This user is an Administrator</strong></strong></p> -->
+				<p><input type="submit" class="btn btn-success" value="Create District"></p>
+			</form>
+		</div>
 	</div>
 </div>
 

@@ -2,10 +2,10 @@
 <ul class="post-details list-unstyled">
 	<li class="hover-link"><postfield admin-only='true' type='text' field-data='{ initValue: postData.name }' label='District Name' keys='"name"' is-title="true"></postfield></li>
 
-	<li class="hover-link"><postfield admin-only='false' type='multiselect' field-data='{ postType: "Location_Service", optionKeyVal: ["name", "id"], initValue: postData.location_services }' label='District Services' keys='"location_services"' relationship="true"></postfield></li>
+	<li class="hover-link"><postfield admin-only='false' type='multiselect' field-data='{ postType: "Location_Service", optionKeyVal: ["name", "id"], initValue: postData.location_services, allowAll: true }' label='District Services' keys='"location_services"' relationship="true"></postfield></li>
 
 	<li class="hover-link">
-		<postfield admin-only='true' type='multiselect' field-data='{ postType: "School", optionKeyVal: ["name", "id"], initValue: postData.schools }' label='Schools' keys='"schools"' relationship="true"></postfield>
+		<postfield admin-only='true' type='multiselect' field-data='{ postType: "School", optionKeyVal: ["name", "id"], initValue: postData.schools, allowAll: true }' label='Schools' keys='"schools"' relationship="true"></postfield>
 		<span ng-if="postData.schools.length <= 0"><em>Please add schools to this district.</em></span>
 	</li>
 

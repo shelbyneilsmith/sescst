@@ -6,8 +6,8 @@
 module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers', function($compile, $http, $log, $timeout, $filter, helpers) {
 	var tpl = "<form class='post-field' ng-submit='savePostField()'> \
 		<ng-include src='fieldInclude'></ng-include> \
-		<a ng-show='editMode' class='btn btn-small btn-primary save-link' ng-click='savePostField()'>Save</a> \
-		<a ng-show='editMode' class='btn btn-small btn-primary cancel-link' ng-click='closeEditField()'>Cancel</a> \
+		<a ng-show='editMode' class='btn small btn-primary save-link' ng-click='savePostField()'>Save</a> \
+		<a ng-show='editMode' class='btn small btn-primary cancel-link' ng-click='closeEditField()'>Cancel</a> \
 		</form>";
 
 	return {
@@ -69,8 +69,11 @@ module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers',
 							$scope.optionsPostType = newValue.postType;
 							$scope.optionsPostFilter = newValue.postFilter;
 							$scope.optionsOnly = newValue.only;
-
-							$scope.selectOptions = {postType: $scope.optionsPostType, postFilter: $scope.optionsPostFilter, only: $scope.optionsOnly};
+							$scope.allowAllOptions = false;
+							if (newValue.allowAll) {
+								$scope.allowAllOptions = true;
+							}
+							$scope.selectOptions = {postType: $scope.optionsPostType, postFilter: $scope.optionsPostFilter, only: $scope.optionsOnly, allowAll: $scope.allowAllOptions};
 						}
 
 						if (newValue.optionKeyVal) {

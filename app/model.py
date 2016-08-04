@@ -94,7 +94,7 @@ class AppSettings(db.Model):
 
 	id = db.Column(db.Integer, primary_key=True)
 	setting_name = db.Column(db.String(80), unique=True)
-	setting_val = db.Column(db.String(255))
+	setting_val = db.Column(db.String())
 
 
 # Role Model

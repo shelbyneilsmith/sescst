@@ -3,12 +3,21 @@
  */
 'use strict';
 
-module.exports = function() {
+module.exports = ['$log', function($log) {
 	return {
-		restrict: 'A',
+		restrict: 'E',
 		replace: true,
-		scope: '=',
-		templateUrl: '../templates/partials/sescst-sidebar.html',
-		controller: 'sescSidebarCtrl'
+		scope: {
+			type: '@',
+		},
+		template:'<ng-include src="tpl"/>',
+		controller: 'sescSidebarCtrl',
+		link: function(scope, element, attrs) {
+			$log.log(scope.type);
+			scope.tpl = '../templates/partials/sidebar/sidebar-main.html';
+			if (scope.type) {
+				scope.tpl = '../templates/partials/sidebar/sidebar-' + scope.type + '.html';
+			}
+		}
 	};
-};
+}];

@@ -1,0 +1,11 @@
+{% if current_user.is_authenticated %}
+<section id="app-settings-sidebar" class="app-sidebar col-md-3" ng-controller="sescSidebarCtrl">
+	<ul class="list-unstyled">
+		<li><a href="/admin/settings/#/access-roles" ng-class="{ active: isActive('/access-roles') }" ng-click="$parent.curPanel='access-roles'">Access Roles</a></li>
+		<li><a href="/admin/settings/#/activity-types" ng-click="$parent.curPanel='activity-types'" ng-class="{ active: isActive('/activity-types') }">Activity Types</a></li>
+		<li><a href="/admin/settings/#/school-district-options" ng-click="$parent.curPanel='school-district-options'" ng-class="{ active: isActive('/school-district-options') }">School/District Options</a></li>
+		<li><a href="/admin/settings/#/reimbursement" ng-click="$parent.curPanel='reimbursement'" ng-class="{ active: isActive('/reimbursement') }">Reimbursement Rates</a></li>
+		<li><a href="/admin/settings/#/data-links" ng-click="$parent.curPanel='data-links'" ng-class="{ active: isActive('/data-links') }">Global Data Links</a></li>
+	</ul>
+</section>
+{% endif %}

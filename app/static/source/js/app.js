@@ -1,5 +1,6 @@
 var angular = require('angular');
 require('angular-route');
+require('angular-animate');
 
 var inflection = require('inflection');
 require('nginflection');
@@ -22,6 +23,7 @@ require('./filters');
 angular.module('sescstafftools', [
 	'ngRoute',
 	'ngInflection',
+	'ngAnimate',
 	'ui.select',
 	'ui.bootstrap',
 	'ngSanitize',

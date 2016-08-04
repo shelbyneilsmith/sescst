@@ -48,8 +48,20 @@ module.exports = ['$http', '$log', '$timeout', 'helpers', function($http, $log, 
 			}
 
 			var buildSelectmodel = function(selectOptions) {
-				$scope.uiSelectOptions = selectOptions;
+				$scope.uiSelectOptions = [];
 				$scope.selectModel = '';
+
+				if ($scope.selectOptions.allowAll) {
+					$scope.optionsLabel = 'Options';
+					if ($scope.label) {
+						$scope.optionsLabel = $scope.label;
+					}
+					$scope.uiSelectOptions[0] = {};
+					$scope.uiSelectOptions[0][$scope.optionKey] = 'All ' + $scope.optionsLabel;
+					$scope.uiSelectOptions[0][$scope.optionVal] = 'all_options';
+				}
+				$scope.uiSelectOptions = $scope.uiSelectOptions.concat(selectOptions);
+
 				if ($scope.selectOptions.only) {
 					if ($scope.model) {
 						$scope.selectModel = {};
@@ -57,7 +69,7 @@ module.exports = ['$http', '$log', '$timeout', 'helpers', function($http, $log, 
 					}
 
 					$scope.uiSelectOptions = [];
-					for (var i=0; i < selectOptions.length; i++) {
+					for (var i=$scope.uiSelectOptions.length; i < selectOptions.length; i++) {
 						$scope.uiSelectOptions[i] = {};
 						$scope.uiSelectOptions[i][$scope.optionKey] = selectOptions[i][$scope.selectOptions.only];
 						$scope.uiSelectOptions[i][$scope.optionVal] = selectOptions[i][$scope.selectOptions.only];
@@ -67,8 +79,19 @@ module.exports = ['$http', '$log', '$timeout', 'helpers', function($http, $log, 
 						$scope.selectModel = $scope.model;
 					}
 				}
-				$log.log($scope.selectModel);
-			}
+			};
+
+			var buildAllValuesArr = function(optionKey) {
+				var allValuesArr  = [];
+
+				for (var i=1; i<$scope.uiSelectOptions.length; i++) {
+					allValuesArr.push($scope.uiSelectOptions[i]);
+					if (optionKey) {
+						allValuesArr.push($scope.uiSelectOptions[i][optionKey]);
+					}
+				}
+				return allValuesArr;
+			};
 
 			var unbindModelWatch = $scope.$watch('model', function(newValue) {
 				if ($scope.selectOptions.constructor.toString().indexOf("Array") != -1) {
@@ -99,6 +122,28 @@ module.exports = ['$http', '$log', '$timeout', 'helpers', function($http, $log, 
 							}
 						}
 
+						if (newValue.constructor === Array) {
+							var allOptionsFound = newValue.some(function(el) {
+								return el.id === 'all_options';
+							});
+							if (allOptionsFound) {
+								if ($scope.selectOptions.only) {
+									$scope.model = buildAllValuesArr($scope.optionKey);
+									$scope.outputValue = buildAllValuesArr($scope.optionKey);
+								} else if ($scope.selectOptions.constructor.toString().indexOf("Array") != -1) {
+									$scope.model = buildAllValuesArr();
+									$scope.outputValue = buildAllValuesArr($scope.optionVal);
+								} else {
+									$scope.model = buildAllValuesArr();
+									$scope.outputValue = buildAllValuesArr();
+
+									if (typeof $scope.outputValue === "object") {
+										$scope.outputValue = JSON.stringify($scope.outputValue);
+									}
+								}
+
+							}
+						}
 					}
 				});
 

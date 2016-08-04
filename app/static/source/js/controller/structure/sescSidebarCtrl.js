@@ -4,7 +4,11 @@
  */
 'use strict';
 
-module.exports = ['$scope', '$filter', function($scope, $filter) {
-	$scope.sidebarNav = ['one', 'two', 'three'];
-	$scope.blah = "BLAH";
+module.exports = ['$scope', '$filter', '$location', function($scope, $filter, $location) {
+
+	console.log($location.url());
+	$scope.isActive = function (viewLocation) {
+		var active = (viewLocation === $location.url());
+		return active;
+	};
 }];

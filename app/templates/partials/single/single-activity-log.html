@@ -14,7 +14,7 @@
 	<li class="hover-link"><postfield admin-only='false' type='datetime' field-data='{ initValue: postData.activity_date_end }' label='Activity End Date' keys='"activity_date_end"'></postfield></li>
 
 
-	<li class="hover-link"><postfield admin-only='false' type='multiselect' field-data='{ postType: "District", optionKeyVal: ["name", "id"], initValue: postData.districts }' label='Participating Districts' keys='"districts"' relationship="true"></postfield></li>
+	<li class="hover-link"><postfield admin-only='false' type='multiselect' field-data='{ postType: "District", optionKeyVal: ["name", "id"], initValue: postData.districts, allowAll: true }' label='Participating Districts' keys='"districts"' relationship="true"></postfield></li>
 
 	<li class="hover-link"><postfield admin-only='false' type='multiselect' field-data='{ postType: "School", optionKeyVal: ["name", "id"], initValue: postData.schools }' label='Participating Schools' keys='"schools"' relationship="true"></postfield></li>
 

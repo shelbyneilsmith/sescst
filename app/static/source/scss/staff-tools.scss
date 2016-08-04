@@ -11,6 +11,10 @@
   display: none !important;
 }
 
+html, body {
+	background: #ededed;
+}
+
 // .form-group {
 // 	margin-bottom: 15px;
 // 	padding-bottom: 15px;
@@ -29,12 +33,54 @@
 #app-masthead {
 	border-bottom: 1px solid #dee;
 	width: 100%;
+
+	@media screen and (max-width: 991px) {
+		text-align: center;
+	}
 }
 
 #user-nav {
 	float: right;
 	margin-top: 60px;
 	text-align: right;
+	background: white;
+	padding: 10px 30px;
+
+	@media screen and (max-width: 991px) {
+		float: right;
+		width: 100%;
+		text-align: center;
+		margin-top: 20px;
+	}
+
+	@media screen and (max-width: 402px) {
+		text-align: left;
+	}
+
+	ul {
+		margin-bottom: 0;
+
+		li {
+			margin-left: 0;
+			margin-right: 10px;
+			padding-right: 15px;
+			border-right: 1px solid #ddd;
+
+			@media screen and (max-width: 991px) {
+				margin: 10px 0;
+			}
+
+			&:last-of-type {
+				margin-right: 0;
+				padding-right: 0;
+				border-right: 0;
+			}
+
+			a {
+				text-decoration: none;
+			}
+		}
+	}
 }
 
 .posts-list {
@@ -44,7 +90,14 @@
 			padding: 5px 10px;
 			border: 1px solid #ddd;
 			margin-bottom: 10px;
+			text-decoration: none;
+			font-size: 1.1em;
 		}
+	}
+}
+.post-list-table {
+	a {
+		text-decoration: none;
 	}
 }
 
@@ -112,16 +165,60 @@
 	}
 }
 
-#app-sidebar {
-	background: #ddd;
+.app-sidebar {
+	background: #ede;
+	padding: 0;
+
+	ul {
+		margin-bottom: 0;
+		margin-left: 0;
+
+		li {
+			&:first-of-type a {
+				border-top: 0;
+			}
+
+			a {
+				font-size: 1.2em;
+				background: #192560;
+				padding: 10px 20px;
+				color: white;
+				display: block;
+				width: 100%;
+				border-top: 1px solid #394894;
+				transition: background .2s;
+				cursor: pointer;
+				text-decoration: none;
+
+
+				&:hover {
+					background: #394894;
+					text-decoration: none;
+				}
+				&.active {
+					background: #deca1f;
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}
+
+#app-wrap {
+	padding-bottom: 0;
 }
 
 #app-main {
 	padding-bottom: 60px;
+	padding-left: 30px;
+	border: 1px solid #ddd;
+	border-right: 0;
+	background: white;
 }
 
 #app-footer {
-	background: #eee;
+	background: #2a2a2a;
+	color: white;
 	width: 100%;
 	clear: both;
 }
@@ -164,10 +261,18 @@
 }
 
 .form-field {
-	margin-bottom: 10px;
-	padding: 10px 20px 20px;
-	border: 1px solid #ddd;
-	border-radius: 3px;
+	// margin-bottom: 30px;
+	padding: 20px 20px 25px;
+	border-bottom: 1px dotted #ddd;
+	transition: background .15s;
+
+	&:hover {
+		background: #e9db61;
+	}
+
+	&:first-of-type {
+		border-top: 1px dotted #ddd;
+	}
 
 	textarea {
 		width: 100%;
@@ -194,6 +299,76 @@
 	}
 }
 
+a {
+	color: #192560;
+	font-weight: bold;
+	text-decoration: underline;
+
+	&:hover, &:active {
+		color: #394894;
+		text-decoration: none;
+	}
+}
+
+.btn {
+	border-radius: 0;
+	box-shadow: 0 3px 0 #dedede;
+	border: 0;
+	font-weight: bold;
+	padding: 10px 20px;
+	text-decoration: none;
+	transition: background-color .15s;
+
+	&.small {
+		padding: 5px 10px;
+		font-size: .9em;
+	}
+
+	&.large {
+		padding: 15px 30px 13px;
+		font-size: 1.2em;
+		text-transform: uppercase;
+	}
+
+	&.btn-primary {
+		color: #fff;
+		background-color: #192560;
+
+		&:hover {
+			background-color: #394894;
+		}
+	}
+
+	&.btn-success {
+		color: #2a2a2a;
+		background-color: #deca1f;
+		text-shadow: 0 1px 0 #e9db61;
+
+		&:hover {
+			background-color: #e6d54a;
+		}
+	}
+}
+
+// App Settings
+.app-setting-panel {
+	&.ng-hide {
+		opacity: 0;
+	}
+
+	&.ng-hide-remove,
+	&.ng-hide-add {
+		display: block !important;
+	}
+
+	&.ng-hide-remove {
+		transition: all linear .15s .3s;
+	}
+
+	&.ng-hide-add {
+		transition: all linear .15s;
+	}
+}
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

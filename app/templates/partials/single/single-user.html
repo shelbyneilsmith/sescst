@@ -20,9 +20,9 @@
 
 	<li class="hover-link"><postfield formatted-output="{[ postData.cell_reimbursement | cellreimformat ]}" admin-only='false' type='select' field-data='{ initValue: [(postData.cell_reimbursement | cellreimformat), postData.cell_reimbursement], selectOptions: [["Full ($" + globalSettings.cell_reimbursement + "/mo)", (globalSettings.cell_reimbursement * 100)], ["Half ($" + (globalSettings.cell_reimbursement * 0.5) + "/mo)", ((globalSettings.cell_reimbursement * 0.5) * 100)], ["No Reimbursement", 0]] }' label='Cell Phone Reimbursement Rate' keys='"cell_reimbursement"'></postfield></li>
 
-	<li class="hover-link"><postfield admin-only='true' type='multiselect' field-data='{ postType: "District", optionKeyVal: ["name", "id"], initValue: postData.districts }' label='Districts' keys='"districts"' relationship="true"></postfield></li>
+	<li class="hover-link"><postfield admin-only='true' type='multiselect' field-data='{ postType: "District", optionKeyVal: ["name", "id"], initValue: postData.districts, allowAll: true  }' label='Districts' keys='"districts"' relationship="true"></postfield></li>
 
-	<li class="hover-link"><postfield admin-only='true' type='multiselect' field-data='{ postType: "School", optionKeyVal: ["name", "id"], initValue: postData.schools }' label='Schools' keys='"schools"' relationship="true"></postfield></li>
+	<li class="hover-link"><postfield admin-only='true' type='multiselect' field-data='{ postType: "School", optionKeyVal: ["name", "id"], initValue: postData.schools, allowAll: true  }' label='Schools' keys='"schools"' relationship="true"></postfield></li>
 </ul>
 
 <hr />

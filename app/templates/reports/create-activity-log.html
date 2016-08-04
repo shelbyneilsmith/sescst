@@ -5,9 +5,9 @@
 {% import 'macros/forms.html' as form_macros %}
 
 <div class="row">
-	<div sidebar></div>
-	<div class="col-md-5">
-		<div ng-controller="ActivityLogFormCtrl">
+	<sidebar></sidebar>
+	<div id="app-main" class="col-md-9">
+		<div class="container-fluid" ng-controller="ActivityLogFormCtrl">
 			<h2>Create New Activity Report</h2>
 			<form action="" method="post" name="create-activity-log">
 				{{ activity_log_form.hidden_tag() }}
@@ -29,11 +29,11 @@
 					</div>
 
 					<div class="form-field">
-						{{ form_macros.multi_select_field(activity_log_form, "log_districts", activity_log_form.log_districts, "{postType: 'District'}", "['name', 'id']") }}
+						{{ form_macros.multi_select_field(activity_log_form, "log_districts", activity_log_form.log_districts, "{postType: 'District', allowAll: true}", "['name', 'id']") }}
 					</div>
 
 					<div class="form-field">
-						{{ form_macros.multi_select_field(activity_log_form, "log_schools", activity_log_form.log_schools, "{postType: 'School'}", "['name', 'id']") }}
+						{{ form_macros.multi_select_field(activity_log_form, "log_schools", activity_log_form.log_schools, "{postType: 'School', allowAll: true}", "['name', 'id']") }}
 					</div>
 
 					<div class="form-field">

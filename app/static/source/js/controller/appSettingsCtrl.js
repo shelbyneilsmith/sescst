@@ -6,6 +6,11 @@
 
 module.exports = ['$scope', '$http', '$log', '$window', 'helpers', function($scope, $http, $log, $window, helpers) {
 
+
+	$scope.changeSettingPanel = function(panelID) {
+		$scope.curPanel = panelID;
+	};
+
 	$scope.curAppSettings = {};
 	helpers.getPosts('AppSettings', '', function(results) {
 		if (results) {

@@ -2,50 +2,51 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row">
-	<div class="col-md-8 col-md-offset-2">
-		<h2>Application Settings</h2>
-		<div ng-controller='appSettingsCtrl'>
-			<div class="form-field">
+<div class="row" ng-controller='appSettingsCtrl' ng-init="curPanel='access-roles'">
+	{% include 'partials/sidebar/sidebar-app-settings.html' %}
+	<div id="app-main" class="col-md-9">
+		<div class="container-fluid">
+			<h2>Application Settings</h2>
+
+			<button class="btn btn-success" ng-click="saveAppSettings()">Save Settings</button><br /><br />
+
+			<div ng-show="curPanel === 'access-roles'" id="access-roles" class="app-setting-panel">
 				<h3>Access Roles</h3>
 	 			<simple-repeater-form label='Role' data='curRoles' fields='[{fieldLabel: "Access Role", fieldName: "name", fieldType: "text"},{fieldLabel: "Role Description", fieldName: "description", fieldType: "textarea"}]'></simple-repeater-form>
 	 		</div>
 
-			<div class="form-field">
+			<div ng-show="curPanel === 'activity-types'" id="access-roles" class="app-setting-panel">
 				<h3>Activity Types</h3>
 	 			<simple-repeater-form label='Activity Type' data='curActivityTypes' fields='[{fieldLabel: "New Activity Type", fieldName: "name", fieldType: "text"},{fieldLabel: "Activity Type Description", fieldName: "description", fieldType: "textarea"}]'></simple-repeater-form>
 	 		</div>
 
-			<div class="form-field">
+			<div ng-show="curPanel === 'school-district-options'" id="access-roles" class="app-setting-panel">
 				<h3>School Types</h3>
 	 			<simple-repeater-form label='School Type' data='curSchoolTypes' fields='[{fieldLabel: "New School Type", fieldName: "name", fieldType: "text"}]'></simple-repeater-form>
-	 		</div>
 
-			<div class="form-field">
+	 			<br /><br />
+
 				<h3>School Levels</h3>
 	 			<simple-repeater-form label='School Level' data='curSchoolLevels' fields='[{fieldLabel: "New School Level", fieldName: "name", fieldType: "text"}]'></simple-repeater-form>
-	 		</div>
 
-			<div class="form-field">
+	 			<br /><br />
+
 				<h3>District/School Services</h3>
 	 			<simple-repeater-form label='District/School Service' data='curDistrictSchoolServices' fields='[{fieldLabel: "New District/School Service", fieldName: "name", fieldType: "text"}]'></simple-repeater-form>
 	 		</div>
 
-			<div class="form-field">
+			<div ng-show="curPanel === 'reimbursement'" id="access-roles" class="app-setting-panel">
 	 			<h3>Mileage Reimbursement Rate (cents per mile)</h3>
 	 			<form-field model='curAppSettings.mileage_reimbursement' placeholder='Mileage Reimbursement' type='number'></form-field>
-	 		</div>
-
-			<div class="form-field">
+	 			<br /><br />
 	 			<h3>Cell Phone Reimbursement Max ($/month)</h3>
 				<form-field model='curAppSettings.cell_reimbursement' placeholder='Cell Phone Reimbursement' type='number'></form-field>
 	 		</div>
 
-			<div class="form-field">
+			<div ng-show="curPanel === 'data-links'" id="access-roles" class="app-setting-panel">
 	 			<h3>Global Data Links</h3>
 	  			<simple-repeater-form label='Global Data Links' data='curAppSettings.global_data_links' fields='[{fieldLabel: "Link Title", fieldName: "link_title", fieldType: "text"},{fieldLabel: "Link URL", fieldName: "link_url", fieldType: "text"}]'></simple-repeater-form>
 	  		</div>
-			<button class="btn btn-success" ng-click="saveAppSettings()">Save Settings</button>
 		</div>
 	</div>
 </div>
