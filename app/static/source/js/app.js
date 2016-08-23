@@ -1,12 +1,15 @@
 var angular = require('angular');
+var inflection = require('inflection');
+
 require('angular-route');
 require('angular-animate');
 
-var inflection = require('inflection');
 require('nginflection');
 require('ui-select');
 require('angular-sanitize');
 require('angular-ui-bootstrap');
+require('chart.js');
+// require('angular-rison');
 
 require('./controller');
 require('./directive');
@@ -36,6 +39,8 @@ angular.module('sescstafftools', [
 	'app-filters',
 	'sescst-posts',
 	'sescst-app-settings',
+	'reports-services',
+	'sescst-report-builder',
 ])
 .config(['$interpolateProvider', function($interpolateProvider) {
 	$interpolateProvider.startSymbol('{[');

@@ -2,3 +2,4 @@
 
 require('./helpers');
 require('./utilities');
+require('./reports');

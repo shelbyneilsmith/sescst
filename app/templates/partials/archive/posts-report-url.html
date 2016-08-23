@@ -1,0 +1,14 @@
+<table class="post-list-table table table-striped table-hover table-responsive">
+	<thead>
+		<tr>
+			<th>Report ID</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="post in postList.posts">
+			<td><a href="/admin/report-builder#{[post.url]}">{[post.id]}</a></td>
+			<td><a href="/admin/report-builder#{[post.url]}&edit={[post.id]}">Edit</a></td>
+			<td ng-controller="reportBuilderCtrl"><a class="btn btn-primary small" ng-click="deleteReport(post.id)">Delete</a></td>
+		</tr>
+	</tbody>
+</table>

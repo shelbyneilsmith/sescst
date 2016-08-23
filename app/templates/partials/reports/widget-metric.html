@@ -1,0 +1,6 @@
+<div class="metric-select">
+	<select class="form-control" ng-model="metric.metricSelect" ng-options="option as option.label for option in widgetMetricOpts">
+		<option>--select report widget metric --</option>
+	</select>
+	<button class="round-controls btn-remove" ng-hide="metrics.length == 1" ng-click="metrics.splice($index, 1)">-</button>
+</div>

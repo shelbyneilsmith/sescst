@@ -9,8 +9,8 @@ from sqlalchemy.exc import IntegrityError
 import json
 
 from .. import db, login_required
-from ..model import User, District, School, Role, Activity_Log, Expense_Sheet
-from ..schemas import UserSchema, RoleSchema, DistrictSchema, SchoolSchema, Activity_LogSchema, Expense_SheetSchema
+from ..model import User, District, School, Role, Activity_Log, Expense_Sheet, Report_URL
+from ..schemas import UserSchema, RoleSchema, DistrictSchema, SchoolSchema, Activity_LogSchema, Expense_SheetSchema, Report_URLSchema
 from ..forms.report import ActivityLogForm, ExpenseSheetForm
 from ..util.helpers import saveSelectField, saveMultiSelectField
 
@@ -73,3 +73,41 @@ def create_activity_log():
 # @login_required(role='Administrator')
 def create_expense_sheet():
 	return redirect(url_for('reports_bp.create_activity_log'))
+
+
+# view for the report builder part of the application
+@reports_bp.route('/admin/report-builder', methods=["GET", "POST"])
+# @login_required(role='Administrator')
+def report_builder():
+	return render_template('report-builder.html')
+
+
+# view for the create school page
+@reports_bp.route('/api/save-report-url', methods=["GET", "POST"])
+# @login_required(role='Administrator')
+def save_report_url():
+	data = json.loads(request.data.decode())
+	url = data["report_url"]
+	editing_id = data["editing_id"]
+
+	if not editing_id:
+		report_url = Report_URL(
+			url=url,
+			user=	current_user
+		)
+		db.session.add(report_url)
+		db.session.commit()
+
+		flash_message = "Saved"
+		return_url = '/#/posts?post_type=Report_URL'
+	else:
+		cur_report = Report_URL.query.get(editing_id)
+		cur_report.url = url
+		db.session.commit()
+
+		flash_message = "Updated"
+		return_url = '/admin/report-builder/#' + url
+
+	flash('Report ' + flash_message + '!')
+
+	return return_url

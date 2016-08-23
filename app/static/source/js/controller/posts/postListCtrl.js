@@ -10,6 +10,11 @@ module.exports = ['$scope', '$routeParams', '$http', '$log', '$filter', '$templa
 	$scope.postFilterKey = typeof $routeParams.post_filter_key !== 'undefined' ? $routeParams.post_filter_key : '';
 	$scope.postFilterVal = typeof $routeParams.post_filter_val !== 'undefined' ? $routeParams.post_filter_val : '';
 
+	$scope.createPostURL = '/admin/create-' + $filter('dasherize')($filter('lowercase')($scope.postType));
+	if ($scope.postType === 'Report_URL') {
+		$scope.createPostURL = '/admin/report-builder';
+	}
+
 	// fire the API request
 	$http.post('/api/get_posts', {"post_type": $scope.postType, "post_filter": $scope.postFilter})
 		.then(function(results) {

@@ -1,0 +1,49 @@
+<div class="report-widget">
+	<a ng-click="destroyWidget(widget.id)" class="remove-widget glyphicon glyphicon-remove"></a>
+
+	<form class='post-field' ng-show="widgetTitleEdit" ng-submit='updateWidgetTitle("save")'>
+		<input type="text" ng-model="widgetNewTitle" ng-init="" />
+		<a ng-show='widgetTitleEdit' class='btn small btn-primary save-link' ng-click='updateWidgetTitle("save")'>Save</a>
+		<a ng-show='widgetTitleEdit' class='btn small btn-primary cancel-link' ng-click='updateWidgetTitle("cancel")'>Cancel</a>
+	</form>
+	<h3 class="hover-link subtitled" ng-show="!widgetTitleEdit">{[ widget.title ]} <a class="edit-link" ng-click="widgetTitleEdit = !widgetTitleEdit; widgetNewTitle = widget.title">Edit</a>
+
+	<div class="subtitle">
+		<div class="hover-link" ng-show="!widgetTypeEdit"><span class="small">{[ widget.typeLabel ]}</span> <a class="edit-link" ng-click="widgetTypeEdit = !widgetTypeEdit">Edit</a></div>
+
+		<select ng-init="selectedWidgetType=selectedWidgetType || $parent.widgetOptions[0]" ng-show="widgetTypeEdit" class="form-control" ng-model="selectedWidgetType" ng-options="option.label for option in $parent.widgetOptions"></select>
+		<a ng-show='widgetTypeEdit' class='btn small btn-primary save-link' ng-click="updateWidgetType()">Save</a>
+		<a ng-show='widgetTypeEdit' class='btn small btn-primary cancel-link' ng-click="updateWidgetType()">Cancel</a>
+	</div>
+	</h3>
+
+	<h4>Filters <span class="subtitle">Only show report data based on these filters.</span></h4>
+	<a class="round-controls collapsible-control btn btn-small" ng-click="filtersCollapsed = !filtersCollapsed"><span ng-class="filtersCollapsed ? 'glyphicon-chevron-down' : 'glyphicon-chevron-up'" class="glyphicon glyphicon-chevron-up"></span></a>
+	<div class="widget-collapsible" ng-class="filtersCollapsed ? 'collapsed' : 'expanded'">
+		<label>Filter By:</label>
+		<ul class='widget-filters list-unstyled'>
+			<li ng-repeat="filter in filters" class="clearfix">
+				<filter-select init-val="filter.filterSelect"></filter-select>
+				<button ng-show="$last" class="round-controls btn-add" ng-click="addWidgetFilter($event)">+</button>
+			</li>
+			<button class="btn btn-primary" ng-click="updateWidget()">Filter</button>
+		</ul>
+	</div>
+
+	<h4>Metrics <span class="subtitle">What data are we comparing?</span></h4>
+	<a class="round-controls collapsible-control btn btn-small" ng-click="metricsCollapsed = !metricsCollapsed"><span ng-class="metricsCollapsed ? 'glyphicon-chevron-down' : 'glyphicon-chevron-up'" class="glyphicon glyphicon-chevron-up"></span></a>
+	<div class="widget-collapsible" ng-class="metricsCollapsed ? 'collapsed' : 'expanded'">
+		<label>Compare By:</label>
+		<ul class='widget-metrics list-unstyled'>
+			<li ng-repeat="metric in metrics" class="clearfix">
+				<metric-select init-val="metric.metricSelect"></metric-select>
+				<button ng-show="$last" class="round-controls btn-add" ng-click="addWidgetMetric($event)">+</button>
+			</li>
+			<button class="btn btn-primary" ng-click="updateWidget()">Add Metric</button>
+		</ul>
+	</div>
+
+	<div class="chart-container">
+		<canvas id="{[ widget.id ]}-{[ widget.type ]}" class="chart-canvas" width="400" height="400"></canvas>
+	</div>
+</div>

@@ -3,4 +3,4 @@
 
 <div ng-include="getListTemplate()"></div>
 <br /><br />
-<a class="btn btn-primary large" href="/admin/create-{[ postType | lowercase | dasherize ]}">Create {[postType | underscoreless]}</a>
+<a class="btn btn-primary large" ng-href="{[createPostURL]}">Create {[postType | underscoreless]}</a>

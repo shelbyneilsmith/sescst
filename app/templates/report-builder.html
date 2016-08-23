@@ -1,0 +1,32 @@
+<!-- extend app base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row" ng-controller='reportBuilderCtrl'>
+	<sidebar></sidebar>
+	<div id="app-main" class="col-md-9">
+		<div class="container-fluid">
+			<h2>Report Builder</h2>
+
+			<div class="results" ng-repeat="widget in widgets track by $index">
+				<report-widget></report-widget>
+			</div>
+
+			<form id="report-type-form">
+				<h3>Add Report Widget</h3>
+				<label class="small">Widget Title: </label><br />
+				<input type="text" ng-model="widgetTitle" />
+				<br /><br />
+				<label class="small">Widget Type: </label>
+				<select class="form-control" ng-model="widgetType" ng-options="option as option.label for option in widgetOptions"></select>
+				<br />
+				<button class="btn btn-primary btn-sm" ng-click="addNewWidget()">Add Report Widget</button>
+
+				<button ng-if="widgets.length > 0" class="save-report-btn btn btn-success large" ng-click="saveReport(editingReport)">{[ saveBtnText ]}</button>
+			</form>
+
+		</div>
+	</div>
+</div>
+
+{% endblock %}

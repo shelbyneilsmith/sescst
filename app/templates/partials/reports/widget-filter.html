@@ -1,0 +1,6 @@
+<div class="filter-select">
+	<select class="form-control" ng-model="filter.filterSelect" ng-options="option as option.label for option in widgetFilterOpts">
+		<option>--select filter control--</option>
+	</select>
+	<button class="round-controls btn-remove" ng-hide="filters.length == 1" ng-click="filters.splice($index, 1)">-</button>
+</div>

@@ -258,7 +258,7 @@ class Report_URL(Base):
 	__tablename__ = 'report_urls'
 
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-	url = db.Column(db.String(255), nullable=False)
+	url = db.Column(db.String(), nullable=False)
 
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	user = db.relationship("User", back_populates="report_urls")

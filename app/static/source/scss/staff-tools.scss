@@ -25,6 +25,18 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: 700;
 	text-rendering: optimizeLegibility;
 	text-transform: uppercase;
+
+	.subtitle {
+		font-size: .75em;
+		font-weight: normal;
+		text-transform: none;
+		display: block;
+		clear: left;
+
+		a {
+			font-size: 1em;
+		}
+	}
 }
 
 .login .show-password-checkbox {
@@ -173,11 +185,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .app-sidebar {
-	background: #ede;
 	padding: 0;
 
+	h4 {
+		margin-left: 20px;
+	}
+
 	ul {
-		margin-bottom: 0;
+		margin-bottom: 30px;
 		margin-left: 0;
 
 		li {
@@ -221,6 +236,10 @@ h1, h2, h3, h4, h5, h6 {
 	border: 1px solid #ddd;
 	border-right: 0;
 	background: white;
+
+	@media screen and (max-width: 991px) {
+		padding-left: 15px;
+	}
 }
 
 #app-footer {
@@ -376,6 +395,131 @@ a {
 		transition: all linear .15s;
 	}
 }
+
+
+//report builder styles
+#report-type-form {
+	border-top: 1px solid #ddd;
+	padding-top: 15px;
+	clear: both;
+}
+
+.results {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.report-widget {
+	padding: 20px;
+	border: 1px solid #ddd;
+	width: 48.5%;
+	margin-right: 1.5%;
+	margin-bottom: 3%;
+	float: left;
+
+	&:nth-of-type(even) {
+		margin-right: 0;
+	}
+
+	@media screen and (max-width: 991px) {
+		width: 100%;
+		margin-right: 0;
+	}
+
+	h3 {
+		float: left;
+		margin-top: 0;
+	}
+
+	h4 {
+		clear: both;
+		float: left;
+	}
+}
+
+.chart-container {
+	width: 400px;
+	height: 400px;
+	margin-top: 30px;
+
+	canvas {
+		position: relative;
+		margin-left: 50%;
+		left: -100px;
+	}
+}
+
+.widget-filters, .widget-metrics {
+
+	li {
+		margin-bottom: 5px;
+	}
+}
+.filter-select, .metric-select {
+	// width: 40%;
+
+	select {
+		width: 70%;
+		float: left;
+	}
+}
+
+.round-controls {
+	border-radius: 50%;
+	background: white;
+	width: 30px;
+	height: 30px;
+	border: 1px solid #ddd;
+	float: left;
+	margin-left: 10px;
+	box-shadow: none;
+	line-height: 30px;
+	padding: 0;
+
+	&.collapsible-control  {
+		float: right;
+	}
+}
+
+.add-filter {
+	clear: both;
+	float: left;
+}
+
+.remove-widget {
+	float: right;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.save-report-btn {
+	float: right;
+
+	@media screen and (max-width: 991px) {
+		float: left;
+		width: 100%;
+		margin-top: 30px;
+	}
+}
+
+.widget-collapsible {
+	overflow: hidden;
+	transition: all .15s;
+	clear: both;
+	margin-bottom: 15px;
+	border-bottom: 1px solid #ddd;
+
+	&.collapsed {
+		padding-bottom: 0px;
+		max-height: 0;
+	}
+
+	&.expanded {
+		padding-bottom: 15px;
+		max-height: 999px;
+	}
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

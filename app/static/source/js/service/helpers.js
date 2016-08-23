@@ -35,7 +35,7 @@ module.exports = angular.module('helper-services', [])
 
 			},
 			getPosts: function(post_type, filter, callback) {
-				var filter = typeof filter !== 'undefined' ? filter : '';
+				filter = typeof filter !== 'undefined' ? filter : '';
 				$http.post('/api/get_posts', {"post_type": post_type, "post_filter": filter})
 					.then(function(results) {
 						// $log.log(results);
@@ -52,13 +52,50 @@ module.exports = angular.module('helper-services', [])
 				}
 				return true;
 			},
+			getObjByValue: function(arr, value) {
+				var o;
+				for (var i=0, l=arr.length; i<l; i++) {
+					o = arr[i];
+
+					for (var p in o) {
+						if (o.hasOwnProperty(p) && o[p] === value) {
+							return o;
+						}
+					}
+				}
+			},
 			clone: function(obj) {
-				if (null == obj || "object" != typeof obj) return obj;
+				if (null === obj || "object" != typeof obj) return obj;
 				var copy = obj.constructor();
 				for (var attr in obj) {
 					if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
 				}
 				return copy;
+			},
+			getURLParameter: function(name) {
+				return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(window.location.href) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+			},
+			removeURLParameter: function(url, parameter) {
+				//prefer to use l.search if you have a location/link object
+				var urlparts= url.split('?');
+				if (urlparts.length>=2) {
+
+					var prefix= encodeURIComponent(parameter)+'=';
+					var pars= urlparts[1].split(/[&;]/g);
+
+					//reverse iteration as may be destructive
+					for (var i= pars.length; i-- > 0;) {
+						//idiom for string.startsWith
+						if (pars[i].lastIndexOf(prefix, 0) !== -1) {
+							pars.splice(i, 1);
+						}
+					}
+
+					url= urlparts[0] + (pars.length > 0 ? '?' + pars.join('&') : "");
+					return url;
+				} else {
+					return url;
+				}
 			},
 		};
 	}]);

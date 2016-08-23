@@ -5,3 +5,4 @@ require('./structure');
 require('./forms');
 require('./posts');
 require('./settings');
+require('./reports');

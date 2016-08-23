@@ -38,7 +38,7 @@ module.exports = ['$scope', '$routeParams', '$http', '$log', '$filter', 'helpers
 		}, function() {
 			$scope['redirect']('/#/posts?post_type=' + $scope.postType);
 		});
-	}
+	};
 
 	$scope.confirm = function() {
 		$http.post(action_url, {'post_type': $scope.postType, 'post_id': $scope.postID})

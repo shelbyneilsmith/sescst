@@ -32,7 +32,7 @@ var gulp = require('gulp'),
 
 gulp.task('lint', function() {
     return gulp.src(paths.js.src + '/**/*.js')
-        .pipe(jshint({"globals": ["jQuery", "angular"]}))
+        .pipe(jshint({"globals": ["jQuery", "angular", "inflection", "rison"]}))
         .pipe(jshint.reporter('default'));
 });
 
