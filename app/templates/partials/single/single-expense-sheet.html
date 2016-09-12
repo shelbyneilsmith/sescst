@@ -1,6 +1,6 @@
 <h1>Expense Sheet for: {[ postData.activity_log.name ? postData.activity_log.name : postData.expense_sheet_start | date : "MMM d, y" : '+0500' ]}</h1>
 <a class="print-btn" href="javascript:window.print()" title="Print Report"><span class="glyphicon glyphicon-print"></span></a>
-<a href="/#/post?id={[ postData.activity_log.id ]}&amp;post_type=Activity_Log">View Activity Log for this Expense Sheet</a>
+<a ng-if="postData.activity_log.id" href="/#/post?id={[ postData.activity_log.id ]}&amp;post_type=Activity_Log">View Activity Log for this Expense Sheet</a>
 <hr />
 
 <ul class="post-details list-unstyled">

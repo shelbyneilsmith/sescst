@@ -13,7 +13,7 @@
 				<!-- <h3 class="report-title">{[ reportTitle ]}</h3> -->
 				<a class="print-btn" href="javascript:window.print()" title="Print Report"><span class="glyphicon glyphicon-print"></span></a>
 
-				<report-table ng-if="reportBuilt" type="{[ reportType.value ]}"></report-table>
+				<report-table ng-if="reportBuilt" type="{[ reportPreset.value ]}-{[ reportType ]}-report"></report-table>
 
 				<div class="widget-create clearfix blue-box">
 
@@ -26,11 +26,11 @@
 						<label>Type: </label>
 						<select class="form-control" ng-model="widgetType" ng-options="option as option.label for option in widgetOptions"></select>
 						<br />
-<!-- 						<div>
+						<div>
 							<h4>Filter Chart Data By:</h4>
 							<filter-select model="newWidgetFilterSelect"></filter-select>
 						</div>
- -->
+
  						<div>
 							<h4>Chart Metrics from Current Data:</h4>
 							<chart-metrics model="newWidgetMetricSelect"></chart-metrics>
@@ -52,15 +52,22 @@
 					<label class="small">Report Title: </label><br />
 					<input type="text" ng-model="reportTitle" />
 				</div>
+				<div class="form-field clearfix">
+					<h4>Report Type:</h4>
+					<label class="report-type-option" ng-repeat="type in reportTypeOptions">
+						<input type="radio" name="reportType" ng-model="$parent.reportType" value="{[ type.value ]}" />
+						{[ type.label ]}
+					</label>
+				</div>
 				<div class="form-field">
-					<label class="small">Report Type: </label><br />
-					<small>Choose from the report type presets or build a custom report.</small><br /><br />
-					<select class="form-control" ng-model="reportType" ng-options="option as option.label for option in reportTypeOptions"></select>
+					<h4>Report Preset: </h4><br />
+					<small>Choose from the report presets or build a custom report.</small><br /><br />
+					<select class="form-control" ng-model="reportPreset" ng-options="option as option.label for option in reportPresetOptions"></select>
 				</div>
 
 				<div id="report-filters" class="clearfix">
-					<div ng-show="reportType.value == 'monthly-activity-report' || reportType.value == 'monthly-expense-report'">
-						<h4>Report Month</h4>
+					<div ng-show="reportPreset.value == 'monthly'">
+						<h5>Report Month</h5>
 						<div class="form-field one-half">
 							<label>Month:</label>
 							<select class="form-control" ng-model="reportMonth" ng-options="availReportMonths.indexOf(month) as month for month in availReportMonths"></select>
@@ -71,7 +78,7 @@
 						</div>
 					</div>
 
-					<div ng-show="reportType.value == 'district-report'">
+					<div ng-show="reportPreset.value == 'district'">
 						<h4>Report District</h4>
 						<div class="form-field">
 							<label>District:</label>
@@ -88,12 +95,13 @@
 						</div>
 					</div>
 
-					<div ng-show="reportType.value == 'custom-report'">
+					<div ng-show="reportPreset.value == 'custom'">
 						<h4>Filters <span class="subtitle">Only show report data based on these filters.</span></h4>
 						<button class="round-controls btn-add" ng-click="addReportFilter($event)">+</button>
 						<div class="report-filters">
 							<label>Filter By:</label>
 							<ul class='list-unstyled'>
+								{[reportFilters]}
 								<li ng-repeat="filter in reportFilters" class="clearfix">
 									<filter-select init-val="filter.filterSelect"></filter-select>
 								</li>

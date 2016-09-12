@@ -18,6 +18,11 @@
 		</div>
 	</div>
 
+	<div class="filter-details" ng-show="filter.filterSelect.value == 'user'">
+		<label>User:</label>
+		<select class="form-control" ng-model="filter.reportUser" ng-options="user as user.name for user in allUsers"></select>
+	</div>
+
 	<div class="filter-details" ng-show="filter.filterSelect.value == 'district'">
 		<label>District:</label>
 		<select class="form-control" ng-model="filter.reportDistrict" ng-options="district as district.name for district in allDistricts"></select>

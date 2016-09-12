@@ -1,7 +1,7 @@
 module.exports = ['$log', '$location', '$http', '$window', '$routeParams', 'helpers', function($log, $location, $http, $window, $routeParams, helpers) {
 	var rison = require('rison');
 	return {
-		buildReportURL: function($reportType, $reportTitle, $getPostType, $reportFilters, $widgets) {
+		buildReportURL: function($reportType, $reportPreset, $reportTitle, $reportFilters, $widgets) {
 			var $widgets = typeof $widgets !== 'undefined' ? $widgets : null;
 			var risonWidgetData;
 			var editingID = null;
@@ -11,8 +11,8 @@ module.exports = ['$log', '$location', '$http', '$window', '$routeParams', 'help
 			var curPath = $location.path();
 			var newUrl = curPath + '?';
 
-			newUrl += 'reportType=' + JSON.stringify($reportType);
-			newUrl += '&postType=' + encodeURI($getPostType);
+			newUrl += 'reportType=' + encodeURI($reportType);
+			newUrl += '&reportPreset=' + JSON.stringify($reportPreset);
 			newUrl += '&reportTitle=' + encodeURI($reportTitle);
 			newUrl += '&reportFilters=' + encodeURI($reportFilters);
 
@@ -22,13 +22,12 @@ module.exports = ['$log', '$location', '$http', '$window', '$routeParams', 'help
 				var widgetsObj = {};
 
 				for(var i=0, l=$widgets.length; i<l; i++) {
-					// risonWidgetData = rison.encode($widgets[i]);
-					// $log.log(risonWidgetData);
 					widgetsObj[$widgets[i].id] = $widgets[i];
 				}
 
 				newUrl += rison.encode(widgetsObj) + '&';
 			}
+
 			if (editingID) {
 				newUrl += '&edit=' + editingID;
 			}
@@ -61,11 +60,11 @@ module.exports = ['$log', '$location', '$http', '$window', '$routeParams', 'help
 				}
 
 				reportData = {
-					reportType: JSON.parse(urlParams.reportType),
-					getPostType: decodeURI(urlParams.postType),
+					reportType: decodeURI(urlParams.reportType),
+					reportPreset: JSON.parse(urlParams.reportPreset),
 					reportTitle: decodeURI(urlParams.reportTitle),
 					reportFilters: $filter,
-					reportWidgets: $widgetsArr
+					reportWidgets: $widgetsArr,
 				};
 				$callback(reportData);
 			}
