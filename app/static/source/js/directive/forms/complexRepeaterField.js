@@ -3,7 +3,7 @@
  */
 'use strict';
 
-module.exports = ['$http', '$log', '$timeout', '$filter', function($http, $log, $timeout, $filter) {
+module.exports = ['$http', '$log', '$timeout', '$filter', 'config', function($http, $log, $timeout, $filter, config) {
 	var tpl = "<div><label ng-if='label' for='{[ fieldName ]}'>{[ label ]}</label> \
 		<input id='{[ fieldName ]}' name='{[ fieldName ]}' type='text' ng-hide='true' ng-model='serializedFieldVal'> \
 		<table class='ui table'><thead><tr><th ng-repeat='f in fields track by $index'><strong>{[ f.field_label ]}</strong></th><th><button type='button' class='repeater-add btn btn-default' ng-click='addItem(\"{[ fieldName ]}\")' aria-label='Add Item' title='Add Item'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span></button></th></tr></thead> \
@@ -61,7 +61,11 @@ module.exports = ['$http', '$log', '$timeout', '$filter', function($http, $log, 
 						if (filtered) {
 							filter = $scope.fields[$j]['filter'];
 							if (filter) {
-								fieldVal = $filter(filter)(fieldVal);
+								if (filter === 'date') {
+									fieldVal = $filter(filter)(fieldVal, config.dateFormat, config.dateOffset);
+								} else {
+									fieldVal = $filter(filter)(fieldVal);
+								}
 							}
 						}
 						$rowsArr[$i][$j] = fieldObj;

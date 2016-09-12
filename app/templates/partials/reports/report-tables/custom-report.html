@@ -1,0 +1,18 @@
+<h3>{[ $parent.reportTitle ]}</h3>
+<table class="activity-report-table table table-striped table-hover table-responsive table-bordered">
+	<thead>
+		<tr>
+			<th>Activity Log Title</th>
+			<th>Start Date</th>
+			<th>End Date</th>
+		</tr>
+	</thead>
+	<tbody>
+
+		<tr ng-repeat="row in $parent.logs_data">
+			<td>{[ row.name ]}</td>
+			<td>{[ row.activity_date_start | date ]}</td>
+			<td>{[ row.activity_date_end | date ]}</td>
+		</tr>
+	</tbody>
+</table>

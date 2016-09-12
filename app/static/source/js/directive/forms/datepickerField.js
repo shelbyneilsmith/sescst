@@ -31,9 +31,9 @@ module.exports = ['$http', '$log', '$timeout', '$filter', function($http, $log, 
 				} else {
 					$scope.dateInput = new Date();
 				}
-				// $scope.$watch('dateInput', function(newValue) {
-				// 	$log.log($scope.dateInput);
-				// });
+				$scope.$watch('dateInput', function(newValue) {
+					$scope.model = $scope.dateInput;
+				});
 			}
 
 

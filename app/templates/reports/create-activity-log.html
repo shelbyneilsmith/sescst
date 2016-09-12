@@ -8,7 +8,7 @@
 	<sidebar></sidebar>
 	<div id="app-main" class="col-md-9">
 		<div class="container-fluid" ng-controller="ActivityLogFormCtrl">
-			<h2>Create New Activity Report</h2>
+			<h2>Create New Activity Log</h2>
 			<form action="" method="post" name="create-activity-log">
 				{{ activity_log_form.hidden_tag() }}
 				<fieldset class="form-group">
@@ -61,13 +61,13 @@
 					</div>
 
 					<div class="form-field">
-						{{ form_macros.repeater_field(expense_sheet_form, "itemized_meals", expense_sheet_form.itemized_meals, "[{'field_id': 'meal', field_type: 'text', field_label: 'Meal', filter: ''}, {'field_id': 'place', field_type: 'text', field_label: 'Place', filter: ''}, {'field_id': 'cost', field_type: 'money', field_label: 'Cost', filter: 'currency'}]") }}
+						{{ form_macros.repeater_field(expense_sheet_form, "itemized_meals", expense_sheet_form.itemized_meals, "[{'field_id': 'meal', field_type: 'text', field_label: 'Meal', filter: ''}, {'field_id': 'place', field_type: 'text', field_label: 'Place', filter: ''}, {'field_id': 'cost', field_type: 'money', field_label: 'Cost', filter: 'currency'}, {'field_id': 'meal_date', field_type: 'date', field_label: 'Date', filter: 'date'}]") }}
 						<br />
 						<span><em>Only reimbursed for overnight stays</em></span>
 					</div>
 
 					<div class="form-field">
-						{{ form_macros.repeater_field(expense_sheet_form, "hotel_reimbursement", expense_sheet_form.hotel_reimbursement, "[{'field_id': 'hotel_name', field_type: 'text', field_label: 'Hotel Name', filter: ''}, {'field_id': 'location', field_type: 'text', field_label: 'Location', filter: ''}, {'field_id': 'cost', field_type: 'money', field_label: 'Cost', filter: 'currency'}]") }}
+						{{ form_macros.repeater_field(expense_sheet_form, "hotel_reimbursement", expense_sheet_form.hotel_reimbursement, "[{'field_id': 'hotel_name', field_type: 'text', field_label: 'Hotel Name', filter: ''}, {'field_id': 'location', field_type: 'text', field_label: 'Location', filter: ''}, {'field_id': 'cost', field_type: 'money', field_label: 'Cost', filter: 'currency'}, {'field_id': 'hotel_date', field_type: 'date', field_label: 'Date', filter: 'date'}]") }}
 					</div>
 
 					<div class="form-field">

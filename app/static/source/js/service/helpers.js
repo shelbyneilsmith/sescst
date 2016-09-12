@@ -4,7 +4,7 @@
 'use strict';
 
 module.exports = angular.module('helper-services', [])
-	.factory('helpers', ['$http', '$log', function($http, $log) {
+	.factory('helpers', ['$http', '$log', '$q', function($http, $log, $q) {
 		return {
 			getCurrentUser: function(callback) {
 				$http.get('/api/get_cur_user')
@@ -44,6 +44,20 @@ module.exports = angular.module('helper-services', [])
 						$log.log(error);
 					});
 			},
+			getDeferredPosts: function(post_type, filter, callback) {
+				var deferred = $q.defer();
+				$http.post('/api/get_posts', {"post_type": post_type, "post_filter": filter})
+					.then(function(results) {
+						// $log.log(results);
+						callback(results.data.posts, function(returnData) {
+							deferred.resolve(returnData);
+						});
+					}, function(error) {
+						$log.log(error);
+					});
+
+				return deferred.promise;
+			},
 			isJson: function(str) {
 				try {
 					JSON.parse(str);
@@ -51,6 +65,19 @@ module.exports = angular.module('helper-services', [])
 					return false;
 				}
 				return true;
+			},
+			dateToPDateTime: function(date) {
+				Number.prototype.padLeft = function(base,chr){
+					var  len = (String(base || 10).length - String(this).length)+1;
+					return len > 0? new Array(len).join(chr || '0')+this : this;
+				}
+				var datetime = [date.getFullYear(),
+						(date.getMonth()+1).padLeft(),
+						date.getDate().padLeft()].join('-')+' '+
+						[date.getHours().padLeft(),
+						date.getMinutes().padLeft(),
+						date.getSeconds().padLeft()].join(':');
+               			return datetime;
 			},
 			getObjByValue: function(arr, value) {
 				var o;
@@ -71,6 +98,15 @@ module.exports = angular.module('helper-services', [])
 					if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
 				}
 				return copy;
+			},
+			arrayClean: function(arr, deleteValue) {
+				for (var i = 0; i < arr.length; i++) {
+					if (arr[i] === deleteValue) {
+						arr.splice(i, 1);
+						i--;
+					}
+				}
+				return arr;
 			},
 			getURLParameter: function(name) {
 				return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(window.location.href) || [null, ''])[1].replace(/\+/g, '%20')) || null;
@@ -96,6 +132,28 @@ module.exports = angular.module('helper-services', [])
 				} else {
 					return url;
 				}
+			},
+			getTotalExpenses: function(postData, globalSettings) {
+				var expense_total = 0;
+				expense_total += (postData.total_mileage * (globalSettings.mileage_reimbursement * 0.01));
+				/// HOW DOES CELL REIMBURSEMENT FIT IN??
+				var expense_repeaters = [];
+
+				expense_repeaters.push(typeof postData.itemized_meals === "string" ? JSON.parse(postData.itemized_meals) : postData.itemized_meals);
+				expense_repeaters.push(typeof postData.hotel_reimbursement === "string" ? JSON.parse(postData.hotel_reimbursement) : postData.hotel_reimbursement);
+				expense_repeaters.push(typeof postData.other_reimbursement === "string" ? JSON.parse(postData.other_reimbursement) : postData.other_reimbursement);
+
+				for (var i=0, l=expense_repeaters.length; i<l; i++) {
+					for(var r=0, rl=expense_repeaters[i]['field_rows'].length; r<rl; r++) {
+						for (var f=0, fl=expense_repeaters[i]['field_rows'][r].length; f<fl; f++) {
+							if ((expense_repeaters[i]['field_rows'][r][f]['field_id'] === 'cost') || (expense_repeaters[i]['field_rows'][r][f]['field_id'] === 'item_cost')) {
+								expense_total += expense_repeaters[i]['field_rows'][r][f]['field_val'];
+							}
+						}
+					}
+				}
+
+				return expense_total;
 			},
 		};
 	}]);

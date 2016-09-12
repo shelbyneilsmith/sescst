@@ -3,7 +3,7 @@
  */
 'use strict';
 
-module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers', function($compile, $http, $log, $timeout, $filter, helpers) {
+module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers', 'config', function($compile, $http, $log, $timeout, $filter, helpers, config) {
 	var tpl = "<form class='post-field' ng-submit='savePostField()'> \
 		<ng-include src='fieldInclude'></ng-include> \
 		<a ng-show='editMode' class='btn small btn-primary save-link' ng-click='savePostField()'>Save</a> \
@@ -57,7 +57,7 @@ module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers',
 							inDataVal = newValue.initValue;
 						}
 						if ($scope.fieldType === 'datetime') {
-							inDataVal = $filter('date')(newValue.initValue, "MMM d, y", '+0500');
+							inDataVal = $filter('date')(newValue.initValue, config.dateFormat, config.dateOffset);
 						}
 
 						$scope.fieldData = {displayValue: inDataVal, value: inDataVal, newValue: '', oldValue: null, selectOptions: $scope.selectOptions};
@@ -170,6 +170,9 @@ module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers',
 						}
 					}
 
+				}
+				if (scope.formattedOutput) {
+					scope.fieldData.displayValue = scope.formattedOutput;
 				}
 
 				scope.editMode = false;

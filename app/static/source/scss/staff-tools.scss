@@ -15,7 +15,8 @@
 
 html, body {
 	background: #ededed;
-	font-family: "Roboto", sans-serif;;
+	font-family: "Roboto", sans-serif;
+	color: #2a2a2a;
 }
 
 
@@ -286,6 +287,11 @@ h1, h2, h3, h4, h5, h6 {
 	margin-bottom: 0;
 }
 
+form-field {
+	.input-group.date {
+		max-width: 300px;
+	}
+}
 .form-field {
 	// margin-bottom: 30px;
 	padding: 20px 20px 25px;
@@ -293,11 +299,26 @@ h1, h2, h3, h4, h5, h6 {
 	transition: background .15s;
 
 	&:hover {
-		background: #e9db61;
+		background: #F0EDD5;
+		color: #2a2a2a;
 	}
 
 	&:first-of-type {
 		border-top: 1px dotted #ddd;
+	}
+
+	&.one-half {
+		float: left;
+		width: 49%;
+		margin-right: 2%;
+
+		&:nth-of-type(even) {
+			margin-right: 0;
+		}
+	}
+
+	input[type=text], input[type=number], input[type=password] {
+		padding: 5px;
 	}
 
 	textarea {
@@ -325,6 +346,23 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
+.blue-box {
+	background: #192560;
+	padding: 20px;
+	color: white;
+
+	.form-field {
+		&:hover {
+			background: #48538A;
+			color: #fff;
+		}
+	}
+
+	input, textarea, select {
+		color: black;
+	}
+}
+
 a {
 	color: #192560;
 	font-weight: bold;
@@ -337,25 +375,15 @@ a {
 }
 
 .btn {
-	border-radius: 0;
-	box-shadow: 0 3px 0 #dedede;
-	border: 0;
-	font-weight: bold;
-	padding: 10px 20px;
-	text-decoration: none;
-	transition: background-color .15s;
-
-	&.small {
-		padding: 5px 10px;
-		font-size: .9em;
+	&.btn-primary, &.btn.btn-success {
+		border-radius: 0;
+		box-shadow: 0 3px 0 #dedede;
+		border: 0;
+		font-weight: bold;
+		padding: 10px 20px;
+		text-decoration: none;
+		transition: background-color .15s;
 	}
-
-	&.large {
-		padding: 15px 30px 13px;
-		font-size: 1.2em;
-		text-transform: uppercase;
-	}
-
 	&.btn-primary {
 		color: #fff;
 		background-color: #192560;
@@ -374,7 +402,46 @@ a {
 			background-color: #e6d54a;
 		}
 	}
+
+	.date .input-group-btn & {
+		border-radius: 0 6px 6px 0;
+		padding: 7px 6px 6px;
+		border: 1px solid #ddd;
+	}
+
+	&.small {
+		padding: 5px 10px;
+		font-size: .9em;
+	}
+
+	&.large {
+		padding: 15px 30px 13px;
+		font-size: 1.2em;
+		text-transform: uppercase;
+	}
 }
+
+.clear {
+	clear: both;
+}
+
+.faded.ng-hide {
+	opacity: 0;
+}
+
+.faded.ng-hide-remove,
+.faded.ng-hide-add {
+	display: block !important;
+}
+
+.faded.ng-hide-remove {
+	transition: all linear 600ms;
+}
+
+.faded.ng-hide-add {
+	transition: all linear 400ms;
+}
+
 
 // App Settings
 .app-setting-panel {
@@ -397,24 +464,59 @@ a {
 }
 
 
+.print-btn {
+	float: right;
+	margin-top: 10px;
+}
+
 //report builder styles
-#report-type-form {
+#report-output {
+	.report-title {
+		float: left;
+	}
+
+}
+
+#widget-type-form {
 	border-top: 1px solid #ddd;
 	padding-top: 15px;
 	clear: both;
 }
 
+#report-filters {
+	margin-bottom: 30px;
+
+	h4 {
+		float: left;
+		 & + .form-field {
+			clear: both;
+		}
+	}
+
+	.btn-add {
+		margin-top: 20px;
+	}
+
+	.report-filters {
+		clear: both;
+	}
+
+}
+
 .results {
+	clear: both;
 	margin-top: 30px;
 	margin-bottom: 30px;
+	float: left;
+	width: 100%;
 }
 
 .report-widget {
 	padding: 20px;
 	border: 1px solid #ddd;
-	width: 48.5%;
+	width: 49.25%;
 	margin-right: 1.5%;
-	margin-bottom: 3%;
+	margin-bottom: 1.5%;
 	float: left;
 
 	&:nth-of-type(even) {
@@ -449,7 +551,7 @@ a {
 	}
 }
 
-.widget-filters, .widget-metrics {
+.report-filters, .widget-filters, .widget-metrics {
 
 	li {
 		margin-bottom: 5px;
@@ -518,6 +620,112 @@ a {
 		padding-bottom: 15px;
 		max-height: 999px;
 	}
+}
+
+.filter-details {
+	clear: both;
+	float: left;
+	margin-top: 10px;
+	margin-bottom: 30px;
+	width: 100%;
+
+	label {
+		width: 100%;
+	}
+}
+
+.chart-add-btn {
+	float: right;
+	margin-top: 15px;
+}
+
+.widget-create {
+	font-size: .8em;
+	padding: 10px 20px;
+
+	.widget-create-toggle {
+		width: 100%;
+		text-align: center;
+		font-size: 1.1em;
+		font-weight: 700;
+		text-transform: uppercase;
+		cursor: pointer;
+		display: block;
+	}
+
+	.widget-create-controls {
+		transition: all .25s;
+		overflow: hidden;
+
+		& > div {
+			clear: both;
+		}
+
+		&.open {
+			max-height: 900px;
+		}
+
+		&.closed {
+			max-height: 0;
+		}
+	}
+
+	.btn.small {
+		font-size: 1.2em;
+	}
+
+	.form-field {
+		padding: 10px 10px 15px;
+	}
+
+	.form-control {
+		height: 21px;
+		font-size: 12px;
+	}
+
+	.date .input-group-btn .btn {
+		border-radius: 0 3px 3px 0;
+		padding: 0px 4px;
+
+		i {
+			font-size: 11px;
+		}
+	}
+}
+
+.chart-metrics {
+	label {
+		display: block;
+	}
+}
+
+.activity-report-table {
+	font-size: .9em;
+
+	th.sortable {
+		cursor: pointer;
+
+		span.sortorder {
+			opacity: 0;
+		}
+
+		&:hover {
+			span.sortorder {
+				opacity: 1;
+			}
+		}
+	}
+
+	ul {
+		padding: 0 20px;
+	}
+}
+
+.sortorder:after {
+	content: '\25b2';   // BLACK UP-POINTING TRIANGLE
+}
+.sortorder.reverse:after {
+	content: '\25bc';   // BLACK DOWN-POINTING TRIANGLE
 }
 
 /* Sticky footer styles

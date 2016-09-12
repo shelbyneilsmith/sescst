@@ -1,4 +1,5 @@
 <h1>Expense Sheet for: {[ postData.activity_log.name ? postData.activity_log.name : postData.expense_sheet_start | date : "MMM d, y" : '+0500' ]}</h1>
+<a class="print-btn" href="javascript:window.print()" title="Print Report"><span class="glyphicon glyphicon-print"></span></a>
 <a href="/#/post?id={[ postData.activity_log.id ]}&amp;post_type=Activity_Log">View Activity Log for this Expense Sheet</a>
 <hr />
 
@@ -19,7 +20,7 @@
 
 	<li><strong>Cell Phone Reimbursement: </strong>{[ globalSettings.cell_reimbursement | currency ]}</li>
 
-	<li class="hover-link"><postfield admin-only='false' type='repeater' field-data='{ initValue: postData.itemized_meals }' label='Itemized Meals' keys='"itemized_meals"'></postfield></li>
+	<li class="hover-link"><postfield formatted-output="{[ postData.itemized_meals | repeaterTotal : 'cost' : 30 : 'currency' ]}" admin-only='false' type='repeater' field-data='{ initValue: postData.itemized_meals }' label='Total Meals Compensation' keys='"itemized_meals"'></postfield></li>
 	<li class="hover-link"><postfield admin-only='false' type='repeater' field-data='{ initValue: postData.hotel_reimbursement }' label='Hotel Reimbursement' keys='"hotel_reimbursement"'></postfield></li>
 	<li class="hover-link"><postfield admin-only='false' type='repeater' field-data='{ initValue: postData.other_reimbursement }' label='Other Reimbursements' keys='"other_reimbursement"'></postfield></li>
 

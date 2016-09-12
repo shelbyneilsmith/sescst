@@ -13,7 +13,7 @@ class RegisterUserForm(Form):
 	first_name = TextField('First Name')
 	last_name = TextField('Last Name')
 	email = EmailField('Email Address', [Required(message='Please enter your email address.'), Email(message='This field requires a valid email address.')])
-	salary = IntegerField('Salary')
+	salary = IntegerField('Employee Total Cost')
 	contract_days = IntegerField('Contract Days')
 	cell_reimbursement = TextField('Cell Reimbursement Rate')
 	password = PasswordField('Password', [Required(message='Please enter a password.')])

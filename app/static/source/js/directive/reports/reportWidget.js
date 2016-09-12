@@ -6,27 +6,28 @@ module.exports = ['$timeout', 'WidgetTable', 'WidgetChart', '$log', 'helpers', '
 		controller: function($scope) {
 			$scope.widgetTitleEdit = false;
 			$scope.widgetTypeEdit = false;
-			$scope.filtersCollapsed = true;
+			// $scope.filtersCollapsed = true;
 			$scope.metricsCollapsed = true;
 
-			$scope.filters = [{'id': 'filter1', 'filterSelect': $scope.widgetFilterOpts[0]}];
-			$scope.metrics = [{'id': 'metric1', 'metricSelect': $scope.widgetMetricOpts[0]}];
+			// $scope.filters = $scope.widget.filters !== 'undefined' ? $scope.widget.filters : [{'id': 'filter1', 'filterSelect': $scope.widgetFilterOpts[0]}];
+			// $scope.metrics = $scope.widget.metrics !== 'undefined' ? $scope.widget.metrics :  [{'id': 'metric1', 'metricSelect': $scope.widgetMetricOpts[0]}];
+			// $scope.metrics = $scope.widget.metrics !== 'undefined' ? $scope.widget.metrics :  [$scope.widgetMetricOpts[0]];
+			$scope.metrics = $scope.widget.metrics !== 'undefined' ? $scope.widget.metrics : [$scope.widgetMetricOpts[0]];
+			// $log.log($scope.metrics);
 
 		},
 		link: function(scope, element, attrs) {
-			// scope.chartElem;
+
+			// scope.addWidgetFilter = function() {
+			// 	var newItemNo = scope.filters.length + 1;
+			// 	scope.filters.push({'id':'filter'+newItemNo, 'filterSelect':scope.widgetFilterOpts[0]});
+			// };
 
 
-			scope.addWidgetFilter = function() {
-				var newItemNo = scope.filters.length + 1;
-				scope.filters.push({'id':'filter'+newItemNo, 'filterSelect':scope.widgetFilterOpts[0]});
-			};
-
-
-			scope.addWidgetMetric = function() {
-				var newItemNo = scope.filters.length + 1;
-				scope.metrics.push({'id':'metric'+newItemNo, 'metricSelect':scope.widgetMetricOpts[0]});
-			};
+			// scope.addWidgetMetric = function() {
+			// 	var newItemNo = scope.filters.length + 1;
+			// 	scope.metrics.push({'id':'metric'+newItemNo, 'metricSelect':scope.widgetMetricOpts[0]});
+			// };
 
 
 			var getMetricPT = function(input) {
@@ -57,23 +58,26 @@ module.exports = ['$timeout', 'WidgetTable', 'WidgetChart', '$log', 'helpers', '
 				scope.chartData = [];
 				var filterStr = '';
 
-				var filters = [];
+				// var filters = [];
 
-				if(!filtersLength) {
-					for (var f=0, fl=scope.filters.length; f<fl; f++) {
-						filters.push(scope.filters[f].filterSelect);
-					}
-					scope.widget.filters = filters;
-				} else {
-					filters = scope.widget.filters;
-				}
+				// if(!filtersLength) {
+				// 	for (var f=0, fl=scope.filters.length; f<fl; f++) {
+				// 		filters.push(scope.filters[f].filterSelect);
+				// 	}
+				// 	scope.widget.filters = filters;
+				// } else {
+				// 	filters = scope.widget.filters;
+				// }
 
 
 				var metrics = [];
 
 				if(!metricsLength) {
 					for (var m=0, ml=scope.metrics.length; m<ml; m++) {
-						metrics.push(scope.metrics[m].metricSelect);
+						// if (scope.metrics[m] && typeof scope.metrics[m] !== 'undefined') {
+							// metrics.push(scope.metrics[m].metricSelect);
+							metrics.push(scope.metrics[m]);
+						// }
 					}
 					scope.widget.metrics = metrics;
 				} else {
@@ -105,11 +109,12 @@ module.exports = ['$timeout', 'WidgetTable', 'WidgetChart', '$log', 'helpers', '
 
 				if (metrics) {
 					for (var m=0, ml=metrics.length; m<ml; m++) {
+						if (metrics[m] && typeof metrics[m] !== 'undefined') {
+							metricPT = getMetricPT(metrics[m].value);
 
-						metricPT = getMetricPT(metrics[m].value);
-
-						// postData = getPosts(metricPT, filterStr, postDataCallback(metricObj));
-						helpers.getPosts(metricPT, filterStr, chartDataCallback(metrics[m]));
+							// postData = getPosts(metricPT, filterStr, postDataCallback(metricObj));
+							helpers.getPosts(metricPT, filterStr, chartDataCallback(metrics[m]));
+						}
 					}
 				}
 
@@ -120,24 +125,26 @@ module.exports = ['$timeout', 'WidgetTable', 'WidgetChart', '$log', 'helpers', '
 			scope.updateWidgetTitle = function(action) {
 				if (action === 'save') {
 					scope.widget.title = scope.widgetNewTitle;
-					ReportUtils.buildReportURL(scope.$parent.widgets);
+					ReportUtils.buildReportURL(scope.$parent.reportType, scope.$parent.reportTitle, scope.$parent.getPostType, scope.$parent.reportFilter, scope.$parent.widgets);
 				} else if (action === 'cancel') {
 					scope.widgetNewTitle = scope.widget.title;
 				}
 				scope.widgetTitleEdit = false;
 			};
 
-			scope.updateWidgetType = function() {
-				var type = scope.selectedWidgetType;
-				scope.widget.type = type.value;
-				scope.widget.typeLabel = type.label;
+			scope.updateWidgetType = function(action) {
+				if (action === 'save') {
+					var type = scope.selectedWidgetType;
+					scope.widget.type = type.value;
+					scope.widget.typeLabel = type.label;
+					scope.updateWidget();
+				}
 				scope.widgetTypeEdit = false;
-				scope.updateWidget();
 			};
 
 			scope.updateWidget = function(initFiltersNum, initMetricsNum) {
 				renderWidgetData(initFiltersNum, initMetricsNum);
-				ReportUtils.buildReportURL(scope.$parent.widgets);
+				ReportUtils.buildReportURL(scope.$parent.reportType, scope.$parent.reportTitle, scope.$parent.getPostType, scope.$parent.reportFilter, scope.$parent.widgets);
 			};
 
 			scope.widgetInit = function() {
@@ -146,18 +153,23 @@ module.exports = ['$timeout', 'WidgetTable', 'WidgetChart', '$log', 'helpers', '
 					var filtersLength = typeof scope.widget.filters !== 'undefined' ? scope.widget.filters.length : 0;
 					var metricsLength = typeof scope.widget.metrics !== 'undefined' ? scope.widget.metrics.length : 0;
 
-					if(filtersLength) {
-						scope.filters = [];
-						for(var f=0; f<filtersLength; f++) {
-							widgetFilterOpt = helpers.getObjByValue(scope.widgetFilterOpts, scope.widget.filters[f].value);
-							scope.filters.push({'id':'filter'+f, 'filterSelect':widgetFilterOpt});
-						}
-					}
+					// if(filtersLength) {
+					// 	scope.filters = [];
+					// 	for(var f=0; f<filtersLength; f++) {
+					// 		widgetFilterOpt = helpers.getObjByValue(scope.widgetFilterOpts, scope.widget.filters[f].value);
+					// 		scope.filters.push({'id':'filter'+f, 'filterSelect':widgetFilterOpt});
+					// 	}
+					// }
 					if(metricsLength) {
 						scope.metrics = [];
 						for(var m=0; m<metricsLength; m++) {
-							widgetMetricOpt = helpers.getObjByValue(scope.widgetMetricOpts, scope.widget.metrics[m].value);
-							scope.metrics.push({'id':'metric'+m, 'metricSelect':widgetMetricOpt});
+							if (scope.widget.metrics[m] && typeof scope.widget.metrics[m] !== 'undefined') {
+								widgetMetricOpt = helpers.getObjByValue(scope.widgetMetricOpts, scope.widget.metrics[m].value);
+							} else {
+								widgetMetricOpt = null;
+							}
+							// scope.metrics.push({'id':'metric'+m, 'metricSelect':widgetMetricOpt});
+							scope.metrics.push(widgetMetricOpt);
 						}
 					}
 

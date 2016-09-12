@@ -4,12 +4,13 @@
  */
 'use strict';
 
-module.exports = ['$scope', '$http', '$log', '$window', 'helpers', function($scope, $http, $log, $window, helpers) {
-
+module.exports = ['$scope', '$http', '$log', '$window', 'helpers', '$location', '$timeout', '$q', function($scope, $http, $log, $window, helpers, $location, $timeout, $q) {
 
 	$scope.changeSettingPanel = function(panelID) {
 		$scope.curPanel = panelID;
+		$location.url(panelID);
 	};
+
 
 	$scope.curAppSettings = {};
 	helpers.getPosts('AppSettings', '', function(results) {
@@ -24,49 +25,49 @@ module.exports = ['$scope', '$http', '$log', '$window', 'helpers', function($sco
 		}
 	});
 
-	$scope.curRoles = [];
-	helpers.getPosts('Role', '', function(results) {
-		if (results) {
-			for (var i = 0, l = results.length; i < l; i++) {
-				$scope.curRoles.push({"name": results[i].name, "description": results[i].description});
+	$scope.getAppSettings = function(model, outputStructure) {
+		var deferred = $q.defer();
+
+		helpers.getPosts(model, '', function(results) {
+			if (results) {
+				var settingsObj, settingsOutputArr = [];
+
+				// loop through setting results
+				for (var i = 0, l = results.length; i < l; i++) {
+					settingsObj = {};
+					// loop through output structure array
+					for (var o=0, ol=outputStructure.length; o < ol; o++) {
+						settingsObj[outputStructure[o]] = results[i][outputStructure[o]];
+					}
+
+					settingsOutputArr.push(settingsObj);
+				}
+
+				deferred.resolve(settingsOutputArr);
 			}
-		}
+		});
+
+		return deferred.promise;
+	}
+
+	$scope.getAppSettings('Role', ['name', 'description']).then(function(result) {
+		$scope.curRoles = result;
 	});
 
-	$scope.curActivityTypes = [];
-	helpers.getPosts('Activity_Type', '', function(results) {
-		if (results) {
-			for (var i = 0, l = results.length; i < l; i++) {
-				$scope.curActivityTypes.push({"name": results[i].name, "description": results[i].description});
-			}
-		}
+	$scope.getAppSettings('Activity_Type', ['name', 'description']).then(function(result) {
+		$scope.curActivityTypes = result;
 	});
 
-	$scope.curSchoolTypes = [];
-	helpers.getPosts('School_Type', '', function(results) {
-		if (results) {
-			for (var i = 0, l = results.length; i < l; i++) {
-				$scope.curSchoolTypes.push({"name": results[i].name});
-			}
-		}
+	$scope.getAppSettings('School_Type', ['name']).then(function(result) {
+		$scope.curSchoolTypes = result;
 	});
 
-	$scope.curSchoolLevels = [];
-	helpers.getPosts('School_Level', '', function(results) {
-		if (results) {
-			for (var i = 0, l = results.length; i < l; i++) {
-				$scope.curSchoolLevels.push({"name": results[i].name});
-			}
-		}
+	$scope.getAppSettings('School_Level', ['name']).then(function(result) {
+		$scope.curSchoolLevels = result;
 	});
 
-	$scope.curDistrictSchoolServices = [];
-	helpers.getPosts('Location_Service', '', function(results) {
-		if (results) {
-			for (var i = 0, l = results.length; i < l; i++) {
-				$scope.curDistrictSchoolServices.push({"name": results[i].name});
-			}
-		}
+	$scope.getAppSettings('Location_Service', ['name']).then(function(result) {
+		$scope.curDistrictSchoolServices = result;
 	});
 
 	$scope.saveAppSettings = function() {

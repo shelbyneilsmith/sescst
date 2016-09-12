@@ -22,25 +22,7 @@ module.exports = ['$scope', '$routeParams', '$http', '$log', '$filter', 'helpers
 
 		// Reimbursement Totals for Expense Sheets
 		if ($scope.postType === 'Expense_Sheet') {
-			var expense_total = 0;
-			expense_total += ($scope.postData.total_mileage * ($scope.globalSettings.mileage_reimbursement * 0.01));
-			/// HOW DOES CELL REIMBURSEMENT FIT IN??
-			var expense_repeaters = [
-				$scope.postData.itemized_meals,
-				$scope.postData.hotel_reimbursement,
-				$scope.postData.other_reimbursement,
-			];
-			for (var i=0, l=expense_repeaters.length; i<l; i++) {
-				for(var r=0, rl=expense_repeaters[i]['field_rows'].length; r<rl; r++) {
-					for (var f=0, fl=expense_repeaters[i]['field_rows'][r].length; f<fl; f++) {
-						if ((expense_repeaters[i]['field_rows'][r][f]['field_id'] === 'cost') || (expense_repeaters[i]['field_rows'][r][f]['field_id'] === 'item_cost')) {
-							expense_total += expense_repeaters[i]['field_rows'][r][f]['field_val'];
-						}
-					}
-				}
-			}
-
-			$scope.postData.expense_total = expense_total;
+			$scope.postData.expense_total = helpers.getTotalExpenses($scope.postData, $scope.globalSettings);
 		}
 	});
 

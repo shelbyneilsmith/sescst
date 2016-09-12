@@ -68,6 +68,33 @@ module.exports = angular.module('app-filters', [])
 		cellreimformatFilter.$stateful = true;
 		return cellreimformatFilter;
 	}])
+	.filter('repeaterTotal', ['$filter', function($filter) {
+		return function(input, repeaterField, maxVal, totalFilter) {
+			var total = 0;
+			var rows = input.field_rows;
+
+			for (var i=0, rl=rows.length; i<rl; i++) {
+				for (var j=0,ol=rows[i].length; j<ol; j++) {
+					if (rows[i][j].field_id === repeaterField) {
+						total += rows[i][j].field_val;
+					}
+				}
+			}
+
+			if (typeof maxVal !== 'undefined' && total >= maxVal) {
+				if (typeof totalFilter !== 'undefined') {
+					return $filter(totalFilter)(maxVal) + ' (max)';
+				} else {
+					return maxVal + ' (max)';
+				}
+			}
+			if (typeof totalFilter !== 'undefined') {
+				return $filter(totalFilter)(total);
+			} else {
+				return total;
+			}
+		};
+	}])
 	.filter('titleCase', function() {
 		return function(input) {
 			input = input || '';

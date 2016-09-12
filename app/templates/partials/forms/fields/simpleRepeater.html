@@ -1,0 +1,33 @@
+<form class='post-field' ng-submit='addItem()'>
+	<fieldset class='form-group'>
+		<input id='{[ fieldName ]}' name='{[ fieldName ]}' type='text' ng-hide='true' ng-model='inData'><br />
+
+		<table ng-if='curData' class='table table-striped table-hover table-responsive'>
+			<thead>
+				<tr>
+					<th ng-repeat='field in fields track by $index'>{[ field.fieldLabel ]}</th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class='hover-link' ng-repeat='row in curData track by $index'>
+					<td ng-repeat='field in row track by $index'>
+						<span ng-if="!editorFlags[$parent.$index].editing">{[ field ]}</span>
+						<form-field ng-if="editorFlags[$parent.$index].editing" model='row[fields[$index].fieldName]' placeholder='{[ field ]}' type='{[ fields[$index].fieldType ]}'></form-field>
+					</td>
+					<td>
+						<a ng-class='(!editorFlags[$index].editing) ? "edit-link" : ""' ng-click='editItem($index)'>{[ editorFlags[$index].editing ? 'Done Editing' : 'Edit' ]}</a>
+					</td>
+					<td><a class='edit-link' ng-click='removeItem($index)'>Delete</a></td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td ng-repeat='f in fields track by $index'><form-field model='newItem[$index]' placeholder='{[ f.fieldLabel ]}' type='{[ f.fieldType ]}'></form-field></td>
+					<td><a class='btn btn-small btn-primary' ng-click='addItem()'>Add {[ label ]}</a></td>
+					<td>&nbsp;</td>
+				</tr>
+			</tbody>
+		</table>
+	</fieldset>
+</form>

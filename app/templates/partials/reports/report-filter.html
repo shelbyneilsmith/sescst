@@ -1,0 +1,30 @@
+<div class="filter-select">
+	<div class="filter-options">
+		<select class="form-control" ng-init="filter.filterSelect = filter.filterSelect || reportFilterOpts[0]" ng-model="filter.filterSelect" ng-options="option as option.label for option in reportFilterOpts">
+			<option>--select filter control--</option>
+		</select>
+		<button class="round-controls btn-remove" ng-hide="reportFilters.length == 1" ng-click="reportFilters.splice($index, 1)">-</button>
+	</div>
+
+	<div class="filter-details"  ng-show="filter.filterSelect.value == 'date_range'">
+		<h4>Report Date Range</h4>
+		<div class="form-field one-half">
+			<label>Report Start Date:</label>
+			<form-field model='filter.reportStartDate' placeholder='{[ filter.reportStartDate ]}' type='date'></form-field>
+		</div>
+		<div class="form-field one-half">
+			<label>Report End Date:</label>
+			<form-field model='filter.reportEndDate' placeholder='{[ filter.reportEndDate ]}' type='date'></form-field>
+		</div>
+	</div>
+
+	<div class="filter-details" ng-show="filter.filterSelect.value == 'district'">
+		<label>District:</label>
+		<select class="form-control" ng-model="filter.reportDistrict" ng-options="district as district.name for district in allDistricts"></select>
+	</div>
+
+	<div class="filter-details" ng-show="filter.filterSelect.value == 'activity_type'">
+		<label>Activity Type:</label>
+		<select class="form-control" ng-model="filter.reportActivity" ng-options="activity as activity.name for activity in allActivities"></select>
+	</div>
+</div>

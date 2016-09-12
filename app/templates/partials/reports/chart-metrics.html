@@ -1,0 +1,6 @@
+<div class="chart-metrics">
+	<label ng-repeat="metric in $parent.widgetMetricOpts track by $index">
+		<input type="checkbox" ng-model="model[$index]" ng-checked="model[$index]" ng-true-value="{[metric]}" ng-false-value="''">
+		<span>{[ metric.label ]}</span>
+	</label>
+</div>

@@ -42,6 +42,10 @@ angular.module('sescstafftools', [
 	'reports-services',
 	'sescst-report-builder',
 ])
+.constant('config', {
+	dateFormat: 'MMM d, y',
+	dateOffset: '+0500'
+})
 .config(['$interpolateProvider', function($interpolateProvider) {
 	$interpolateProvider.startSymbol('{[');
 	$interpolateProvider.endSymbol(']}');

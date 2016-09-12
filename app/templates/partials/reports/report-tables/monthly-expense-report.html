@@ -1,0 +1,21 @@
+<h3>Monthly Expense Report</h3>
+<table class="activity-report-table table table-striped table-hover table-responsive table-bordered" ng-init="$parent.tableSortInit($parent.reportType)">
+	<thead>
+		<tr>
+			<th class="sortable" ng-click="$parent.sortBy('name')">Expense Sheet Title&nbsp;<span class="sortorder" ng-class="{reverse: $parent.reverse}"></span></th>
+			<th class="sortable" ng-click="$parent.sortBy('user.username')">Created By&nbsp;<span class="sortorder" ng-class="{reverse: $parent.reverse}"></span></th>
+			<th class="sortable" ng-click="$parent.sortBy('expense_sheet_start')">Start Date&nbsp;<span class="sortorder" ng-class="{reverse: $parent.reverse}"></span></th>
+			<th class="sortable" ng-click="$parent.sortBy('expense_sheet_start')">End Date&nbsp;<span class="sortorder" ng-class="{reverse: $parent.reverse}"></span></th>
+			<th class="sortable" ng-click="$parent.sortBy('expense_total')">Expense Total&nbsp;<span class="sortorder" ng-class="{reverse: $parent.reverse}"></span></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="row in $parent.logs_data | orderBy: $parent.propertyName:$parent.reverse">
+			<td>{[ row.activity_log.name ]} - <a href="/#/post?id={[ row.id ]}&post_type=Expense_Sheet">View Expense Sheet</a></td>
+			<td>{[ row.user.username ]}</td>
+			<td>{[ row.expense_sheet_start | date ]}</td>
+			<td>{[ row.expense_sheet_end | date ]}</td>
+			<td><strong>{[ row.expense_total | currency ]}</strong></td>
+		</tr>
+	</tbody>
+</table>

@@ -2,10 +2,12 @@
 # app/views/admin.py
 
 import sys
+from ast import literal_eval
 from flask import Blueprint, render_template, flash, redirect, session, url_for, request, jsonify
 from flask.ext.login import login_required, current_user
 from werkzeug.exceptions import HTTPException
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.sql import or_, and_
 import json
 
 from .. import db, login_required
@@ -67,7 +69,7 @@ def register_account():
 
 
 # view for the application settings page (admins only)
-@admin_bp.route('/admin/settings', methods=["GET", "POST"])
+@admin_bp.route('/admin/settings/', methods=["GET", "POST"])
 @login_required(role='Administrator')
 def admin_page():
 	return render_template('app-settings.html')
@@ -133,6 +135,8 @@ def retrieve_posts(post_type, post_id=None, post_filter=None, schema=False, many
 	else:
 		if post_filter:
 			post_filter = eval(post_filter)
+			if isinstance(post_filter, list):
+				post_filter = and_(*[x for x in post_filter])
 
 			posts = classy_pt.query.filter(post_filter).all()
 		else:

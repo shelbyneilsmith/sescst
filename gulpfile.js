@@ -39,7 +39,7 @@ gulp.task('lint', function() {
 gulp.task('styles', function() {
     var sourcemaps = require('gulp-sourcemaps');
 
-    return sass(paths.css.src + '/**/*.scss', { sourcemap: true, require: ['susy'], })
+    return sass(paths.css.src + '/**/*.scss', { sourcemap: true, })
         .pipe(sourcemaps.init())
         .on('error', function (err) {
             console.error('Error!', err.message);
@@ -53,7 +53,7 @@ gulp.task('styles', function() {
 });
 
 gulp.task('styles-dist', function() {
-    return sass(paths.css.src + '/**/*.scss', { style: 'compressed', require: ['susy'] })
+    return sass(paths.css.src + '/**/*.scss', { style: 'compressed' })
         .pipe(minifycss())
         .pipe(rename({suffix: '.min'}))
         .pipe(autoprefixer('last 2 version'))
