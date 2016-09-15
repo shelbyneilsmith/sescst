@@ -30,11 +30,11 @@ module.exports = ['$timeout', 'WidgetTable', 'WidgetChart', '$log', 'helpers', '
 			// };
 
 
-			var getMetricPT = function(input) {
+			var getXMetricPT = function(input) {
 				var postType;
 
 				switch(input) {
-					case 'consultants':
+					case 'users':
 						postType = "User";
 						break;
 					case 'schools':
@@ -54,7 +54,8 @@ module.exports = ['$timeout', 'WidgetTable', 'WidgetChart', '$log', 'helpers', '
 			};
 
 
-			var renderWidgetData = function(filtersLength, metricsLength) {
+			// var renderWidgetData = function(filtersLength, metricsLength) {
+			var renderWidgetData = function() {
 				scope.chartData = [];
 				var filterStr = '';
 
@@ -72,17 +73,17 @@ module.exports = ['$timeout', 'WidgetTable', 'WidgetChart', '$log', 'helpers', '
 
 				var metrics = [];
 
-				if(!metricsLength) {
-					for (var m=0, ml=scope.metrics.length; m<ml; m++) {
-						// if (scope.metrics[m] && typeof scope.metrics[m] !== 'undefined') {
-							// metrics.push(scope.metrics[m].metricSelect);
-							metrics.push(scope.metrics[m]);
-						// }
-					}
-					scope.widget.metrics = metrics;
-				} else {
-					metrics = scope.widget.metrics;
-				}
+				// if(!metricsLength) {
+				// 	for (var m=0, ml=scope.metrics.length; m<ml; m++) {
+				// 		// if (scope.metrics[m] && typeof scope.metrics[m] !== 'undefined') {
+				// 			// metrics.push(scope.metrics[m].metricSelect);
+				// 			metrics.push(scope.metrics[m]);
+				// 		// }
+				// 	}
+				// 	scope.widget.metrics = metrics;
+				// } else {
+				// 	metrics = scope.widget.metrics;
+				// }
 
 				var postData, metricPT, metricObj, chartDataArr = [];
 
@@ -110,10 +111,10 @@ module.exports = ['$timeout', 'WidgetTable', 'WidgetChart', '$log', 'helpers', '
 				if (metrics) {
 					for (var m=0, ml=metrics.length; m<ml; m++) {
 						if (metrics[m] && typeof metrics[m] !== 'undefined') {
-							metricPT = getMetricPT(metrics[m].value);
+							metricXPT = getXMetricPT(metrics[m].value);
 
 							// postData = getPosts(metricPT, filterStr, postDataCallback(metricObj));
-							helpers.getPosts(metricPT, filterStr, chartDataCallback(metrics[m]));
+							helpers.getPosts(metricXPT, filterStr, chartDataCallback(metrics[m]));
 						}
 					}
 				}
@@ -125,7 +126,7 @@ module.exports = ['$timeout', 'WidgetTable', 'WidgetChart', '$log', 'helpers', '
 			scope.updateWidgetTitle = function(action) {
 				if (action === 'save') {
 					scope.widget.title = scope.widgetNewTitle;
-					ReportUtils.buildReportURL(scope.$parent.reportType, scope.$parent.reportTitle, scope.$parent.getPostType, scope.$parent.reportFilter, scope.$parent.widgets);
+					ReportUtils.buildReportURL(scope.$parent.reportType, scope.$parent.reportPreset, scope.$parent.reportTitle, scope.$parent.reportFilter, scope.$parent.widgets);
 				} else if (action === 'cancel') {
 					scope.widgetNewTitle = scope.widget.title;
 				}
@@ -142,16 +143,18 @@ module.exports = ['$timeout', 'WidgetTable', 'WidgetChart', '$log', 'helpers', '
 				scope.widgetTypeEdit = false;
 			};
 
-			scope.updateWidget = function(initFiltersNum, initMetricsNum) {
-				renderWidgetData(initFiltersNum, initMetricsNum);
-				ReportUtils.buildReportURL(scope.$parent.reportType, scope.$parent.reportTitle, scope.$parent.getPostType, scope.$parent.reportFilter, scope.$parent.widgets);
+			// scope.updateWidget = function(initFiltersNum, initMetricsNum) {
+			scope.updateWidget = function() {
+				renderWidgetData();
+				// renderWidgetData(initFiltersNum, initMetricsNum);
+				ReportUtils.buildReportURL(scope.$parent.reportType, scope.$parent.reportPreset, scope.$parent.reportTitle, scope.$parent.reportFilter, scope.$parent.widgets);
 			};
 
 			scope.widgetInit = function() {
 				$timeout(function() {
 					var widgetFilterOpt, widgetMetricOpt;
-					var filtersLength = typeof scope.widget.filters !== 'undefined' ? scope.widget.filters.length : 0;
-					var metricsLength = typeof scope.widget.metrics !== 'undefined' ? scope.widget.metrics.length : 0;
+					// var filtersLength = typeof scope.widget.filters !== 'undefined' ? scope.widget.filters.length : 0;
+					// var metricsLength = typeof scope.widget.metrics !== 'undefined' ? scope.widget.metrics.length : 0;
 
 					// if(filtersLength) {
 					// 	scope.filters = [];
@@ -160,23 +163,24 @@ module.exports = ['$timeout', 'WidgetTable', 'WidgetChart', '$log', 'helpers', '
 					// 		scope.filters.push({'id':'filter'+f, 'filterSelect':widgetFilterOpt});
 					// 	}
 					// }
-					if(metricsLength) {
-						scope.metrics = [];
-						for(var m=0; m<metricsLength; m++) {
-							if (scope.widget.metrics[m] && typeof scope.widget.metrics[m] !== 'undefined') {
-								widgetMetricOpt = helpers.getObjByValue(scope.widgetMetricOpts, scope.widget.metrics[m].value);
-							} else {
-								widgetMetricOpt = null;
-							}
-							// scope.metrics.push({'id':'metric'+m, 'metricSelect':widgetMetricOpt});
-							scope.metrics.push(widgetMetricOpt);
-						}
-					}
+					// if(metricsLength) {
+						// scope.metrics = [];
+						// for(var m=0; m<metricsLength; m++) {
+						// 	if (scope.widget.metrics[m] && typeof scope.widget.metrics[m] !== 'undefined') {
+						// 		widgetMetricOpt = helpers.getObjByValue(scope.widgetMetricOpts, scope.widget.metrics[m].value);
+						// 	} else {
+						// 		widgetMetricOpt = null;
+						// 	}
+						// 	// scope.metrics.push({'id':'metric'+m, 'metricSelect':widgetMetricOpt});
+						// 	scope.metrics.push(widgetMetricOpt);
+						// }
+					// }
 
 					scope.selectedWidgetType = helpers.getObjByValue(scope.widgetOptions, scope.widget.type);
 					scope.chartElem = document.getElementById(scope.widget.id + '-' + scope.widget.type).getContext("2d");
 
-					renderWidgetData(filtersLength, metricsLength);
+					renderWidgetData();
+					// renderWidgetData(filtersLength, metricsLength);
 					// scope.makeWidget(filtersLength, metricsLength);
 				}, 300);
 			};

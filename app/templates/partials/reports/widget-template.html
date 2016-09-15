@@ -35,7 +35,11 @@
 	<a class="round-controls collapsible-control btn btn-small" ng-click="metricsCollapsed = !metricsCollapsed"><span ng-class="metricsCollapsed ? 'glyphicon-chevron-down' : 'glyphicon-chevron-up'" class="glyphicon glyphicon-chevron-up"></span></a>
 	<div class="widget-collapsible" ng-class="metricsCollapsed ? 'collapsed' : 'expanded'">
 		<label>Compare By:</label>
-		<chart-metrics model="metrics"></chart-metrics>
+		<h5>X Axis</h5>
+		<chart-metrics axis="x" opts="widgetXMetricOpts" model="metrics.x"></chart-metrics>
+
+		<h5>Y Axis</h5>
+		<chart-metrics axis="y" opts="widgetYMetricOpts[$parent.reportType]" model="metrics.y"></chart-metrics>
 		<button class="btn btn-primary" ng-click="updateWidget()">Update Chart</button>
 	</div>
 

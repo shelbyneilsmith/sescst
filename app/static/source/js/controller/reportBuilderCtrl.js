@@ -30,9 +30,9 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 	];
 
 	$scope.widgetOptions = [
-		{label: 'Data Table', value: 'table'},
 		{label: 'Pie Chart', value: 'doughnut'},
-		{label: 'Bar Graph', value: 'bar'}
+		{label: 'Bar Graph', value: 'bar'},
+		{label: 'Data Table', value: 'table'},
 	];
 
 	$scope.reportFilterOpts = [
@@ -48,12 +48,22 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 	// 	{label: 'District', value: 'district'},
 	// ];
 
-	$scope.widgetMetricOpts = [
-		{label: 'Consultants', value: 'consultants'},
-		{label: 'Schools', value: 'schools'},
+	$scope.widgetXMetricOpts = [
+		{label: 'Users', value: 'users'},
 		{label: 'Districts', value: 'districts'},
+		{label: 'Schools', value: 'schools'},
 		{label: 'Activity Types', value: 'activity_types'},
 	];
+
+	$scope.widgetYMetricOpts = {
+		activity: [
+			{ label: 'Total Time Spent', value: 'time_spent' },
+		],
+		expense: [
+			{label: 'Total Time Spent', value: 'time_spent'},
+			{label: 'Total Expenses', value: 'total_expenses'},
+		],
+	};
 
 	var getNullVals = function(compareArr) {
 		var nullArr = [];
@@ -134,14 +144,16 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 		var widgetType = $scope.widgetType.value;
 		var widgetTypeLabel = $scope.widgetType.label;
 
-		$scope.widgets.push({'id':'widget-'+newItemNo, 'title': $scope.widgetTitle, 'type':widgetType, 'typeLabel':widgetTypeLabel, 'metrics': $scope.newWidgetMetricSelect});
+		$scope.widgets.push({'id':'widget-'+newItemNo, 'title': $scope.widgetTitle, 'type':widgetType, 'typeLabel':widgetTypeLabel, 'metrics': {x: $scope.newWidgetXMetricSelect, y: $scope.newWidgetYMetricSelect}});
 
 		ReportUtils.buildReportURL($scope.reportType, $scope.reportPreset, $scope.reportTitle, $scope.reportFilter, $scope.widgets);
 
 		// reset stuff
 		$scope.widgetTitle = '';
 		$scope.newWidgetFilterSelect = [];
-		$scope.newWidgetMetricSelect = getNullVals($scope.widgetMetricOpts);
+		$scope.newWidgetXMetricSelect = '';
+		$scope.newWidgetYMetricSelect = '';
+		// $scope.newWidgetMetricSelect = getNullVals($scope.widgetMetricOpts);
 	};
 
 	$scope.destroyWidget = function(widget_id) {
@@ -282,7 +294,6 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 
 
 	$scope.reportBuilderInit = function() {
-		// $scope.reportPostType = 'Activity_Log';
 		$scope.reportType = $scope.reportTypeOptions[0].value;
 		$scope.reportPreset = $scope.reportPresetOptions[0];
 
@@ -294,7 +305,9 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 
 		$scope.chartControlsOpen = false;
 		$scope.newWidgetFilterSelect = [];
-		$scope.newWidgetMetricSelect = getNullVals($scope.widgetMetricOpts);
+		$scope.newWidgetXMetricSelect = '';
+		$scope.newWidgetYMetricSelect = '';
+		// $scope.newWidgetMetricSelect = getNullVals($scope.widgetMetricOpts);
 
 		$scope.widgetType = $scope.widgetOptions[0];
 		$scope.widgets = [];

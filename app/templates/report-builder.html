@@ -33,7 +33,11 @@
 
  						<div>
 							<h4>Chart Metrics from Current Data:</h4>
-							<chart-metrics model="newWidgetMetricSelect"></chart-metrics>
+							<h5>X Axis</h5>
+							<chart-metrics axis="x" opts="widgetXMetricOpts" model="newWidgetXMetricSelect"></chart-metrics>
+
+							<h5>Y Axis</h5>
+							<chart-metrics axis="y" opts="widgetYMetricOpts[reportType]" model="newWidgetYMetricSelect"></chart-metrics>
 						</div>
 
 						<button class="chart-add-btn btn small btn-success" ng-click="addNewWidget(); chartControlsOpen = false">Create Chart/Graph</button>
