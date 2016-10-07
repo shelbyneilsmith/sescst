@@ -14,6 +14,7 @@ module.exports = ['$http', '$log', '$templateCache', '$compile', '$templateReque
 			type: '@',
 			autoFocus: '@',
 			selectOptions: '=?',
+			simpleSelect: '=?',
 			keyVal: '=?',
 			rows: '@',
 		},

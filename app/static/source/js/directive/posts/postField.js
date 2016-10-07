@@ -22,6 +22,7 @@ module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers',
 			isTitle: '=',
 			inData: '=fieldData',
 			formattedOutput: '@?',
+			simpleSelect: '=?',
 		},
 		template: tpl,
 		controller: ['$scope', function($scope) {
@@ -154,8 +155,10 @@ module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers',
 					scope.saveValue = scope.fieldData.value;
 
 					if (typeof scope.inData.selectOptions !== 'undefined') {
-						scope.fieldData.displayValue = scope.fieldData.value[scope.optionKey];
-						scope.saveValue = scope.fieldData.value[scope.optionVal];
+						if (scope.optionKey && scope.optionVal) {
+							scope.fieldData.displayValue = scope.fieldData.value[scope.optionKey];
+							scope.saveValue = scope.fieldData.value[scope.optionVal];
+						}
 					}
 
 					if (scope.inData.optionKeyVal) {
@@ -169,7 +172,6 @@ module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers',
 							}
 						}
 					}
-
 				}
 				if (scope.formattedOutput) {
 					scope.fieldData.displayValue = scope.formattedOutput;

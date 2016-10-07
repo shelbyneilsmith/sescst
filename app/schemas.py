@@ -63,16 +63,51 @@ class Activity_TypeSchema(ma.ModelSchema):
 	name = fields.Str(required=True)
 	description = fields.Str()
 
+class Activity_TopicSchema(ma.ModelSchema):
+	id = fields.Int(dump_only=True)
+	name = fields.Str(required=True)
+	description = fields.Str()
+
+class Activity_ScopeSchema(ma.ModelSchema):
+	id = fields.Int(dump_only=True)
+	name = fields.Str(required=True)
+	description = fields.Str()
+
+class Delivery_MethodSchema(ma.ModelSchema):
+	id = fields.Int(dump_only=True)
+	name = fields.Str(required=True)
+	description = fields.Str()
+
+class School_DesignationSchema(ma.ModelSchema):
+	id = fields.Int(dump_only=True)
+	name = fields.Str(required=True)
+	description = fields.Str()
+
+class Work_DaySchema(ma.ModelSchema):
+	id = fields.Int(dump_only=True)
+	name = fields.Str(required=True)
+	description = fields.Str()
+
 class Activity_LogSchema(ma.ModelSchema):
 	id = fields.Int(dump_only=True)
 	name = fields.Str(required=True)
 	activity_date_start = fields.DateTime()
 	activity_date_end = fields.DateTime()
+	location = fields.Str()
 	user = fields.Nested('UserSchema', only=('id', 'username'), dump_only=True)
 	districts = fields.Nested('DistrictSchema', many=True, exclude=('schools'), dump_only=True)
 	schools = fields.Nested('SchoolSchema', many=True, exclude=('district_id'), dump_only=True)
+	activity_topics = fields.Nested('Activity_TopicSchema', many=True, only=('id', 'name'), dump_only=True)
 	activity_types = fields.Nested('Activity_TypeSchema', many=True, only=('id', 'name'), dump_only=True)
+	activity_scope = fields.Nested('Activity_ScopeSchema', only=('id', 'name'), dump_only=True)
+	delivery_method = fields.Nested('Delivery_MethodSchema', only=('id', 'name'), dump_only=True)
+	school_designation = fields.Nested('School_DesignationSchema', only=('id', 'name'), dump_only=True)
 	activity_contact = fields.Str()
+	activity_hours = fields.Float()
+	total_num_participants = fields.Int()
+	num_hours_planning = fields.Float()
+	planner_name = fields.Str()
+	work_day = fields.Nested('Work_DaySchema', only=('id', 'name'), dump_only=True)
 	# event_costs = fields.Str()
 	report_notes = fields.Str()
 	expense_sheet = fields.Nested('Expense_SheetSchema', only=('id'), dump_only=True)

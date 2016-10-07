@@ -7,6 +7,7 @@ from flask.ext.login import login_required, current_user
 from werkzeug.exceptions import HTTPException
 from sqlalchemy.exc import IntegrityError
 import json
+import ast
 
 from .. import db, login_required
 from ..model import User, District, School, Role, Activity_Log, Expense_Sheet, Report_URL
@@ -28,14 +29,24 @@ def create_activity_log():
 			user=	current_user,
 			activity_date_start=al_form.activity_date_start.data,
 			activity_date_end=al_form.activity_date_end.data,
+			location=al_form.location.data,
+			activity_hours=float(al_form.activity_hours.data),
+			total_num_participants=al_form.total_num_participants.data,
+			num_hours_planning=al_form.num_hours_planning.data,
+			planner_name=al_form.planner_name.data,
 			activity_contact=al_form.activity_contact.data,
 			report_notes=al_form.report_notes.data,
 		)
 
-		# saveSelectField(activity_log, al_form.consultant.data, 'User', 'user')
 		saveMultiSelectField(activity_log, al_form.log_districts.data, 'District', 'districts')
 		saveMultiSelectField(activity_log, al_form.log_schools.data, 'School', 'schools')
 		saveMultiSelectField(activity_log, al_form.activity_types.data, 'Activity_Type', 'activity_types')
+		saveMultiSelectField(activity_log, al_form.activity_topics.data, 'Activity_Topic', 'activity_topics')
+		saveSelectField(activity_log, al_form.activity_scope.data, 'Activity_Scope', 'activity_scope')
+		saveSelectField(activity_log, al_form.delivery_method.data, 'Delivery_Method', 'delivery_method')
+		saveSelectField(activity_log, al_form.school_designation.data, 'School_Designation', 'school_designation')
+		saveSelectField(activity_log, al_form.work_day.data, 'Work_Day', 'work_day')
+
 		db.session.add(activity_log)
 		db.session.commit()
 
@@ -58,6 +69,12 @@ def create_activity_log():
 		saveMultiSelectField(expense_sheet, al_form.log_districts.data, 'District', 'districts')
 		saveMultiSelectField(expense_sheet, al_form.log_schools.data, 'School', 'schools')
 		saveMultiSelectField(expense_sheet, al_form.activity_types.data, 'Activity_Type', 'activity_types')
+		saveMultiSelectField(expense_sheet, al_form.activity_topics.data, 'Activity_Topic', 'activity_topics')
+		saveSelectField(expense_sheet, al_form.activity_scope.data, 'Activity_Scope', 'activity_scope')
+		saveSelectField(expense_sheet, al_form.delivery_method.data, 'Delivery_Method', 'delivery_method')
+		saveSelectField(expense_sheet, al_form.school_designation.data, 'School_Designation', 'school_designation')
+		saveSelectField(expense_sheet, al_form.work_day.data, 'Work_Day', 'work_day')
+
 		db.session.add(expense_sheet)
 		db.session.commit()
 

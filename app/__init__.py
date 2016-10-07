@@ -89,5 +89,9 @@ try:
 	app.register_blueprint(admin_bp)
 	app.register_blueprint(email_bp)
 	app.register_blueprint(reports_bp)
+
+	from .util.helpers import *
+
+	app.jinja_env.globals.update(drange=drange)
 except:
 	pass

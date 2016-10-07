@@ -88,6 +88,15 @@ activity_type_identifier_es = db.Table('activity_type_identifier_es',
 	db.Column('expense_sheet_id', db.Integer, db.ForeignKey('expense_sheets.id')),
 )
 
+activity_topic_identifier_al = db.Table('activity_topic_identifier_al',
+	db.Column('activity_topic_id', db.Integer, db.ForeignKey('activity_topics.id')),
+	db.Column('activity_log_id', db.Integer, db.ForeignKey('activity_logs.id')),
+)
+activity_topic_identifier_es = db.Table('activity_topic_identifier_es',
+	db.Column('activity_topic_id', db.Integer, db.ForeignKey('activity_topics.id')),
+	db.Column('expense_sheet_id', db.Integer, db.ForeignKey('expense_sheets.id')),
+)
+
 # Application Settings Model
 class AppSettings(db.Model):
 	__tablename__ = 'app_settings'
@@ -196,6 +205,90 @@ class Activity_Type(db.Model):
 	def __repr__(self):
 		return '<Activity Type %r>' % (self.name)
 
+# Activity topics model
+class Activity_Topic(db.Model):
+	__tablename__ = 'activity_topics'
+
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(80), unique=True)
+	description = db.Column(db.String(255))
+
+	activity_logs = db.relationship("Activity_Log", secondary=activity_topic_identifier_al, back_populates="activity_topics")
+	expense_sheets = db.relationship("Expense_Sheet", secondary=activity_topic_identifier_es, back_populates="activity_topics")
+
+	def __str__(self):
+		return self.name
+
+	def __repr__(self):
+		return '<Activity Topic %r>' % (self.name)
+
+# Activity scope model
+class Activity_Scope(db.Model):
+	__tablename__ = 'activity_scope'
+
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(80), unique=True)
+	description = db.Column(db.String(255))
+
+	activity_logs = db.relationship("Activity_Log", back_populates="activity_scope")
+	expense_sheets = db.relationship("Expense_Sheet", back_populates="activity_scope")
+
+	def __str__(self):
+		return self.name
+
+	def __repr__(self):
+		return '<Activity Scope %r>' % (self.name)
+
+# Delivery method model
+class Delivery_Method(db.Model):
+	__tablename__ = 'delivery_method'
+
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(80), unique=True)
+	description = db.Column(db.String(255))
+
+	activity_logs = db.relationship("Activity_Log", back_populates="delivery_method")
+	expense_sheets = db.relationship("Expense_Sheet", back_populates="delivery_method")
+
+	def __str__(self):
+		return self.name
+
+	def __repr__(self):
+		return '<Delivery Method %r>' % (self.name)
+
+# School designation model
+class School_Designation(db.Model):
+	__tablename__ = 'school_designation'
+
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(80), unique=True)
+	description = db.Column(db.String(255))
+
+	activity_logs = db.relationship("Activity_Log", back_populates="school_designation")
+	expense_sheets = db.relationship("Expense_Sheet", back_populates="school_designation")
+
+	def __str__(self):
+		return self.name
+
+	def __repr__(self):
+		return '<School Designation %r>' % (self.name)
+
+# Work day model
+class Work_Day(db.Model):
+	__tablename__ = 'work_day'
+
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(80), unique=True)
+	description = db.Column(db.String(255))
+
+	activity_logs = db.relationship("Activity_Log", back_populates="work_day")
+	expense_sheets = db.relationship("Expense_Sheet", back_populates="work_day")
+
+	def __str__(self):
+		return self.name
+
+	def __repr__(self):
+		return '<Work Day %r>' % (self.name)
 
 # Activity Logs Model
 class Activity_Log(Base):
@@ -203,8 +296,11 @@ class Activity_Log(Base):
 
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 	name = db.Column(db.String(255), unique=True, nullable=False)
+
 	activity_date_start = db.Column(db.DateTime)
 	activity_date_end = db.Column(db.DateTime)
+
+	location = db.Column(db.String(255))
 
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	user = db.relationship("User", back_populates="activity_logs")
@@ -213,7 +309,27 @@ class Activity_Log(Base):
 
 	schools = db.relationship("School", secondary=school_identifier_al, back_populates="activity_logs")
 
+	activity_topics = db.relationship("Activity_Topic", secondary=activity_topic_identifier_al, back_populates="activity_logs")
 	activity_types = db.relationship("Activity_Type", secondary=activity_type_identifier_al, back_populates="activity_logs")
+
+	activity_scope_id = db.Column(db.Integer, db.ForeignKey('activity_scope.id'))
+	activity_scope = db.relationship("Activity_Scope", back_populates="activity_logs")
+
+	delivery_method_id = db.Column(db.Integer, db.ForeignKey('delivery_method.id'))
+	delivery_method = db.relationship("Delivery_Method", back_populates="activity_logs")
+
+	school_designation_id = db.Column(db.Integer, db.ForeignKey('school_designation.id'))
+	school_designation = db.relationship("School_Designation", back_populates="activity_logs")
+
+	total_num_participants = db.Column(db.Integer)
+	num_hours_planning = db.Column(db.Float)
+
+	planner_name = db.Column(db.String(255))
+
+	activity_hours = db.Column(db.Float)
+
+	work_day_id = db.Column(db.Integer, db.ForeignKey('work_day.id'))
+	work_day = db.relationship("Work_Day", back_populates="activity_logs")
 
 	activity_contact = db.Column(db.String(255))
 	# event_costs = db.Column(db.String(255))
@@ -241,7 +357,20 @@ class Expense_Sheet(Base):
 	activity_log_id = db.Column(db.Integer, db.ForeignKey('activity_logs.id'))
 	activity_log = db.relationship('Activity_Log', back_populates='expense_sheet')
 
+	activity_topics = db.relationship("Activity_Topic", secondary=activity_topic_identifier_es, back_populates="expense_sheets")
 	activity_types = db.relationship("Activity_Type", secondary=activity_type_identifier_es, back_populates="expense_sheets")
+
+	activity_scope_id = db.Column(db.Integer, db.ForeignKey('activity_scope.id'))
+	activity_scope = db.relationship("Activity_Scope", back_populates="expense_sheets")
+
+	delivery_method_id = db.Column(db.Integer, db.ForeignKey('delivery_method.id'))
+	delivery_method = db.relationship("Delivery_Method", back_populates="expense_sheets")
+
+	school_designation_id = db.Column(db.Integer, db.ForeignKey('school_designation.id'))
+	school_designation = db.relationship("School_Designation", back_populates="expense_sheets")
+
+	work_day_id = db.Column(db.Integer, db.ForeignKey('work_day.id'))
+	work_day = db.relationship("Work_Day", back_populates="expense_sheets")
 
 	total_mileage = db.Column(db.Integer)
 	travel_route_from = db.Column(db.String(255))

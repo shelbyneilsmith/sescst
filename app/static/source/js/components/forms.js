@@ -15,5 +15,6 @@ module.exports = angular.module('sescst-forms', [])
 
 	.directive('select2Field', require('../directive/forms/select2Field'))
 	.directive('datePickerField', require('../directive/forms/datePickerField'))
+	.directive('repeater', require('../directive/forms/repeater'))
 	.directive('simpleRepeaterForm', require('../directive/forms/simpleRepeaterForm'))
 	.directive('complexRepeaterField', require('../directive/forms/complexRepeaterField'))

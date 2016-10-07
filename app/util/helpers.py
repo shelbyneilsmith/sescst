@@ -17,3 +17,6 @@ def saveSelectField(post, field_data, rel_type, field_key):
 
 def saveMultiSelectField(post, field_data, rel_type, field_key):
 	post.set_rel_vals(json.loads(field_data), rel_type, field_key)
+
+def drange(start, stop, step):
+	return [(n * step) for n in range(start,stop)]

@@ -12,7 +12,7 @@
 	<li><strong>Users:</strong>
 		<p ng-if="postData.users.length <= 0"><em>There are no users associated with this district.</em></p>
 		<ul ng-if="postData.users.length > 0" class='list-unstyled'>
-			<li ng-repeat="user in postData.users">
+			<li ng-repeat="user in $parent.postData.users">
 				{[user.name]} <small><strong>({[user.urole]})</strong></small>
 			</li>
 		</ul>
@@ -20,7 +20,10 @@
 </ul>
 
 <h3>District Data Resources</h3>
-<ul>
-	<li ng-repeat="link in postData.data_links['field_rows'] track by $index"><a href="{[ link[1].field_val ]}" target="_blank">{[ link[0].field_val ]}</a></li>
-	<li ng-repeat="link in globalSettings.global_data_links track by $index"><a href="{[ link.link_url ]}" target="_blank">{[ link.link_title ]}</a></li>
+<ul class="post-details list-unstyled">
+	<li ng-if="postData.data_links['field_rows']" class="hover-link">
+		<postfield formatted-output="{[$parent.postData.data_links['field_rows'] | linksList : 'field_val' : 'field_val' : true]}" admin-only='false' type='repeater' field-data='{ initValue: postData.data_links }' label='District Data Links' keys='"data_links"'></postfield>
+	</li>
+
+	<li ng-if="globalSettings.global_data_links.length" class="hover-link"><postfield formatted-output="{[$parent.globalSettings.global_data_links | linksList : 'field_val' : 'field_val' : true]}"  admin-only='false' type='repeater' field-data='{ initValue: globalSettings.global_data_links }' label='Global Data Links' keys='"global_data_links"'></postfield></li>
 </ul>

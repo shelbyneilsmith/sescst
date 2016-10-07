@@ -48,7 +48,7 @@ module.exports = ['$scope', '$http', '$log', '$window', 'helpers', '$location', 
 		});
 
 		return deferred.promise;
-	}
+	};
 
 	$scope.getAppSettings('Role', ['name', 'description']).then(function(result) {
 		$scope.curRoles = result;
@@ -56,6 +56,26 @@ module.exports = ['$scope', '$http', '$log', '$window', 'helpers', '$location', 
 
 	$scope.getAppSettings('Activity_Type', ['name', 'description']).then(function(result) {
 		$scope.curActivityTypes = result;
+	});
+
+	$scope.getAppSettings('Activity_Topic', ['name', 'description']).then(function(result) {
+		$scope.curActivityTopics = result;
+	});
+
+	$scope.getAppSettings('Activity_Scope', ['name', 'description']).then(function(result) {
+		$scope.curActivityScopes = result;
+	});
+
+	$scope.getAppSettings('Delivery_Method', ['name', 'description']).then(function(result) {
+		$scope.curDeliveryMethods = result;
+	});
+
+	$scope.getAppSettings('School_Designation', ['name', 'description']).then(function(result) {
+		$scope.curSchoolDesignations = result;
+	});
+
+	$scope.getAppSettings('Work_Day', ['name', 'description']).then(function(result) {
+		$scope.curWorkDays = result;
 	});
 
 	$scope.getAppSettings('School_Type', ['name']).then(function(result) {
@@ -76,6 +96,11 @@ module.exports = ['$scope', '$http', '$log', '$window', 'helpers', '$location', 
 		$http.post('/api/save_app_settings', {
 				roles: $scope.curRoles,
 				activity_types: $scope.curActivityTypes,
+				activity_topics: $scope.curActivityTopics,
+				activity_scope: $scope.curActivityScopes,
+				delivery_methods: $scope.curDeliveryMethods,
+				school_designations: $scope.curSchoolDesignations,
+				work_days: $scope.curWorkDays,
 				school_types: $scope.curSchoolTypes,
 				school_levels: $scope.curSchoolLevels,
 				location_services: $scope.curDistrictSchoolServices,

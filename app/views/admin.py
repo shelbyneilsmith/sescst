@@ -12,8 +12,10 @@ import json
 
 from .. import db, login_required
 from ..model import AppSettings, User, District, School, Role, Activity_Type, Activity_Log, Expense_Sheet, School_Type, School_Level, Location_Service, Report_URL
+from ..model import Activity_Topic, Activity_Scope, Delivery_Method, School_Designation, Work_Day
 from ..schemas import AppSettingsSchema, UserSchema, RoleSchema, DistrictSchema, Activity_TypeSchema, Location_ServiceSchema
 from ..schemas import SchoolSchema, School_TypeSchema, School_LevelSchema, Activity_LogSchema, Expense_SheetSchema, Report_URLSchema
+from ..schemas import Activity_TopicSchema, Activity_ScopeSchema, Delivery_MethodSchema, School_DesignationSchema, Work_DaySchema
 from ..forms.admin import RegisterUserForm, RegisterDistrictForm, RegisterSchoolForm
 from ..util.security import ts
 from ..util.email import confirm_email
@@ -288,6 +290,11 @@ def save_app_settings():
 	data = json.loads(request.data.decode())
 	roles = data["roles"]
 	activity_types = data["activity_types"]
+	activity_topics = data["activity_topics"]
+	activity_scope = data["activity_scope"]
+	delivery_methods = data["delivery_methods"]
+	school_designations = data["school_designations"]
+	work_days = data["work_days"]
 	school_types = data["school_types"]
 	school_levels = data["school_levels"]
 	location_services = data["location_services"]
@@ -299,9 +306,24 @@ def save_app_settings():
 	multiple_post_save("Role", roles)
 	multiple_post_delete("Role", roles)
 
-	## ACTIVITY TYPE MANAGEMENT
+	## ACTIVITY OPTION MANAGEMENT
 	multiple_post_save("Activity_Type", activity_types)
 	multiple_post_delete("Activity_Type", activity_types)
+
+	multiple_post_save("Activity_Topic", activity_topics)
+	multiple_post_delete("Activity_Topic", activity_topics)
+
+	multiple_post_save("Activity_Scope", activity_scope)
+	multiple_post_delete("Activity_Scope", activity_scope)
+
+	multiple_post_save("Delivery_Method", delivery_methods)
+	multiple_post_delete("Delivery_Method", delivery_methods)
+
+	multiple_post_save("School_Designation", school_designations)
+	multiple_post_delete("School_Designation", school_designations)
+
+	multiple_post_save("Work_Day", work_days)
+	multiple_post_delete("Work_Day", work_days)
 
 	## SCHOOL TYPE MANAGEMENT
 	multiple_post_save("School_Type", school_types)

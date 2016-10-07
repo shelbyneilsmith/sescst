@@ -12,30 +12,55 @@
 
 			<div ng-show="curPanel === 'access-roles'" id="access-roles" class="app-setting-panel">
 				<h3>Access Roles</h3>
-	 			<simple-repeater-form label='Role' data='curRoles' fields='[{fieldLabel: "Access Role", fieldName: "name", fieldType: "text"},{fieldLabel: "Role Description", fieldName: "description", fieldType: "textarea"}]'></simple-repeater-form>
+	 			<repeater repeater-type="simple" label='Role' data='curRoles' fields='[{fieldLabel: "Access Role", fieldName: "name", fieldType: "text"},{fieldLabel: "Role Description", fieldName: "description", fieldType: "textarea"}]'></repeater>
 	 		</div>
 
-			<div ng-show="curPanel === 'activity-types'" id="access-roles" class="app-setting-panel">
+			<div ng-show="curPanel === 'activity-options'" id="activity-options" class="app-setting-panel">
 				<h3>Activity Types</h3>
-	 			<simple-repeater-form label='Activity Type' data='curActivityTypes' fields='[{fieldLabel: "Activity Type", fieldName: "name", fieldType: "text"},{fieldLabel: "Activity Type Description", fieldName: "description", fieldType: "textarea"}]'></simple-repeater-form>
+	 			<repeater repeater-type="simple" label='Activity Type' data='curActivityTypes' fields='[{fieldLabel: "Activity Type", fieldName: "name", fieldType: "text"},{fieldLabel: "Activity Type Description", fieldName: "description", fieldType: "textarea"}]'></repeater>
+
+	 			<br /><br />
+
+				<h3>Activity Topics</h3>
+	 			<repeater repeater-type="simple" label='Activity Topic' data='curActivityTopics' fields='[{fieldLabel: "Activity Topic", fieldName: "name", fieldType: "text"},{fieldLabel: "Activity Topic Description", fieldName: "description", fieldType: "textarea"}]'></repeater>
+
+	 			<br /><br />
+
+				<h3>Activity Scopes</h3>
+	 			<repeater repeater-type="simple" label='Activity Scope' data='curActivityScopes' fields='[{fieldLabel: "Activity Scope", fieldName: "name", fieldType: "text"},{fieldLabel: "Activity Scope Description", fieldName: "description", fieldType: "textarea"}]'></repeater>
+
+	 			<br /><br />
+
+				<h3>Delivery Methods</h3>
+	 			<repeater repeater-type="simple" label='Delivery Method' data='curDeliveryMethods' fields='[{fieldLabel: "Delivery Method", fieldName: "name", fieldType: "text"},{fieldLabel: "Delivery Method Description", fieldName: "description", fieldType: "textarea"}]'></repeater>
+
+	 			<br /><br />
+
+				<h3>School Designations</h3>
+	 			<repeater repeater-type="simple" label='School Designation' data='curSchoolDesignations' fields='[{fieldLabel: "School Designation", fieldName: "name", fieldType: "text"},{fieldLabel: "School Designation Description", fieldName: "description", fieldType: "textarea"}]'></repeater>
+
+	 			<br /><br />
+
+				<h3>Work Days</h3>
+	 			<repeater repeater-type="simple" label='Work Day' data='curWorkDays' fields='[{fieldLabel: "Work Day", fieldName: "name", fieldType: "text"},{fieldLabel: "Work Day Description", fieldName: "description", fieldType: "textarea"}]'></repeater>
 	 		</div>
 
-			<div ng-show="curPanel === 'school-district-options'" id="access-roles" class="app-setting-panel">
+			<div ng-show="curPanel === 'school-district-options'" id="school-district-options" class="app-setting-panel">
 				<h3>School Types</h3>
-	 			<simple-repeater-form label='School Type' data='curSchoolTypes' fields='[{fieldLabel: "School Type", fieldName: "name", fieldType: "text"}]'></simple-repeater-form>
+	 			<repeater repeater-type="simple" label='School Type' data='curSchoolTypes' fields='[{fieldLabel: "School Type", fieldName: "name", fieldType: "text"}]'></repeater>
 
 	 			<br /><br />
 
 				<h3>School Levels</h3>
-	 			<simple-repeater-form label='School Level' data='curSchoolLevels' fields='[{fieldLabel: "School Level", fieldName: "name", fieldType: "text"}]'></simple-repeater-form>
+	 			<repeater repeater-type="simple" label='School Level' data='curSchoolLevels' fields='[{fieldLabel: "School Level", fieldName: "name", fieldType: "text"}]'></repeater>
 
 	 			<br /><br />
 
 				<h3>District/School Services</h3>
-	 			<simple-repeater-form label='District/School Service' data='curDistrictSchoolServices' fields='[{fieldLabel: "District/School Service", fieldName: "name", fieldType: "text"}]'></simple-repeater-form>
+	 			<repeater repeater-type="simple" label='District/School Service' data='curDistrictSchoolServices' fields='[{fieldLabel: "District/School Service", fieldName: "name", fieldType: "text"}]'></repeater>
 	 		</div>
 
-			<div ng-show="curPanel === 'reimbursement'" id="access-roles" class="app-setting-panel">
+			<div ng-show="curPanel === 'reimbursement'" id="reimbursement" class="app-setting-panel">
 	 			<h3>Mileage Reimbursement Rate (cents per mile)</h3>
 	 			<form-field model='curAppSettings.mileage_reimbursement' placeholder='Mileage Reimbursement' type='number'></form-field>
 	 			<br /><br />
@@ -43,9 +68,9 @@
 				<form-field model='curAppSettings.cell_reimbursement' placeholder='Cell Phone Reimbursement' type='number'></form-field>
 	 		</div>
 
-			<div ng-show="curPanel === 'data-links'" id="access-roles" class="app-setting-panel">
+			<div ng-show="curPanel === 'data-links'" id="data-links" class="app-setting-panel">
 	 			<h3>Global Data Links</h3>
-	  			<simple-repeater-form label='Global Data Links' data='curAppSettings.global_data_links' fields='[{fieldLabel: "Link Title", fieldName: "link_title", fieldType: "text"},{fieldLabel: "Link URL", fieldName: "link_url", fieldType: "text"}]'></simple-repeater-form>
+	  			<repeater repeater-type="simple" label='Global Data Links' data='curAppSettings.global_data_links' fields='[{fieldLabel: "Link Title", fieldName: "link_title", fieldType: "text"},{fieldLabel: "Link URL", fieldName: "link_url", fieldType: "text"}]'></repeater>
 	  		</div>
 		</div>
 	</div>

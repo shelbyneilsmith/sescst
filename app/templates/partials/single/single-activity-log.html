@@ -10,14 +10,36 @@
 
 	<li class="hover-link"><postfield admin-only='false' type='multiselect' field-data='{ postType: "Activity_Type", optionKeyVal: ["name", "id"], initValue: postData.activity_types }' label='Activity Types' keys='"activity_types"' relationship="true"></postfield></li>
 
+	<li class="hover-link"><postfield admin-only='false' type='multiselect' field-data='{ postType: "Activity_Topic", optionKeyVal: ["name", "id"], initValue: postData.activity_topics }' label='Activity Topics' keys='"activity_topics"' relationship="true"></postfield></li>
+
 	<li class="hover-link"><postfield admin-only='false' type='datetime' field-data='{ initValue: postData.activity_date_start }' label='Activity Start Date' keys='"activity_date_start"'></postfield></li>
 
 	<li class="hover-link"><postfield admin-only='false' type='datetime' field-data='{ initValue: postData.activity_date_end }' label='Activity End Date' keys='"activity_date_end"'></postfield></li>
 
+	<li class="hover-link"><postfield admin-only='false' type='select' field-data='{ postType: "Activity_Scope", optionKeyVal: ["name", "id"], initValue: postData.activity_scope }' label='Activity Scope' keys='"activity_scope"' relationship="true"></postfield></li>
+
+	<li class="hover-link"><postfield admin-only='false' type='select' field-data='{ postType: "Delivery_Method", optionKeyVal: ["name", "id"], initValue: postData.delivery_method }' label='Delivery Method' keys='"delivery_method"' relationship="true"></postfield></li>
+
+	<li class="hover-link"><postfield admin-only='false' type='select' field-data='{ postType: "School_Designation", optionKeyVal: ["name", "id"], initValue: postData.school_designation }' label='School Designation' keys='"school_designation"' relationship="true"></postfield></li>
+
+	<li class="hover-link"><postfield admin-only='false' type='text' field-data='{ initValue: postData.location }' label='Location' keys='"location"' is-title="true"></postfield></li>
+
+
+	<li class="hover-link"><postfield admin-only='false' type='select'  simple-select='true' field-data='{ postType: "Activity_Hours", selectOptions: {{ drange(1, 17, 0.5) }}, initValue: postData.activity_hours }' label='Activity Hours' keys='"activity_hours"'></postfield></li>
+
+	<li class="hover-link"><postfield admin-only='true' type='number' field-data='{ initValue: postData.total_num_participants }' label='Total Number of Participants' keys='"total_num_participants"'></postfield></li>
+
+	<li class="hover-link"><postfield admin-only='true' type='number' field-data='{ initValue: postData.num_hours_planning }' label='# Hours Planning Activity' keys='"num_hours_planning"'></postfield></li>
+
+	<li class="hover-link"><postfield admin-only='false' type='text' field-data='{ initValue: postData.planner_name }' label='Name of Person Requesting Activity' keys='"planner_name"' is-title="true"></postfield></li>
+
+	<li class="hover-link"><postfield admin-only='false' type='text' field-data='{ initValue: postData.activity_contact }' label='Activity Contact Person' keys='"activity_contact"' is-title="true"></postfield></li>
 
 	<li class="hover-link"><postfield admin-only='false' type='multiselect' field-data='{ postType: "District", optionKeyVal: ["name", "id"], initValue: postData.districts, allowAll: true }' label='Participating Districts' keys='"districts"' relationship="true"></postfield></li>
 
 	<li class="hover-link"><postfield admin-only='false' type='multiselect' field-data='{ postType: "School", optionKeyVal: ["name", "id"], initValue: postData.schools }' label='Participating Schools' keys='"schools"' relationship="true"></postfield></li>
+
+	<li class="hover-link"><postfield admin-only='false' type='select' field-data='{ postType: "Work_Day", optionKeyVal: ["name", "id"], initValue: postData.work_day }' label='Work Day' keys='"work_day"' relationship="true"></postfield></li>
 
 	<li class="hover-link"><postfield admin-only='false' type='textarea' field-data='{ initValue: postData.report_notes }' label='Report Notes' keys='"report_notes"' is-title="true"></postfield></li>
 </ul>

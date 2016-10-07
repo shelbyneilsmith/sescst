@@ -100,4 +100,30 @@ module.exports = angular.module('app-filters', [])
 			input = input || '';
 			return input.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 		};
-	});
+	})
+	.filter('linksList', function() {
+		return function(input, titleKey, urlKey, subLevel) {
+			var curTitle, curUrl;
+			var linksList = "<ul>";
+
+			for(var i=0, l=input.length; i<l; i++) {
+				curTitle = input[i][titleKey];
+				curUrl = input[i][urlKey];
+
+				if (subLevel) {
+					curTitle = input[i][0][titleKey];
+					curUrl = input[i][1][urlKey];
+				}
+
+				linksList += "<li><a href='" + curUrl + "' title='" + curTitle + "'>" + curTitle + "</a></li>";
+			}
+			linksList += "</ul>";
+
+			return linksList;
+		};
+	})
+	.filter('to_trusted', ['$sce', function($sce) {
+		return function(text) {
+			return $sce.trustAsHtml(text);
+		};
+	}]);
