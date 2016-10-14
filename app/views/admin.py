@@ -256,17 +256,35 @@ def multiple_post_save(post_type, posts_data):
 	classy_pt = getattr(sys.modules[__name__], post_type)
 
 	for row in posts_data:
-		post_name = row["name"]
-		if not classy_pt.query.filter_by(name=post_name).first():
-			new_post = classy_pt(**row)
+		# field_struct = []
+		field_obj = {}
+		for field in row:
+			field_key = field['field_id']
+			field_val = field['field_val']
+
+			field_obj[field_key] = field_val
+			# post_name = row["field_val"]
+
+		# field_struct.append(field_obj)
+		# field_obj = {}
+
+		if not classy_pt.query.filter_by(name=field_obj['name']).first():
+			new_post = classy_pt(**field_obj)
 			db.session.add(new_post)
 			db.session.commit()
 
 def multiple_post_delete(post_type, posts_data):
+	posts_data = json.loads(posts_data)
 	classy_pt = getattr(sys.modules[__name__], post_type)
 	db_posts = classy_pt.query.all()
+	post_names = []
+	for row in posts_data:
+		for field in row:
+			if field['field_id'] == 'name':
+				post_names.append(field['field_val'])
+
 	for db_post in db_posts:
-		if db_post.name not in posts_data:
+		if db_post.name not in post_names:
 			db.session.delete(db_post)
 			db.session.commit()
 

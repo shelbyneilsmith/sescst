@@ -94,19 +94,19 @@ module.exports = ['$scope', '$http', '$log', '$window', 'helpers', '$location', 
 		$log.log("Settings Saved!");
 
 		$http.post('/api/save_app_settings', {
-				roles: $scope.curRoles,
-				activity_types: $scope.curActivityTypes,
-				activity_topics: $scope.curActivityTopics,
-				activity_scope: $scope.curActivityScopes,
-				delivery_methods: $scope.curDeliveryMethods,
-				school_designations: $scope.curSchoolDesignations,
-				work_days: $scope.curWorkDays,
-				school_types: $scope.curSchoolTypes,
-				school_levels: $scope.curSchoolLevels,
-				location_services: $scope.curDistrictSchoolServices,
-				mileage_reimbursement: $scope.curAppSettings.mileage_reimbursement,
-				cell_reimbursement: $scope.curAppSettings.cell_reimbursement,
-				global_data_links: $scope.curAppSettings.global_data_links
+				roles: JSON.stringify($scope.curRoles.field_rows),
+				activity_types: JSON.stringify($scope.curActivityTypes.field_rows),
+				activity_topics: JSON.stringify($scope.curActivityTopics.field_rows),
+				activity_scope: JSON.stringify($scope.curActivityScopes.field_rows),
+				delivery_methods: JSON.stringify($scope.curDeliveryMethods.field_rows),
+				school_designations: JSON.stringify($scope.curSchoolDesignations.field_rows),
+				work_days: JSON.stringify($scope.curWorkDays.field_rows),
+				school_types: JSON.stringify($scope.curSchoolTypes.field_rows),
+				school_levels: JSON.stringify($scope.curSchoolLevels.field_rows),
+				location_services: JSON.stringify($scope.curDistrictSchoolServices.field_rows),
+				mileage_reimbursement: JSON.stringify($scope.curAppSettings.mileage_reimbursement),
+				cell_reimbursement: JSON.stringify($scope.curAppSettings.cell_reimbursement),
+				global_data_links: JSON.stringify($scope.curAppSettings.global_data_links)
 			}).then(function(results) {
 				$window.location.href = results;
 				$window.location.reload();

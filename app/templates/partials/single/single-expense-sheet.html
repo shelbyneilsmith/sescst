@@ -20,14 +20,13 @@
 
 	<li><strong>Cell Phone Reimbursement: </strong>{[ globalSettings.cell_reimbursement | currency ]}</li>
 
-	<li class="hover-link"><postfield formatted-output="{[ postData.itemized_meals | repeaterTotal : 'cost' : 30 : 'currency' ]}" admin-only='false' type='repeater' field-data='{ initValue: postData.itemized_meals }' label='Total Meals Compensation' keys='"itemized_meals"'></postfield></li>
 
 	<li class="hover-link"><postfield admin-only='false' type='repeater' field-data='{ initValue: postData.hotel_reimbursement }' label='Hotel Reimbursement' keys='"hotel_reimbursement"'></postfield></li>
 	<li class="hover-link"><postfield admin-only='false' type='repeater' field-data='{ initValue: postData.other_reimbursement }' label='Other Reimbursements' keys='"other_reimbursement"'></postfield></li>
 
 </ul>
 <hr />
-<h4>Total Expenses: {[postData.expense_total | currency]}</h4>
+<h4>Total Expenses: {[ getTotalExpenses(postData, globalSettings) | currency ]}</h4>
 
 <hr />
 

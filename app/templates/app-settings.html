@@ -12,52 +12,52 @@
 
 			<div ng-show="curPanel === 'access-roles'" id="access-roles" class="app-setting-panel">
 				<h3>Access Roles</h3>
-	 			<repeater repeater-type="simple" label='Role' data='curRoles' fields='[{fieldLabel: "Access Role", fieldName: "name", fieldType: "text"},{fieldLabel: "Role Description", fieldName: "description", fieldType: "textarea"}]'></repeater>
+	 			<repeater repeater-type="simple" label='Role' model='curRoles' fields='[{field_label: "Access Role", field_id: "name", field_type: "text"},{field_label: "Role Description", field_id: "description", field_type: "textarea"}]'></repeater>
 	 		</div>
 
 			<div ng-show="curPanel === 'activity-options'" id="activity-options" class="app-setting-panel">
 				<h3>Activity Types</h3>
-	 			<repeater repeater-type="simple" label='Activity Type' data='curActivityTypes' fields='[{fieldLabel: "Activity Type", fieldName: "name", fieldType: "text"},{fieldLabel: "Activity Type Description", fieldName: "description", fieldType: "textarea"}]'></repeater>
+	 			<repeater repeater-type="simple" label='Activity Type' model='curActivityTypes' fields='[{field_label: "Activity Type", field_id: "name", field_type: "text"},{field_label: "Activity Type Description", field_id: "description", field_type: "textarea"}]'></repeater>
 
 	 			<br /><br />
 
 				<h3>Activity Topics</h3>
-	 			<repeater repeater-type="simple" label='Activity Topic' data='curActivityTopics' fields='[{fieldLabel: "Activity Topic", fieldName: "name", fieldType: "text"},{fieldLabel: "Activity Topic Description", fieldName: "description", fieldType: "textarea"}]'></repeater>
+	 			<repeater repeater-type="simple" label='Activity Topic' model='curActivityTopics' fields='[{field_label: "Activity Topic", field_id: "name", field_type: "text"},{field_label: "Activity Topic Description", field_id: "description", field_type: "textarea"}]'></repeater>
 
 	 			<br /><br />
 
 				<h3>Activity Scopes</h3>
-	 			<repeater repeater-type="simple" label='Activity Scope' data='curActivityScopes' fields='[{fieldLabel: "Activity Scope", fieldName: "name", fieldType: "text"},{fieldLabel: "Activity Scope Description", fieldName: "description", fieldType: "textarea"}]'></repeater>
+	 			<repeater repeater-type="simple" label='Activity Scope' model='curActivityScopes' fields='[{field_label: "Activity Scope", field_id: "name", field_type: "text"},{field_label: "Activity Scope Description", field_id: "description", field_type: "textarea"}]'></repeater>
 
 	 			<br /><br />
 
 				<h3>Delivery Methods</h3>
-	 			<repeater repeater-type="simple" label='Delivery Method' data='curDeliveryMethods' fields='[{fieldLabel: "Delivery Method", fieldName: "name", fieldType: "text"},{fieldLabel: "Delivery Method Description", fieldName: "description", fieldType: "textarea"}]'></repeater>
+	 			<repeater repeater-type="simple" label='Delivery Method' model='curDeliveryMethods' fields='[{field_label: "Delivery Method", field_id: "name", field_type: "text"},{field_label: "Delivery Method Description", field_id: "description", field_type: "textarea"}]'></repeater>
 
 	 			<br /><br />
 
 				<h3>School Designations</h3>
-	 			<repeater repeater-type="simple" label='School Designation' data='curSchoolDesignations' fields='[{fieldLabel: "School Designation", fieldName: "name", fieldType: "text"},{fieldLabel: "School Designation Description", fieldName: "description", fieldType: "textarea"}]'></repeater>
+	 			<repeater repeater-type="simple" label='School Designation' model='curSchoolDesignations' fields='[{field_label: "School Designation", field_id: "name", field_type: "text"},{field_label: "School Designation Description", field_id: "description", field_type: "textarea"}]'></repeater>
 
 	 			<br /><br />
 
 				<h3>Work Days</h3>
-	 			<repeater repeater-type="simple" label='Work Day' data='curWorkDays' fields='[{fieldLabel: "Work Day", fieldName: "name", fieldType: "text"},{fieldLabel: "Work Day Description", fieldName: "description", fieldType: "textarea"}]'></repeater>
+	 			<repeater repeater-type="simple" label='Work Day' model='curWorkDays' fields='[{field_label: "Work Day", field_id: "name", field_type: "text"},{field_label: "Work Day Description", field_id: "description", field_type: "textarea"}]'></repeater>
 	 		</div>
 
 			<div ng-show="curPanel === 'school-district-options'" id="school-district-options" class="app-setting-panel">
 				<h3>School Types</h3>
-	 			<repeater repeater-type="simple" label='School Type' data='curSchoolTypes' fields='[{fieldLabel: "School Type", fieldName: "name", fieldType: "text"}]'></repeater>
+	 			<repeater repeater-type="simple" label='School Type' model='curSchoolTypes' fields='[{field_label: "School Type", field_id: "name", field_type: "text"}]'></repeater>
 
 	 			<br /><br />
 
 				<h3>School Levels</h3>
-	 			<repeater repeater-type="simple" label='School Level' data='curSchoolLevels' fields='[{fieldLabel: "School Level", fieldName: "name", fieldType: "text"}]'></repeater>
+	 			<repeater repeater-type="simple" label='School Level' model='curSchoolLevels' fields='[{field_label: "School Level", field_id: "name", field_type: "text"}]'></repeater>
 
 	 			<br /><br />
 
 				<h3>District/School Services</h3>
-	 			<repeater repeater-type="simple" label='District/School Service' data='curDistrictSchoolServices' fields='[{fieldLabel: "District/School Service", fieldName: "name", fieldType: "text"}]'></repeater>
+	 			<repeater repeater-type="simple" label='District/School Service' model='curDistrictSchoolServices' fields='[{field_label: "District/School Service", field_id: "name", field_type: "text"}]'></repeater>
 	 		</div>
 
 			<div ng-show="curPanel === 'reimbursement'" id="reimbursement" class="app-setting-panel">
@@ -70,7 +70,7 @@
 
 			<div ng-show="curPanel === 'data-links'" id="data-links" class="app-setting-panel">
 	 			<h3>Global Data Links</h3>
-	  			<repeater repeater-type="simple" label='Global Data Links' data='curAppSettings.global_data_links' fields='[{fieldLabel: "Link Title", fieldName: "link_title", fieldType: "text"},{fieldLabel: "Link URL", fieldName: "link_url", fieldType: "text"}]'></repeater>
+	  			<repeater repeater-type="simple" label='Global Data Links' model='curAppSettings.global_data_links' fields='[{field_label: "Link Title", field_id: "link_title", field_type: "text"},{field_label: "Link URL", field_id: "link_url", field_type: "text"}]'></repeater>
 	  		</div>
 		</div>
 	</div>

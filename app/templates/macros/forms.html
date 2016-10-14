@@ -40,7 +40,7 @@
 
 {% macro repeater_field(form, field_name, field, fields_data) %}
 	<div class='repeater-field' data-toggle='fieldset'>
-		<complex-repeater-field label="{{ field.label.text }}" field-name="{{ field_name }}" fields="{{ fields_data }}"></complex-repeater-field>
+		<repeater repeater-type="complex" label="{{ field.label.text }}" field-name="{{ field_name }}" fields="{{ fields_data }}"></repeater>
 
 		{% for error in field.errors %}
 			<span class='form-error'>{{ error }}</span>

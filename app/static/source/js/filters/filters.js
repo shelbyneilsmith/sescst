@@ -115,7 +115,7 @@ module.exports = angular.module('app-filters', [])
 					curUrl = input[i][1][urlKey];
 				}
 
-				linksList += "<li><a href='" + curUrl + "' title='" + curTitle + "'>" + curTitle + "</a></li>";
+				linksList += "<li><a href='" + curUrl + "' title='" + curTitle + "'  target='_blank'>" + curTitle + "</a></li>";
 			}
 			linksList += "</ul>";
 

@@ -6,7 +6,7 @@
 	<thead>
 		<tr>
 			<th ng-repeat="f in fieldData.displayValue['field_rows'][0] track by $index"><strong>{[ f.field_label ]}</strong></th>
-			<th><button ng-show='editMode' type='button' class='repeater-add btn btn-default' ng-click='addItem()' aria-label='Add Item' title='Add Item'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span></button></th>
+			<th ng-if='editMode'><button type='button' class='repeater-add btn btn-default' ng-click='$parent.addItem()' aria-label='Add Item' title='Add Item'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span></button></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -17,6 +17,5 @@
 		</tr>
 	</tbody>
 </table>
-
-<repeater repeater-type="complex" model='fieldData.value' ng-show='editMode' fields="fieldData.value['field_rows'][0]"></repeater>
+<repeater repeater-type="complex" model='fieldData.value' ng-if='editMode' fields="$parent.fieldData.value['field_rows'][0]"></repeater>
 

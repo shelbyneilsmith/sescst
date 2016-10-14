@@ -22,7 +22,8 @@ module.exports = ['$scope', '$routeParams', '$http', '$log', '$filter', 'helpers
 
 		// Reimbursement Totals for Expense Sheets
 		if ($scope.postType === 'Expense_Sheet') {
-			$scope.postData.expense_total = helpers.getTotalExpenses($scope.postData, $scope.globalSettings);
+			$scope.getTotalExpenses = helpers.getTotalExpenses;
+			// $scope.postData.expense_total = helpers.getTotalExpenses($scope.postData, $scope.globalSettings);
 		}
 	});
 
