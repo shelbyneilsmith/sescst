@@ -126,4 +126,21 @@ module.exports = angular.module('app-filters', [])
 		return function(text) {
 			return $sce.trustAsHtml(text);
 		};
+	}])
+	.filter('displayFilterVal', ['helpers', '$filter', function(helpers, $filter) {
+		return function(val, filterObj) {
+			var outputVal = val;
+
+			outputVal = val.name;
+
+			if (filterObj.filterSelect.value === 'date_range') {
+				var startDate = new Date(val.reportStartDate);
+				var endDate = new Date(val.reportEndDate);
+
+				outputVal = $filter('date')(startDate) + ' - ' + $filter('date')(endDate);
+			}
+
+			return outputVal;
+
+		}
 	}]);

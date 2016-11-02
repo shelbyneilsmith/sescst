@@ -17,29 +17,17 @@
 	</div>
 	</h3>
 
-<!-- 	<h4>Filters <span class="subtitle">Only show report data based on these filters.</span></h4>
-	<a class="round-controls collapsible-control btn btn-small" ng-click="filtersCollapsed = !filtersCollapsed"><span ng-class="filtersCollapsed ? 'glyphicon-chevron-down' : 'glyphicon-chevron-up'" class="glyphicon glyphicon-chevron-up"></span></a>
-	<div class="widget-collapsible" ng-class="filtersCollapsed ? 'collapsed' : 'expanded'">
-		<label>Filter By:</label>
-		<ul class='widget-filters list-unstyled'>
-			<li ng-repeat="filter in filters" class="clearfix">
-				<filter-select init-val="filter.filterSelect"></filter-select>
-				<button ng-show="$last" class="round-controls btn-add" ng-click="addWidgetFilter($event)">+</button>
-			</li>
-			<button class="btn btn-primary" ng-click="updateWidget()">Filter</button>
-		</ul>
-	</div>
+	<p class="filter">Filtered by {[widget.filter.filterSelect.label]}: {[widget.filter.filterDetail | displayFilterVal : widget.filter]}</p>
 
- -->
  	<h4>Metrics <span class="subtitle">What data are we comparing?</span></h4>
 	<a class="round-controls collapsible-control btn btn-small" ng-click="metricsCollapsed = !metricsCollapsed"><span ng-class="metricsCollapsed ? 'glyphicon-chevron-down' : 'glyphicon-chevron-up'" class="glyphicon glyphicon-chevron-up"></span></a>
 	<div class="widget-collapsible" ng-class="metricsCollapsed ? 'collapsed' : 'expanded'">
 		<label>Compare By:</label>
 		<h5>X Axis</h5>
-		<chart-metrics axis="x" opts="widgetXMetricOpts" model="metrics.x"></chart-metrics>
+		<chart-metrics axis="x" opts="widgetXMetricOpts" model="widget.metrics.x"></chart-metrics>
 
 		<h5>Y Axis</h5>
-		<chart-metrics axis="y" opts="widgetYMetricOpts[$parent.reportType]" model="metrics.y"></chart-metrics>
+		<chart-metrics axis="y" opts="widgetYMetricOpts[$parent.reportType]" model="widget.metrics.y"></chart-metrics>
 		<button class="btn btn-primary" ng-click="updateWidget()">Update Chart</button>
 	</div>
 

@@ -6,30 +6,30 @@
 		<button class="round-controls btn-remove" ng-hide="reportFilters.length == 1" ng-click="reportFilters.splice($index, 1)">-</button>
 	</div>
 
-	<div class="filter-details"  ng-show="filter.filterSelect.value == 'date_range'">
+	<div class="filter-details"  ng-if="filter.filterSelect.value == 'date_range'">
 		<h4>Report Date Range</h4>
 		<div class="form-field one-half">
 			<label>Report Start Date:</label>
-			<form-field model='filter.reportStartDate' placeholder='{[ filter.reportStartDate ]}' type='date'></form-field>
+			<form-field model='$parent.filter.filterDetail.reportStartDate' placeholder='{[ $parent.filter.filterDetail.reportStartDate ]}' type='date'></form-field>
 		</div>
 		<div class="form-field one-half">
 			<label>Report End Date:</label>
-			<form-field model='filter.reportEndDate' placeholder='{[ filter.reportEndDate ]}' type='date'></form-field>
+			<form-field model='$parent.filter.filterDetail.reportEndDate' placeholder='{[ $parent.filter.filterDetail.reportEndDate ]}' type='date'></form-field>
 		</div>
 	</div>
 
-	<div class="filter-details" ng-show="filter.filterSelect.value == 'user'">
+	<div class="filter-details" ng-if="filter.filterSelect.value == 'user'">
 		<label>User:</label>
-		<select class="form-control" ng-model="filter.reportUser" ng-options="user as user.name for user in allUsers"></select>
+		<select class="form-control" ng-model="$parent.filter.filterDetail" ng-options="user as user.name for user in $parent.allUsers" ng-init="$parent.filter.filterDetail = $parent.allUsers[0]"></select>
 	</div>
 
-	<div class="filter-details" ng-show="filter.filterSelect.value == 'district'">
+	<div class="filter-details" ng-if="filter.filterSelect.value == 'district'">
 		<label>District:</label>
-		<select class="form-control" ng-model="filter.reportDistrict" ng-options="district as district.name for district in allDistricts"></select>
+		<select class="form-control" ng-model="$parent.filter.filterDetail" ng-options="district as district.name for district in $parent.allDistricts" ng-init="$parent.filter.filterDetail = $parent.allDistricts[0]"></select>
 	</div>
 
-	<div class="filter-details" ng-show="filter.filterSelect.value == 'activity_type'">
+	<div class="filter-details" ng-if="filter.filterSelect.value == 'activity_type'">
 		<label>Activity Type:</label>
-		<select class="form-control" ng-model="filter.reportActivity" ng-options="activity as activity.name for activity in allActivities"></select>
+		<select class="form-control" ng-model="$parent.filter.filterDetail" ng-options="activity as activity.name for activity in $parent.allActivities" ng-init="$parent.filter.filterDetail = $parent.allActivities[0]"></select>
 	</div>
 </div>

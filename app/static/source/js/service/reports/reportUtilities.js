@@ -26,6 +26,7 @@ module.exports = ['$log', '$location', '$http', '$window', '$routeParams', 'help
 				}
 
 				newUrl += rison.encode(widgetsObj) + '&';
+			$log.log(newUrl);
 			}
 
 			if (editingID) {
@@ -94,6 +95,22 @@ module.exports = ['$log', '$location', '$http', '$window', '$routeParams', 'help
 						$log.log(error);
 					});
 			}
-		}
+		},
+		calcTimeSpent: function(userObj, logs) {
+			// $log.log(logs);
+			var totalHours = 0;
+			for (var i=0, l=logs.length; i<l; i++) {
+				if (logs[i].user.id === userObj.id) {
+					if (logs[i].activity_hours && typeof logs[i].activity_hours !== 'undefined') {
+						totalHours += logs[i].activity_hours;
+					}
+				}
+			}
+
+			return totalHours;
+		},
+		// processYMetric: function(metric_val, post_type, filter, callback) {
+		// 	helpers.getPosts(post_type, filter, callback);
+		// },
 	};
 }];

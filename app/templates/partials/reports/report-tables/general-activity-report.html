@@ -1,0 +1,48 @@
+<h3>{[ $parent.reportTitle ]}</h3>
+<table class="activity-report-table table table-striped table-hover table-responsive table-bordered" ng-init="$parent.tableSortInit($parent.reportType)">
+	<thead>
+		<tr>
+			<th class="sortable" ng-click="$parent.sortBy('name')">Activity Log Title&nbsp;<span class="sortorder" ng-class="{reverse: $parent.reverse}"></span></th>
+			<th class="sortable" ng-click="$parent.sortBy('user.username')">Created By&nbsp;<span class="sortorder" ng-class="{reverse: $parent.reverse}"></span></th>
+			<th>Activity Types</th>
+			<th>Activity Topics</th>
+			<th class="sortable" ng-click="$parent.sortBy('activity_date_start')">Start Date&nbsp;<span class="sortorder" ng-class="{reverse: $parent.reverse}"></span></th>
+			<th class="sortable" ng-click="$parent.sortBy('activity_date_end')">End Date&nbsp;<span class="sortorder" ng-class="{reverse: $parent.reverse}"></span></th>
+			<th class="sortable" ng-click="$parent.sortBy('activity_scope.name')">Activity Scope</th>
+			<th class="sortable" ng-click="$parent.sortBy('delivery_method.name')">Delivery Method</th>
+			<th class="sortable" ng-click="$parent.sortBy('school_designation.name')">School Designation</th>
+			<th class="sortable" ng-click="$parent.sortBy('location')">Location</th>
+			<th class="sortable" ng-click="$parent.sortBy('activity_hours')">Activity Hours</th>
+			<th class="sortable" ng-click="$parent.sortBy('total_num_participants')">Total Number of Participants</th>
+			<th class="sortable" ng-click="$parent.sortBy('num_hours_planning')"># Hours Planning Activity</th>
+			<th class="sortable" ng-click="$parent.sortBy('planner_name')">Name of Person Requesting Activity</th>
+			<th class="sortable" ng-click="$parent.sortBy('activity_contact')">Activity Contact Person</th>
+			<th>Districts</th>
+			<th>Schools</th>
+			<th class="sortable" ng-click="$parent.sortBy('work_day.name')">Work Day</th>
+		</tr>
+	</thead>
+	<tbody>
+
+		<tr ng-repeat="row in $parent.logs_data | orderBy: $parent.propertyName:$parent.reverse">
+			<td>{[ row.name ]} - <a href="/#/post?id={[ row.id ]}&post_type=Activity_Log">View Report</a></td>
+			<td>{[ row.user.username ]}</td>
+			<td><ul><li ng-repeat="type in row.activity_types">{[ type.name ]}</li></ul></td>
+			<td><ul><li ng-repeat="topic in row.activity_topics">{[ topic.name ]}</li></ul></td>
+			<td>{[ row.activity_date_start | date ]}</td>
+			<td>{[ row.activity_date_end | date ]}</td>
+			<td>{[ row.activity_scope.name ]}</td>
+			<td>{[ row.delivery_method.name ]}</td>
+			<td>{[ row.school_designation.name ]}</td>
+			<td>{[ row.location ]}</td>
+			<td>{[ row.activity_hours ]}</td>
+			<td>{[ row.total_num_participants ]}</td>
+			<td>{[ row.num_hours_planning ]}</td>
+			<td>{[ row.planner_name ]}</td>
+			<td>{[ row.activity_contact ]}</td>
+			<td><ul><li ng-repeat="district in row.districts">{[ district.name ]}</li></ul></td>
+			<td><ul><li ng-repeat="school in row.schools">{[ school.name ]}</li></ul></td>
+			<td>{[ row.work_day.name ]}</td>
+		</tr>
+	</tbody>
+</table>

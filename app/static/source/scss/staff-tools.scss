@@ -164,10 +164,12 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
-// form.post-field {
-// 	float: left;
-// 	clear: left;
-// }
+form.post-field {
+	.edit-controls {
+		margin-top: 10px;
+		clear: both;
+	}
+}
 
 #field-save-msg {
 	padding: 5px 10px;
@@ -538,6 +540,18 @@ a {
 		clear: both;
 		float: left;
 	}
+
+	.btn.btn-primary {
+		margin-top: 20px;
+	}
+
+	.filter {
+		display: block;
+		clear: both;
+		font-size: .9em;
+		font-weight: bold;
+		font-style: italic;
+	}
 }
 
 .chart-container {
@@ -701,7 +715,7 @@ a {
 }
 
 .activity-report-table {
-	font-size: .9em;
+	font-size: .75em;
 
 	th.sortable {
 		cursor: pointer;

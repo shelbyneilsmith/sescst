@@ -6,8 +6,10 @@
 module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers', 'config', function($compile, $http, $log, $timeout, $filter, helpers, config) {
 	var tpl = "<form class='post-field' ng-submit='savePostField()'> \
 		<ng-include src='fieldInclude'></ng-include> \
-		<a ng-show='editMode' class='btn small btn-primary save-link' ng-click='savePostField()'>Save</a> \
-		<a ng-show='editMode' class='btn small btn-primary cancel-link' ng-click='closeEditField()'>Cancel</a> \
+		<div ng-show='editMode' class='edit-controls'> \
+		<a class='btn small btn-primary save-link' ng-click='savePostField()'>Save</a> \
+		<a class='btn small btn-primary cancel-link' ng-click='closeEditField()'>Cancel</a> \
+		</div> \
 		</form>";
 
 	return {

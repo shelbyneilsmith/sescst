@@ -66,10 +66,11 @@
 				<div class="form-field">
 					<h4>Report Preset: </h4><br />
 					<small>Choose from the report presets or build a custom report.</small><br /><br />
-					<select class="form-control" ng-model="reportPreset" ng-options="option as option.label for option in reportPresetOptions"></select>
+					<select class="form-control" ng-model="reportPreset" ng-options="option as option.label for option in curPresetOptions"></select>
 				</div>
 
 				<div id="report-filters" class="clearfix">
+
 					<div ng-show="reportPreset.value == 'monthly'">
 						<h5>Report Month</h5>
 						<div class="form-field one-half">
@@ -88,14 +89,13 @@
 							<label>District:</label>
 							<select class="form-control" ng-model="reportDistrict" ng-options="district as district.name for district in allDistricts"></select>
 						</div>
-						<h4>Report Date Range</h4>
-						<div class="form-field one-half">
-							<label>Report Start Date:</label>
-							<form-field model='reportStartDate' placeholder='{[ reportStartDate ]}' type='date'></form-field>
-						</div>
-						<div class="form-field one-half">
-							<label>Report End Date:</label>
-							<form-field model='reportEndDate' placeholder='{[ reportEndDate ]}' type='date'></form-field>
+					</div>
+
+					<div ng-show="reportPreset.value == 'user'">
+						<h4>Report Consultant</h4>
+						<div class="form-field">
+							<label>Consultant:</label>
+							<select class="form-control" ng-model="reportUser" ng-options="user as user.name for user in allUsers"></select>
 						</div>
 					</div>
 
@@ -110,6 +110,18 @@
 									<filter-select init-val="filter.filterSelect"></filter-select>
 								</li>
 							</ul>
+						</div>
+					</div>
+
+					<div ng-show="reportPreset.value == 'general' || reportPreset.value == 'district' || reportPreset.value == 'user'">
+						<h4>Report Date Range</h4>
+						<div class="form-field one-half">
+							<label>Report Start Date:</label>
+							<form-field model='reportStartDate' placeholder='{[ reportStartDate ]}' type='date'></form-field>
+						</div>
+						<div class="form-field one-half">
+							<label>Report End Date:</label>
+							<form-field model='reportEndDate' placeholder='{[ reportEndDate ]}' type='date'></form-field>
 						</div>
 					</div>
 				</div>

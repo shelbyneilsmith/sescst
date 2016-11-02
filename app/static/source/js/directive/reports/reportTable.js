@@ -7,6 +7,7 @@ module.exports = ['$templateRequest', '$compile', function($templateRequest, $co
 		},
 		// templateUrl: '../templates/partials/reports/report-tables/' + $scope.type + '.html',
 		link: function(scope, element, attrs) {
+			console.log(scope.type);
 			$templateRequest('../templates/partials/reports/report-tables/' + scope.type + '.html').then(function(html) {
 				var template = angular.element(html);
 				element.append(template);
