@@ -152,7 +152,5 @@ module.exports = ['$http', '$log', '$timeout', 'helpers', function($http, $log, 
 			});
 
 		}],
-		link: function(scope, elem, attrs) {
-		}
 	};
 }];

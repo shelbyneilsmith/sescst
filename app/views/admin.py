@@ -128,6 +128,7 @@ def get_cur_user():
 	current_user_data = user_schema().dump(current_user)
 
 	return jsonify({'current_user': current_user_data})
+import logging
 
 def retrieve_posts(post_type, post_id=None, post_filter=None, schema=False, many=False):
 	classy_pt = getattr(sys.modules[__name__], post_type)
@@ -141,6 +142,7 @@ def retrieve_posts(post_type, post_id=None, post_filter=None, schema=False, many
 				post_filter = and_(*[x for x in post_filter])
 
 			posts = classy_pt.query.filter(post_filter).all()
+			# logging.warning(posts);
 		else:
 			posts = classy_pt.query.all()
 
@@ -156,6 +158,7 @@ def get_posts():
 	data = json.loads(request.data.decode())
 	post_type = data["post_type"]
 	post_filter = None
+
 	if 'post_filter' in data:
 		post_filter = data["post_filter"]
 

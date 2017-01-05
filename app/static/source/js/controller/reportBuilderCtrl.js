@@ -1,6 +1,5 @@
 /**
- * The main controller for report builder. The controller:
- * -
+ * The main controller for the report builder.
  */
 'use strict';
 
@@ -14,7 +13,7 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 	$scope.saveReport = ReportUtils.saveReport;
 	$scope.deleteReport = ReportUtils.deleteReport;
 
-	$scope.filter_date_range = [0, new Date()];
+	$scope.reportDateRange = [0, new Date()];
 	$scope.reportFilters = [];
 	$scope.reportFilter = '';
 
@@ -27,7 +26,6 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 		{label: 'KDE Activity Log Report', value: 'general'},
 		{label: 'District Activity Report', value: 'district'},
 		{label: 'Consultant Activity Report', value: 'user'},
-		// {label: 'Custom Report', value: 'custom'},
 	];
 
 	$scope.expenseReportPresets = [
@@ -39,7 +37,6 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 	$scope.widgetOptions = [
 		{label: 'Pie Chart', value: 'pie'},
 		{label: 'Bar Graph', value: 'bar'},
-		{label: 'Data Table', value: 'table'},
 	];
 
 	$scope.reportFilterOpts = [
@@ -49,28 +46,21 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 		{label: 'District', value: 'district'},
 	];
 
-	// $scope.widgetFilterOpts = [
-	// 	{label: 'Date Range', value: 'date_range'},
-	// 	{label: 'Activity Type', value: 'activity_type'},
-	// 	{label: 'District', value: 'district'},
-	// ];
-
-	$scope.widgetXMetricOpts = [
-		{label: 'Users', value: 'users'},
-		{label: 'Districts', value: 'districts'},
-		{label: 'Schools', value: 'schools'},
-		{label: 'Activity Types', value: 'activity_types'},
+	$scope.widgetYMetricOpts = [
+		{label: 'Total Time Spent', value: 'time_spent'},
+		{label: 'Total Expenses', value: 'total_expenses'},
 	];
 
-	$scope.widgetYMetricOpts = {
-		activity: [
-			{ label: 'Total Time Spent', value: 'time_spent' },
-		],
-		expense: [
-			{label: 'Total Time Spent', value: 'time_spent'},
-			{label: 'Total Expenses', value: 'total_expenses'},
-		],
-	};
+	$scope.widgetXMetricOpts = [
+		{label: 'Users', value: 'user'},
+		{label: 'Districts', value: 'districts'},
+		{label: 'Schools', value: 'schools'},
+	];
+
+	$scope.widgetFilterLocationOpts = [
+		{name: 'District', value: 'district'},
+		{name: 'School', value: 'school'},
+	];
 
 	var getNullVals = function(compareArr) {
 		var nullArr = [];
@@ -84,9 +74,6 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 		return {
 			'id': 'filter' + $index,
 			'filterSelect': $scope.reportFilterOpts[0],
-			// 'reportUser': $scope.allUsers[0],
-			// 'reportDistrict': $scope.allDistricts[0],
-			// 'reportActivity': $scope.allActivities[0]
 		};
 	};
 
@@ -107,196 +94,12 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 		}
 	};
 
-	$scope.setupRBData = function() {
-		var promises = {
-			// availMonths: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-			// availYears: [2014, 2015, 2016, 2017],
-			users: helpers.getDeferredPosts('User', '', compileDeferredData),
-			districts: helpers.getDeferredPosts('District', '', compileDeferredData),
-			activities: helpers.getDeferredPosts('Activity_Type', '', compileDeferredData),
-		};
-
-		function dataCallback(value) {
-			// $scope.availReportMonths = value.availMonths;
-			// $scope.reportMonth = $scope.curDate.getMonth();
-
-			// $scope.availReportYears = value.availYears;
-			// $scope.reportYear = $scope.curDate.getFullYear();
-
-			$scope.allUsers = value.users;
-			// $scope.reportUser = value.users[0];
-
-			$scope.allDistricts = value.districts;
-			// $scope.reportDistrict = value.districts[0];
-
-			$scope.allActivities = value.activities;
-			// $scope.reportActivity = value.activities[0];
-
-			$scope.reportFilters.push(createFilterObj(1));
-			// $scope.reportFilters[0].filterDetails = value.users[0];
-
-		}
-
-		$q.all(promises).then(dataCallback);
-	};
-
-	$scope.addReportFilter = function() {
-		var newItemNo = $scope.reportFilters.length + 1;
-		$scope.reportFilters.push(createFilterObj(newItemNo));
-	};
-
-	$scope.addNewWidget = function() {
-		// $log.log($scope.newWidgetFilterSelect);
-
-		if (!$scope.widgetTitle || typeof $scope.widgetTitle === 'undefined') {
-			$scope.widgetTitle = 'untitled';
-		}
-		var newItemNo = $scope.widgets.length + 1;
-		var widgetType = $scope.widgetType.value;
-		var widgetTypeLabel = $scope.widgetType.label;
-
-		$scope.widgets.push({'id':'widget-'+newItemNo, 'title': $scope.widgetTitle, 'type':widgetType, 'typeLabel':widgetTypeLabel, 'filter' : $scope.newWidgetFilterSelect, 'metrics': {x: $scope.newWidgetXMetricSelect, y: $scope.newWidgetYMetricSelect}});
-
-		ReportUtils.buildReportURL($scope.reportType, $scope.reportPreset, $scope.reportTitle, $scope.reportFilter, $scope.widgets);
-
-		// reset stuff
-		$scope.widgetTitle = '';
-		// $scope.newWidgetFilterSelect = {};
-		$scope.newWidgetFilterSelect = {
-			filterSelect: {},
-			filterDetail: {}
-		};
-		$scope.newWidgetXMetricSelect = '';
-		$scope.newWidgetYMetricSelect = '';
-		// $scope.newWidgetMetricSelect = getNullVals($scope.widgetMetricOpts);
-	};
-
-	$scope.destroyWidget = function(widget_id) {
-		if (confirm("Are you sure you want to delete this report widget?")) {
-			for(var i = 0; i < $scope.widgets.length; i++) {
-				var obj = $scope.widgets[i];
-
-				if(obj.id === widget_id) {
-					$scope.widgets.splice(i, 1);
-				}
-			}
-			ReportUtils.buildReportURL($scope.reportType, $scope.reportPreset, $scope.reportTitle, $scope.reportFilter, $scope.widgets);
-		}
-	};
 
 	$scope.sortBy = function(propertyName) {
 		$scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
 		$scope.propertyName = propertyName;
 	};
 
-	$scope.buildReport = function(reportData) {
-		if (reportData) {
-			$scope.reportType = reportData.reportType;
-			$scope.reportPreset = reportData.reportPreset;
-			$scope.reportTitle = reportData.reportTitle;
-			$scope.reportFilter = reportData.reportFilters;
-			$scope.widgets = reportData.reportWidgets;
-		}
-
-		switch ($scope.reportType) {
-			case 'expense':
-				$scope.reportPostType = 'Expense_Sheet';
-				dateStartKey = 'expense_sheet_start';
-				dateEndKey = 'expense_sheet_end';
-				break;
-			case 'activity':
-			default:
-				$scope.reportPostType = 'Activity_Log';
-				dateStartKey = 'activity_date_start';
-				dateEndKey = 'activity_date_end';
-				break;
-		}
-
-		if (!reportData) {
-			var userReportTitle = '';
-			var dateStartKey, dateEndKey;
-
-			if (typeof $scope.reportTitle !== 'undefined') {
-				userReportTitle = ' - ' + $scope.reportTitle;
-			}
-
-			if ($scope.reportPreset.value === 'custom') {
-				var customerFilterType;
-				$scope.reportTitle = 'Custom Report' + userReportTitle;
-
-				$scope.reportFilter = '[';
-
-				for (var i=0, l=$scope.reportFilters.length; i<l; i++) {
-					customerFilterType = $scope.reportFilters[i].filterSelect.value;
-
-					if (customerFilterType == 'date_range') {
-						$scope.filter_date_range[0] = new Date($scope.reportFilters[i].reportStartDate);
-						$scope.filter_date_range[1] = new Date($scope.reportFilters[i].reportEndDate);
-
-						$scope.reportFilter += $scope.reportPostType + "." + dateStartKey + " >= '" + helpers.dateToPDateTime($scope.filter_date_range[0]) + "', ";
-						$scope.reportFilter += $scope.reportPostType + "." + dateEndKey + " <= '" + helpers.dateToPDateTime($scope.filter_date_range[1]) + "'";
-					}
-
-					if (customerFilterType == 'user') {
-						$scope.reportFilter += $scope.reportPostType + ".user.has(id=" + $scope.reportFilters[i].reportUser.value + ")";
-					}
-
-					if (customerFilterType == 'district') {
-						$scope.reportFilter += $scope.reportPostType + ".districts.any(id=" + $scope.reportFilters[i].reportDistrict.value + ")";
-					}
-
-					if (customerFilterType == 'activity_type') {
-						$scope.reportFilter += $scope.reportPostType + ".activity_types.any(id=" + $scope.reportFilters[i].reportActivity.value + ")";
-					}
-
-					if (i < (l - 1)) {
-						$scope.reportFilter += ', ';
-					}
-				}
-
-				$scope.reportFilter += ']';
-			} else {
-				$scope.reportTitle = $scope.reportPreset.label + userReportTitle;
-
-				$scope.filter_date_range[0] = new Date($scope.reportStartDate);
-				$scope.filter_date_range[1] = new Date($scope.reportEndDate);
-
-				if ($scope.reportPreset.value === 'general') {
-					$scope.reportTitle = 'KDE ' + $filter('titleCase')($scope.reportType) + ' Report For ' + $filter('date')($scope.filter_date_range[0], 'mediumDate') + ' to ' + $filter('date')($scope.filter_date_range[1], 'mediumDate') + userReportTitle;
-					$scope.reportFilter = "[" + $scope.reportPostType + "." + dateStartKey + " >= '" + helpers.dateToPDateTime($scope.filter_date_range[0]) + "', " + $scope.reportPostType + "." + dateEndKey + " <= '" + helpers.dateToPDateTime($scope.filter_date_range[1]) + "']";
-				}
-				if ($scope.reportPreset.value === 'district') {
-					$scope.reportTitle = 'District ' + $filter('titleCase')($scope.reportType) + ' Report For: ' + $scope.reportDistrict.name + userReportTitle;
-					$scope.reportFilter = "[" + $scope.reportPostType + ".districts.any(id=" + $scope.reportDistrict.value + "), " + $scope.reportPostType + "." + dateStartKey + " >= '" + helpers.dateToPDateTime($scope.filter_date_range[0]) + "', " + $scope.reportPostType + "." + dateEndKey + " <= '" + helpers.dateToPDateTime($scope.filter_date_range[1]) + "']";
-				}
-				if ($scope.reportPreset.value === 'user') {
-					helpers.getPostData('User', $scope.reportUser.value, function(result) {
-						$scope.reportTitle = 'Consultant ' + $filter('titleCase')($scope.reportType) + ' Report For: ' + result.first_name + ' ' + result.last_name + userReportTitle;
-					});
-
-					$scope.reportFilter = "[" + $scope.reportPostType + ".districts.any(id=" + $scope.reportUser.value + "), " + $scope.reportPostType + "." + dateStartKey + " >= '" + helpers.dateToPDateTime($scope.filter_date_range[0]) + "', " + $scope.reportPostType + "." + dateEndKey + " <= '" + helpers.dateToPDateTime($scope.filter_date_range[1]) + "']";
-				}
-			}
-		}
-		helpers.getPosts($scope.reportPostType, $scope.reportFilter, function(results) {
-			if (results) {
-				$scope.logs_data = results;
-
-				if ($scope.reportPostType === 'Expense_Sheet') {
-					for (var li = 0, ll = $scope.logs_data.length; li<ll; li++) {
-						$scope.logs_data[li].expense_total = helpers.getTotalExpenses($scope.logs_data[li], $scope.globalSettings);
-					}
-				}
-			}
-		});
-
-		$scope.reportBuilt = true;
-		ReportUtils.buildReportURL($scope.reportType, $scope.reportPreset, $scope.reportTitle, $scope.reportFilter, $scope.widgets);
-
-		$window.onbeforeunload = function() {
-			return true;
-		};
-	};
 
 	$scope.tableSortInit = function(reportType) {
 		$scope.reverse = false;
@@ -311,6 +114,212 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 
 	};
 
+
+	$scope.setupRBData = function() {
+		var promises = {
+			users: helpers.getDeferredPosts('User', '', compileDeferredData),
+			districts: helpers.getDeferredPosts('District', '', compileDeferredData),
+			schools: helpers.getDeferredPosts('School', '', compileDeferredData),
+			activities: helpers.getDeferredPosts('Activity_Type', '', compileDeferredData),
+		};
+
+		function dataCallback(value) {
+			$scope.allUsers = value.users;
+			$scope.reportUser = value.users[0];
+
+			$scope.allDistricts = value.districts;
+			$scope.reportDistrict = value.districts[0];
+
+			$scope.allSchools = value.schools;
+			$scope.reportSchool = value.schools[0];
+
+			$scope.allActivities = value.activities;
+			$scope.reportActivity = value.activities[0];
+
+			$scope.reportFilters.push(createFilterObj(1));
+		}
+
+		$q.all(promises).then(dataCallback);
+	};
+
+	$scope.addReportFilter = function() {
+		var newItemNo = $scope.reportFilters.length + 1;
+		$scope.reportFilters.push(createFilterObj(newItemNo));
+	};
+
+
+	$scope.addNewWidget = function() {
+		if (!$scope.widgetTitle || typeof $scope.widgetTitle === 'undefined') {
+			$scope.widgetTitle = 'untitled';
+		}
+
+		var newItemNo = helpers.getHighestWidgetID($scope.widgets) + 1;
+
+		$scope.widgets.push({
+			'id':'widget-'+newItemNo,
+			'title': $scope.widgetTitle,
+			'type': $scope.widgetType.value,
+			'typeLabel': $scope.widgetType.label,
+			'filter' : [
+				{
+					filterType: 'date_range',
+					reportStartDate: $scope.reportDateRange[0],
+					reportEndDate: $scope.reportDateRange[1]
+				},
+				{
+					filterType: $scope.newWidgetLocSelect,
+					filterData: $scope.newWidgetFilterSelect
+				},
+			],
+			'metrics': {
+				x: $scope.newWidgetXMetricSelect,
+				y: $scope.newWidgetYMetricSelect
+			}
+		});
+
+		ReportUtils.buildReportURL($scope.reportType, $scope.reportPreset, $scope.reportTitle, $scope.reportDateRange, $scope.reportFilter, $scope.widgets);
+
+		// reset stuff
+		$scope.widgetTitle = '';
+		$scope.newWidgetFilterSelect = null;
+		$scope.newWidgetLocSelect = $scope.widgetFilterLocationOpts[0];
+		$scope.newWidgetXMetricSelect = $scope.widgetXMetricOpts[0];
+		$scope.newWidgetYMetricSelect = $scope.widgetYMetricOpts[0];
+	};
+
+
+	$scope.destroyWidget = function(widget_id) {
+		if (confirm("Are you sure you want to delete this report widget?")) {
+			for(var i = 0; i < $scope.widgets.length; i++) {
+				if($scope.widgets[i].id === widget_id) {
+					$scope.widgets.splice(i, 1);
+				}
+			}
+
+			// var $widgetsTemp = $scope.widgets;
+			ReportUtils.buildReportURL($scope.reportType, $scope.reportPreset, $scope.reportTitle, $scope.reportDateRange, $scope.reportFilter, $scope.widgets);
+
+			// $scope.widgets = [];
+			// ReportUtils.buildReportFromURL($scope.reportFilter, $scope.widgets, function(reportData) {
+			// 	$scope.buildReport(reportData);
+			// });
+			// $scope.widgets = $widgetsTemp;
+		}
+	};
+
+
+	$scope.buildReport = function(reportData) {
+		var datekeys, filtersData;
+		$scope.datekeys = [];
+
+		$scope.reportDateRange = [];
+
+		if (reportData) {
+			$scope.reportType = reportData.reportType;
+			$scope.reportPreset = reportData.reportPreset;
+			$scope.reportTitle = reportData.reportTitle;
+			$scope.reportFilter = reportData.reportFilters;
+			$scope.widgets = reportData.reportWidgets;
+
+			$scope.reportDateRange.push(reportData.reportDateRange[0]);
+			$scope.reportDateRange.push(reportData.reportDateRange[1]);
+		} else {
+			$scope.reportDateRange.push($scope.reportStartDate);
+			$scope.reportDateRange.push($scope.reportEndDate);
+		}
+
+		switch ($scope.reportType) {
+			case 'expense':
+				$scope.reportPostType = 'Expense_Sheert';
+				$scope.datekeys = ['expense_sheet_start','expense_sheet_end'];
+				break;
+			case 'activity':
+			default:
+				$scope.reportPostType = 'Activity_Log';
+				$scope.datekeys = ['activity_date_start','activity_date_end'];
+				break;
+		}
+
+		if (!reportData) {
+			var userReportTitle = '';
+
+			if (typeof $scope.reportTitle !== 'undefined') {
+				userReportTitle = ' - ' + $scope.reportTitle;
+			}
+
+			if ($scope.reportPreset.value === 'custom') {
+				$scope.reportTitle = 'Custom Report' + userReportTitle;
+				filtersData = $scope.reportFilters;
+			} else {
+				$scope.reportTitle = $scope.reportPreset.label + userReportTitle;
+
+				if ($scope.reportPreset.value === 'general') {
+					$scope.reportTitle = 'KDE ' + $filter('titleCase')($scope.reportType) + ' Report For ' + $filter('date')($scope.reportDateRange[0], 'mediumDate') + ' to ' + $filter('date')($scope.reportDateRange[1], 'mediumDate') + userReportTitle;
+					filtersData = [
+						{
+							filterType: 'date_range',
+							reportStartDate: $scope.reportDateRange[0],
+							reportEndDate: $scope.reportDateRange[1]
+						}
+					];
+				}
+				if ($scope.reportPreset.value === 'district') {
+					$scope.reportTitle = 'District ' + $filter('titleCase')($scope.reportType) + ' Report For: ' + $scope.reportDistrict.name + userReportTitle;
+					filtersData = [
+						{
+							filterType: 'district',
+							reportDistrict: $scope.reportDistrict
+						},
+						{
+							filterType: 'date_range',
+							reportStartDate: $scope.reportDateRange[0],
+							reportEndDate: $scope.reportDateRange[1]
+						}
+					];
+				}
+				if ($scope.reportPreset.value === 'user') {
+					helpers.getPostData('User', $scope.reportUser.value, function(result) {
+						$scope.reportTitle = 'Consultant ' + $filter('titleCase')($scope.reportType) + ' Report For: ' + result.first_name + ' ' + result.last_name + userReportTitle;
+					});
+
+					filtersData = [
+						{
+							filterType: 'user',
+							reportUser: $scope.reportUser
+						},
+						{
+							filterType: 'date_range',
+							reportStartDate: $scope.reportDateRange[0],
+							reportEndDate: $scope.reportDateRange[1]
+						}
+					];
+				}
+			}
+		}
+
+		$scope.reportFilter = helpers.buildQueryFilter(filtersData, $scope.reportPostType, $scope.datekeys);
+
+		helpers.getPosts($scope.reportPostType, $scope.reportFilter, function(results) {
+			if (results) {
+				$scope.logs_data = results;
+
+				if ($scope.reportPostType === 'Expense_Sheet') {
+					for (var li = 0, ll = $scope.logs_data.length; li<ll; li++) {
+						$scope.logs_data[li].expense_total = helpers.getTotalExpenses($scope.logs_data[li], $scope.globalSettings);
+					}
+				}
+			}
+		});
+
+		$scope.reportBuilt = true;
+		ReportUtils.buildReportURL($scope.reportType, $scope.reportPreset, $scope.reportTitle, $scope.reportDateRange, $scope.reportFilter, $scope.widgets);
+
+		$window.onbeforeunload = function() {
+			return true;
+		};
+	};
+
+
 	$scope.$watch('reportType', function(value) {
 		if ($scope.reportBuilt === false) {
 			if (value === 'activity') {
@@ -322,6 +331,7 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 			$scope.reportPreset = $scope.curPresetOptions[0];
 		}
 	});
+
 
 	$scope.reportBuilderInit = function() {
 		$scope.reportType = $scope.reportTypeOptions[0].value;
@@ -336,9 +346,11 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 		}
 
 		$scope.chartControlsOpen = false;
-		$scope.newWidgetFilterSelect = {};
-		$scope.newWidgetXMetricSelect = '';
-		$scope.newWidgetYMetricSelect = '';
+
+		$scope.newWidgetFilterSelect = null;
+		$scope.newWidgetLocSelect = $scope.widgetFilterLocationOpts[0];
+		$scope.newWidgetXMetricSelect = $scope.widgetXMetricOpts[0];
+		$scope.newWidgetYMetricSelect = $scope.widgetYMetricOpts[0];
 
 		$scope.widgetType = $scope.widgetOptions[0];
 		$scope.widgets = [];
@@ -355,4 +367,6 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 
 	};
 
+	// Run the report builder init!
+	$scope.reportBuilderInit();
 }];

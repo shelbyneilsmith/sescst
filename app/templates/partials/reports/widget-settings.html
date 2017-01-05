@@ -1,0 +1,25 @@
+<div class="widget-settings">
+	<span class="widget-setting-label">Show:</span>
+	<chart-metrics axis="y" placeholder="Choose Chart Data to Display" opts="$parent.widgetYMetricOpts" model="widgetYMetricSelect"></chart-metrics>
+	<br />
+
+	<span class="widget-setting-label">By:</span>
+	<chart-metrics axis="x" opts="$parent.widgetXMetricOpts" model="widgetXMetricSelect" change="onXMetricChange"></chart-metrics>
+	<br />
+
+	<span class="widget-setting-label">{[ widgetXMetricSelect.value === 'user' ? 'In' : 'For' ]}:</span>
+
+	<div class="widget-filter-select">
+		<span ng-if="widgetXMetricSelect.value !== 'user'">{[filterChoiceTitle]}</span>
+
+		<select  ng-if="widgetXMetricSelect.value === 'user'" class="form-control" ng-model="$parent.widgetLocSelect" ng-options="option.name for option in $parent.$parent.widgetFilterLocationOpts track by option.value"></select>
+
+		<br />
+
+		<select class="form-control" ng-model="widgetFilter" ng-options="option.name for option in widgetFilterOpts track by option.value">
+			<option value="" selected="selected">-- Choose {[ filterChoiceTitle || widgetLocSelect.name]} --</option>
+		</select>
+	</div>
+
+	<!-- <filter-select init-val="filter.filterSelect"></filter-select> -->
+</div>

@@ -1,4 +1,5 @@
 <strong ng-if="label">{[ label ]}:</strong>
+
 <dynamic-element ng-if='editAccess(postID, postType, adminOnly)' html='editBtn'></dynamic-element>
 <table class="table table-striped table-hover table-responsive table-bordered" ng-hide='editMode'>
 	<tr ng-repeat="item in fieldData.displayValue">

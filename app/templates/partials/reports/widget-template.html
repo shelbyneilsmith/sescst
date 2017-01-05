@@ -1,13 +1,18 @@
 <div class="report-widget">
+	<!-- Control to destroy the current widget -->
 	<a ng-click="destroyWidget(widget.id)" class="remove-widget glyphicon glyphicon-remove"></a>
 
+	<!-- Widget Title & Edit Form -->
 	<form class='post-field' ng-show="widgetTitleEdit" ng-submit='updateWidgetTitle("save")'>
 		<input type="text" ng-model="widgetNewTitle" ng-init="" />
 		<a ng-show='widgetTitleEdit' class='btn small btn-primary save-link' ng-click='updateWidgetTitle("save")'>Save</a>
 		<a ng-show='widgetTitleEdit' class='btn small btn-primary cancel-link' ng-click='updateWidgetTitle("cancel")'>Cancel</a>
 	</form>
-	<h3 class="hover-link subtitled" ng-show="!widgetTitleEdit">{[ widget.title ]} <a class="edit-link" ng-click="widgetTitleEdit = !widgetTitleEdit; widgetNewTitle = widget.title">Edit</a>
 
+	<h3 class="hover-link subtitled" ng-show="!widgetTitleEdit">{[ widget.title ]} <a class="edit-link" ng-click="widgetTitleEdit = !widgetTitleEdit; widgetNewTitle = widget.title">Edit</a></h3>
+	<!-- End Widget Title -->
+
+	<!-- Widget Type & Edit Form -->
 	<div class="subtitle">
 		<div class="hover-link" ng-show="!widgetTypeEdit"><span class="small">{[ widget.typeLabel ]}</span> <a class="edit-link" ng-click="widgetTypeEdit = !widgetTypeEdit">Edit</a></div>
 
@@ -15,23 +20,23 @@
 		<a ng-show='widgetTypeEdit' class='btn small btn-primary save-link' ng-click='updateWidgetType("save")'>Save</a>
 		<a ng-show='widgetTypeEdit' class='btn small btn-primary cancel-link' ng-click='updateWidgetType("cancel")'>Cancel</a>
 	</div>
-	</h3>
+	<!-- End Widget Type -->
 
-	<p class="filter">Filtered by {[widget.filter.filterSelect.label]}: {[widget.filter.filterDetail | displayFilterVal : widget.filter]}</p>
-
- 	<h4>Metrics <span class="subtitle">What data are we comparing?</span></h4>
+	<!-- Widget Settings -->
 	<a class="round-controls collapsible-control btn btn-small" ng-click="metricsCollapsed = !metricsCollapsed"><span ng-class="metricsCollapsed ? 'glyphicon-chevron-down' : 'glyphicon-chevron-up'" class="glyphicon glyphicon-chevron-up"></span></a>
-	<div class="widget-collapsible" ng-class="metricsCollapsed ? 'collapsed' : 'expanded'">
-		<label>Compare By:</label>
-		<h5>X Axis</h5>
-		<chart-metrics axis="x" opts="widgetXMetricOpts" model="widget.metrics.x"></chart-metrics>
+ 	<h4 class="subtitled">Chart Settings</h4>
+ 	<span class="subtitle">Edit the settings for this chart</span>
 
-		<h5>Y Axis</h5>
-		<chart-metrics axis="y" opts="widgetYMetricOpts[$parent.reportType]" model="widget.metrics.y"></chart-metrics>
+
+	<div class="widget-collapsible" ng-class="metricsCollapsed ? 'collapsed' : 'expanded'">
+		<widget-settings widget-x-metric-select="widget.metrics.x" widget-y-metric-select="widget.metrics.y" widget-loc-select="widget.filter[1].filterType" widget-filter="widget.filter[1].filterData"></widget-settings>
 		<button class="btn btn-primary" ng-click="updateWidget()">Update Chart</button>
 	</div>
+	<!-- End Widget Settings -->
 
+ 	<!-- Chart Output -->
 	<div class="chart-container">
 		<canvas id="{[ widget.id ]}-{[ widget.type ]}" class="chart-canvas" width="400" height="400"></canvas>
 	</div>
+	<!-- End Chart Output -->
 </div>

@@ -1,5 +1,6 @@
 <strong ng-if="label">{[ label ]}:</strong>
 <span ng-hide='editMode'>{[ fieldData.displayValue ]} </span>
+
 <dynamic-element ng-if='editAccess(postID, postType, adminOnly)' html='editBtn'></dynamic-element>
 
 <form-field ng-if='editMode' model='fieldData.value' placeholder='{[ label ]}' type='select' simple-select='simpleSelect' select-options="selectOptions" key-val="[optionKey, optionVal]"></form-field>

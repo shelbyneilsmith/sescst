@@ -1,6 +1,5 @@
 /**
- * The main controller for application forms. The controller:
- * -
+ * The main controller for application forms.
  */
 'use strict';
 

@@ -1,19 +1,19 @@
-module.exports = ['$log', '$location', '$http', '$window', '$routeParams', 'helpers', function($log, $location, $http, $window, $routeParams, helpers) {
+module.exports = ['$log', '$location', '$http', '$window', '$routeParams', 'helpers', '$filter', function($log, $location, $http, $window, $routeParams, helpers, $filter) {
 	var rison = require('rison');
 	return {
-		buildReportURL: function($reportType, $reportPreset, $reportTitle, $reportFilters, $widgets) {
-			var $widgets = typeof $widgets !== 'undefined' ? $widgets : null;
-			var risonWidgetData;
-			var editingID = null;
+		buildReportURL: function($reportType, $reportPreset, $reportTitle, $reportDateRange, $reportFilters, $widgets) {
+			var risonWidgetData, editingID = null;
 			if ($location.search('edit')) {
 				editingID = $routeParams.edit;
 			}
 			var curPath = $location.path();
 			var newUrl = curPath + '?';
+			$widgets = typeof $widgets !== 'undefined' ? $widgets : null;
 
 			newUrl += 'reportType=' + encodeURI($reportType);
 			newUrl += '&reportPreset=' + JSON.stringify($reportPreset);
 			newUrl += '&reportTitle=' + encodeURI($reportTitle);
+			newUrl += '&reportDateRange=' + JSON.stringify($reportDateRange);
 			newUrl += '&reportFilters=' + encodeURI($reportFilters);
 
 			if ($widgets.length) {
@@ -26,7 +26,6 @@ module.exports = ['$log', '$location', '$http', '$window', '$routeParams', 'help
 				}
 
 				newUrl += rison.encode(widgetsObj) + '&';
-			$log.log(newUrl);
 			}
 
 			if (editingID) {
@@ -37,6 +36,7 @@ module.exports = ['$log', '$location', '$http', '$window', '$routeParams', 'help
 		},
 		buildReportFromURL: function($filter, $widgetsArr, $callback) {
 			var urlParams = $location.search();
+
 			if (Object.keys(urlParams).length) {
 				var $widgets, key, widgetKey, reportData;
 
@@ -44,7 +44,6 @@ module.exports = ['$log', '$location', '$http', '$window', '$routeParams', 'help
 					if(urlParams.hasOwnProperty(key)) {
 						if(key !== 'edit') {
 							if (key === 'reportFilters') {
-								// $log.log(urlParams[key]);
 								$filter = decodeURI(urlParams[key]);
 							}
 							if (key === 'reportWidgets') {
@@ -66,7 +65,9 @@ module.exports = ['$log', '$location', '$http', '$window', '$routeParams', 'help
 					reportTitle: decodeURI(urlParams.reportTitle),
 					reportFilters: $filter,
 					reportWidgets: $widgetsArr,
+					reportDateRange: JSON.parse(urlParams.reportDateRange),
 				};
+
 				$callback(reportData);
 			}
 		},
@@ -96,21 +97,47 @@ module.exports = ['$log', '$location', '$http', '$window', '$routeParams', 'help
 					});
 			}
 		},
-		calcTimeSpent: function(userObj, logs) {
-			// $log.log(logs);
+		calcTimeSpent: function(logsData, postID, logKeyX) {
 			var totalHours = 0;
-			for (var i=0, l=logs.length; i<l; i++) {
-				if (logs[i].user.id === userObj.id) {
-					if (logs[i].activity_hours && typeof logs[i].activity_hours !== 'undefined') {
-						totalHours += logs[i].activity_hours;
+
+			function idExistsInArr(id, arr) {
+				return arr.some(function(el) {
+					return el.id === id;
+				});
+			}
+
+			for (var i=0, l=logsData.length; i<l; i++) {
+				if ((logsData[i][logKeyX].id === postID) || (angular.isArray(logsData[i][logKeyX]) && idExistsInArr(postID, logsData[i][logKeyX]))) {
+					if (logsData[i].activity_hours && typeof logsData[i].activity_hours !== 'undefined') {
+						totalHours += logsData[i].activity_hours;
 					}
 				}
 			}
 
 			return totalHours;
 		},
-		// processYMetric: function(metric_val, post_type, filter, callback) {
-		// 	helpers.getPosts(post_type, filter, callback);
-		// },
+		calcTotalExpenses: function(logsData, postID, logKeyX, globalSettings) {
+			var curXDataVal, totalExpenses = 0;
+
+			function idExistsInArr(id, arr) {
+				return arr.some(function(el) {
+					return el.id === id;
+				});
+			}
+
+			for (var i=0, l=logsData.length; i<l; i++) {
+				if (!logsData[i].activity_log) {
+					continue;
+				}
+				curXDataVal = logsData[i].activity_log[logKeyX];
+
+				if ((curXDataVal.id === postID) || (angular.isArray(curXDataVal) && idExistsInArr(postID, curXDataVal))) {
+					totalExpenses += parseFloat(helpers.getTotalExpenses(logsData[i], globalSettings));
+				}
+			}
+
+			return totalExpenses.toFixed(3);
+
+		}
 	};
 }];

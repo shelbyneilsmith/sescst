@@ -22,9 +22,6 @@ module.exports = ['$http', '$log', '$templateCache', '$compile', '$templateReque
 			if (scope.type !== 'select' && scope.type !== 'multiselect') {
 				scope.fieldModel = typeof scope.fieldModel !== 'undefined' ? scope.fieldModel : '';
 			}
-			// scope.$watch('fieldModel', function(newValue) {
-			// 	$log.log(scope.fieldModel);
-			// });
 
 			$templateRequest('../templates/partials/forms/fields/' + scope.type + '.html').then(function(html) {
 				var template = angular.element(html);

@@ -6,5 +6,4 @@ module.exports = angular.module('sescst-structure', [])
 
 	.controller('sescHeaderCtrl', require('../controller/structure/sescHeaderCtrl'))
 	.controller('sescSidebarCtrl', require('../controller/structure/sescSidebarCtrl'))
-	// .controller('sescMainCtrl', require('../controller/structure/sescMainCtrl'))
 	.controller('sescFooterCtrl', require('../controller/structure/sescFooterCtrl'));

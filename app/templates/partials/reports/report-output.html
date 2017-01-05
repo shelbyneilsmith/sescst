@@ -1,0 +1,36 @@
+<div id="report-output" class="faded">
+	<a class="print-btn" href="javascript:window.print()" title="Print Report"><span class="glyphicon glyphicon-print"></span></a>
+
+	<h3>{[ $parent.reportTitle ]}</h3>
+	<div class="report-table-wrapper">
+		<report-table ng-if="reportBuilt" type="{[ reportPreset.value ]}-{[ reportType ]}-report"></report-table>
+	</div>
+
+	<div class="widget-create clearfix blue-box">
+		<span class="widget-create-toggle" ng-click="$parent.chartControlsOpen = !$parent.chartControlsOpen">Create Chart/Graph &nbsp;<i class="glyphicon" ng-class="$parent.chartControlsOpen ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></i></span>
+
+		<div class="widget-create-controls" ng-class="$parent.chartControlsOpen ? 'open' : 'closed'">
+			<h3>Add Report Graph/Chart</h3>
+
+			<label>Title: </label><br />
+			<input type="text" ng-model="$parent.widgetTitle" />
+			<br /><br />
+
+			<label>Type: </label>
+			<select class="form-control" ng-model="$parent.widgetType" ng-options="option as option.label for option in $parent.widgetOptions"></select>
+			<br />
+
+			<widget-settings widget-x-metric-select="$parent.newWidgetXMetricSelect" widget-y-metric-select="$parent.newWidgetYMetricSelect" widget-loc-select="$parent.newWidgetLocSelect" widget-filter="$parent.newWidgetFilterSelect"></widget-settings>
+
+			<button class="chart-add-btn btn small btn-success" ng-click="$parent.addNewWidget(); $parent.chartControlsOpen = false">Create Chart/Graph</button>
+		</div>
+
+
+	</div>
+
+	<div class="results">
+		<report-widget ng-repeat="widget in $parent.widgets track by $index"></report-widget>
+	</div>
+
+	<button class="save-report-btn btn btn-success large" ng-click="saveReport(editingReport)">{[ saveBtnText ]}</button>
+</div>

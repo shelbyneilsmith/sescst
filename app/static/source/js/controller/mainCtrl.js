@@ -1,10 +1,10 @@
 /**
- * The main controller for the staff tools app. The controller:
- * -
+ * The main/global controller for the staff tools app.
  */
 'use strict';
 
 module.exports = ['$scope', '$routeParams', '$http', '$log', '$rootScope', '$location', 'helpers', '$timeout', function($scope, $routeParams, $http, $log, $rootScope, $location, helpers, $timeout) {
+	// Hide any alerts/messages on the page after a delay
 	$timeout(function() {
 		$('.alert').fadeOut('fast');
 	}, 6000);

@@ -3,55 +3,13 @@
 
 {% block content %}
 
-<div class="row" ng-controller='reportBuilderCtrl' ng-init='reportBuilderInit()'>
+<div class="row" ng-controller='reportBuilderCtrl'>
 	<sidebar></sidebar>
-	<div id="app-main" class="col-md-9">
+	<div id="app-main">
 		<div class="container-fluid">
 			<h2>Report Builder</h2>
 
-			<div id="report-output" ng-show="reportBuilt" class="faded">
-				<!-- <h3 class="report-title">{[ reportTitle ]}</h3> -->
-				<a class="print-btn" href="javascript:window.print()" title="Print Report"><span class="glyphicon glyphicon-print"></span></a>
-
-				<report-table ng-if="reportBuilt" type="{[ reportPreset.value ]}-{[ reportType ]}-report"></report-table>
-
-				<div class="widget-create clearfix blue-box">
-
-					<span class="widget-create-toggle" ng-click="chartControlsOpen = !chartControlsOpen">Create Chart/Graph &nbsp;<i class="glyphicon" ng-class="chartControlsOpen ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></i></span>
-					<div class="widget-create-controls" ng-class="chartControlsOpen ? 'open' : 'closed'">
-						<h3>Add Report Graph/Chart</h3>
-						<label>Title: </label><br />
-						<input type="text" ng-model="widgetTitle" />
-						<br /><br />
-						<label>Type: </label>
-						<select class="form-control" ng-model="widgetType" ng-options="option as option.label for option in widgetOptions"></select>
-						<br />
-						<div>
-							<h4>Filter Chart Data By:</h4>
-							<filter-select model="newWidgetFilterSelect"></filter-select>
-						</div>
-
- 						<div>
-							<h4>Chart Metrics from Current Data:</h4>
-							<h5>X Axis</h5>
-							<chart-metrics axis="x" opts="widgetXMetricOpts" model="newWidgetXMetricSelect"></chart-metrics>
-
-							<h5>Y Axis</h5>
-							<chart-metrics axis="y" opts="widgetYMetricOpts[reportType]" model="newWidgetYMetricSelect"></chart-metrics>
-						</div>
-
-						<button class="chart-add-btn btn small btn-success" ng-click="addNewWidget(); chartControlsOpen = false">Create Chart/Graph</button>
-					</div>
-				</div>
-
-				<div class="results">
-					<report-widget ng-repeat="widget in widgets track by $index"></report-widget>
-				</div>
-
-				<button class="save-report-btn btn btn-success large" ng-click="saveReport(editingReport)">{[ saveBtnText ]}</button>
-			</div>
-
-			<form id="report-type-form" ng-show="!reportBuilt">
+			<form id="report-type-form" ng-if="!reportBuilt">
 				<div class="form-field">
 					<label class="small">Report Title: </label><br />
 					<input type="text" ng-model="reportTitle" />
@@ -66,62 +24,36 @@
 				<div class="form-field">
 					<h4>Report Preset: </h4><br />
 					<small>Choose from the report presets or build a custom report.</small><br /><br />
-					<select class="form-control" ng-model="reportPreset" ng-options="option as option.label for option in curPresetOptions"></select>
+					<select class="form-control" ng-model="$parent.reportPreset" ng-options="option as option.label for option in $parent.curPresetOptions"></select>
 				</div>
 
 				<div id="report-filters" class="clearfix">
 
-					<div ng-show="reportPreset.value == 'monthly'">
-						<h5>Report Month</h5>
-						<div class="form-field one-half">
-							<label>Month:</label>
-							<select class="form-control" ng-model="reportMonth" ng-options="availReportMonths.indexOf(month) as month for month in availReportMonths"></select>
-						</div>
-						<div class="form-field one-half">
-							<label>Year:</label>
-							<select class="form-control" ng-model="reportYear" ng-options="year for year in availReportYears"></select>
-						</div>
-					</div>
-
-					<div ng-show="reportPreset.value == 'district'">
+					<div ng-if="$parent.reportPreset.value == 'district'">
 						<h4>Report District</h4>
 						<div class="form-field">
 							<label>District:</label>
-							<select class="form-control" ng-model="reportDistrict" ng-options="district as district.name for district in allDistricts"></select>
+							<select class="form-control" ng-model="$parent.$parent.reportDistrict" ng-options="district as district.name for district in $parent.$parent.allDistricts"></select>
 						</div>
 					</div>
 
-					<div ng-show="reportPreset.value == 'user'">
+					<div ng-if="$parent.reportPreset.value == 'user'">
 						<h4>Report Consultant</h4>
 						<div class="form-field">
 							<label>Consultant:</label>
-							<select class="form-control" ng-model="reportUser" ng-options="user as user.name for user in allUsers"></select>
+							<select class="form-control" ng-model="$parent.$parent.reportUser" ng-options="user as user.name for user in $parent.$parent.allUsers"></select>
 						</div>
 					</div>
 
-					<div ng-show="reportPreset.value == 'custom'">
-						<h4>Filters <span class="subtitle">Only show report data based on these filters.</span></h4>
-						<button class="round-controls btn-add" ng-click="addReportFilter($event)">+</button>
-						<div class="report-filters">
-							<label>Filter By:</label>
-							<ul class='list-unstyled'>
-								{[reportFilters]}
-								<li ng-repeat="filter in reportFilters" class="clearfix">
-									<filter-select init-val="filter.filterSelect"></filter-select>
-								</li>
-							</ul>
-						</div>
-					</div>
-
-					<div ng-show="reportPreset.value == 'general' || reportPreset.value == 'district' || reportPreset.value == 'user'">
+					<div ng-if="$parent.reportPreset.value == 'general' || $parent.reportPreset.value == 'district' || $parent.reportPreset.value == 'user'">
 						<h4>Report Date Range</h4>
 						<div class="form-field one-half">
 							<label>Report Start Date:</label>
-							<form-field model='reportStartDate' placeholder='{[ reportStartDate ]}' type='date'></form-field>
+							<form-field model='$parent.$parent.reportStartDate' placeholder='{[ $parent.$parent.reportStartDate ]}' type='date'></form-field>
 						</div>
 						<div class="form-field one-half">
 							<label>Report End Date:</label>
-							<form-field model='reportEndDate' placeholder='{[ reportEndDate ]}' type='date'></form-field>
+							<form-field model='$parent.$parent.reportEndDate' placeholder='{[ $parent.$parent.reportEndDate ]}' type='date'></form-field>
 						</div>
 					</div>
 				</div>
@@ -129,6 +61,7 @@
 				<button class="btn btn-primary btn-sm" ng-click="buildReport()">Build Report</button>
 			</form>
 
+			<report-output  ng-if="reportBuilt"></report-output>
 		</div>
 	</div>
 </div>

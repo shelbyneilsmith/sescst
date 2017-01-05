@@ -1,6 +1,7 @@
 <div class="chart-metrics">
 	<label>{[ metric.label ]}</label>
-	<select class="form-control" ng-model="model" ng-options="option as option.label for option in metricOpts track by option.value">
-		<option value="" selected="selected">-- Choose a Metric --</option>
+
+	<select class="form-control" ng-model="model" ng-change="change(model)" ng-options="option as option.label for option in metricOpts track by option.value">
+		<option value="" selected="selected">-- {[ metricSelectPlaceholder ]} --</option>
 	</select>
 </div>

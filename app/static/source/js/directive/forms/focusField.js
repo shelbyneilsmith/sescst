@@ -1,5 +1,5 @@
 /**
- * The directive for the hide/show password checkbox feature.
+ * The directive for the field focus feature.
  */
 'use strict';
 
