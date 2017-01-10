@@ -11,7 +11,7 @@
 {% macro number_field(form, field_name, field) %}
 	<div class='number-field' data-toggle='fieldset'>
 		<label for="{{field_name}}">{{field.label.text}}:</label><br />
-		<form-field name='{{field_name}}' type='number'></form-field>
+		<form-field name='{{field_name}}' type='number' placeholder='0'></form-field>
 		{% for error in field.errors %}
 			<br /><span class='form-error'>{{ error }}</span>
 		{% endfor %}
@@ -60,7 +60,7 @@
 
 {% macro select_field(form, field_name, field, select_options, key_val, simple_select) %}
 	<div class='select-field' data-toggle='fieldset'>
-		<label for="{{field_name}}">{{field.label.text}}:</label>
+		<label for="{{field_name}}">{{field.label.text}}:</label><br />
 		<form-field name='{{field_name}}' placeholder='{{field.label.text}}' type='select' simple-select='{{simple_select}}' select-options="{{select_options}}" key-val="{{key_val}}"></form-field>
 		{% for error in field.errors %}
 			<span class='form-error'>{{ error }}</span>

@@ -8,7 +8,7 @@
 		<tr ng-repeat="post in postList.posts">
 			<td><a href="/admin/report-builder#{[post.url]}">{[post.id]}</a></td>
 			<td><a href="/admin/report-builder#{[post.url]}&edit={[post.id]}">Edit</a></td>
-			<td ng-controller="reportBuilderCtrl"><a class="btn btn-primary small" ng-click="deleteReport(post.id)">Delete</a></td>
+			<td><a class="btn btn-primary small" ng-click="deletePost(post.id, 'Report_URL')">Delete</a></td>
 		</tr>
 	</tbody>
 </table>

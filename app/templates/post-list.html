@@ -1,6 +1,12 @@
 <h1>{[ postType | underscoreless | pluralize ]}</h1>
 <span ng-if="postFilter" class="page-sub-title">For {[ postFilterKey ]}: {[ postFilterVal ]}</span>
 
-<div ng-include="getListTemplate()"></div>
+<div class="post-list-wrap">
+	<div class="spinner-wrap" ng-bind-html="postsLoadingSpinner"></div>
+	<div ng-include="getListTemplate()"></div>
+</div>
+
+{% if current_user.urole == "Administrator" %}
 <br /><br />
 <a class="btn btn-primary large" ng-href="{[createPostURL]}">Create {[postType | underscoreless]}</a>
+{% endif %}

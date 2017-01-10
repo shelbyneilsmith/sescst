@@ -10,9 +10,6 @@ module.exports = ['ColorRange', '$log', '$filter', function(ColorRange, $log, $f
 
 		chartOptions = typeof chartOptions !== 'undefined' ? chartOptions : {
 			events: false,
-			// tooltips: {
-			// 	enabled: false
-			// },
     			animation: {
 				duration: 500,
 				easing: "easeOutQuart",
@@ -29,7 +26,6 @@ module.exports = ['ColorRange', '$log', '$filter', function(ColorRange, $log, $f
 					} else {
 
 						var ctx = this.chart.ctx;
-						// ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontFamily, 'normal', Chart.defaults.global.defaultFontFamily);
 						ctx.textAlign = 'center';
 						ctx.textBaseline = 'bottom';
 
@@ -47,10 +43,8 @@ module.exports = ['ColorRange', '$log', '$filter', function(ColorRange, $log, $f
 								var x = mid_radius * Math.cos(mid_angle);
 								var y = mid_radius * Math.sin(mid_angle);
 
-		     							ctx.fillStyle = '#fff';
-								// if (i === 3){ // Darker text color for lighter background
-								// 	ctx.fillStyle = '#444';
-								// }
+	     							ctx.fillStyle = '#fff';
+
 								var percent = String(Math.round(dataset.data[i]/total*100)) + "%";
 								var value = String(dataset.data[i]);
 								if (valFormatter) {
@@ -77,7 +71,6 @@ module.exports = ['ColorRange', '$log', '$filter', function(ColorRange, $log, $f
 		var topThreshold = 20;
 
 		var modifyCtx = function(ctx) {
-			// ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, 'normal', Chart.defaults.global.defaultFontFamily);
 			ctx.font= "bold 12px Verdana";
 			ctx.textAlign = 'center';
 			ctx.textBaseline = 'bottom';

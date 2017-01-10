@@ -1,10 +1,10 @@
 /**
- * The single post view controller. The controller:
+ * The single post view controller.
  * -
  */
 'use strict';
 
-module.exports = ['$scope', '$routeParams', '$http', '$log', '$filter', 'helpers', '$sce', '$location', function($scope, $routeParams, $http, $log, $filter, helpers, $sce, $location) {
+module.exports = ['$scope', '$routeParams', '$http', '$log', '$filter', 'helpers', '$sce', '$location', '$rootScope', function($scope, $routeParams, $http, $log, $filter, helpers, $sce, $location, $rootScope) {
 	$scope.postType = $routeParams.post_type;
 	$scope.postData = {};
 
@@ -57,37 +57,7 @@ module.exports = ['$scope', '$routeParams', '$http', '$log', '$filter', 'helpers
 		return false;
 	};
 
-	/**
-	 * The function for deleting the current post
-	 * @param  {integer} post_id   The id of the post to be deleted
-	 * @param  {string} post_type The type of the post to be deleted
-	 */
 	$scope.deletePost = function(post_id, post_type) {
-		var actionCallback, deleteRelMsg = '', deleteRelType = null, deleteRelID = null;
-
-		// Check type of post, ask user if they want to
-		// delete corresponding activity log or expense sheet
-		if ($scope.postData.expense_sheet) {
-			if (post_type === 'Activity_Log') {
-				deleteRelMsg = 'Delete Related Expense Sheet as Well?';
-				deleteRelID = $scope.postData.expense_sheet;
-				deleteRelType = 'Expense_Sheet';
-			}
-		}
-		if ($scope.postData.activity_log) {
-			if (post_type === 'Expense_Sheet') {
-				deleteRelMsg = 'Delete Related Activity Log as Well?';
-				deleteRelID = $scope.postData.activity_log.id;
-				deleteRelType = 'Activity_Log';
-			}
-		}
-
-		if (deleteRelID) {
-			actionCallback = 'deleteRelConfirm';
-		} else {
-			actionCallback = 'redirect';
-		}
-		$location.path('/confirm').search({post_id: post_id, post_type: post_type, action_url: '/api/delete_post', action_callback: actionCallback, delete_rel_type: deleteRelType, delete_rel_id: deleteRelID, delete_rel_msg: deleteRelMsg});
+		helpers.deletePost(post_id, post_type, $scope.postData);
 	};
-
 }];

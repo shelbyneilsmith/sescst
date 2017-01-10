@@ -1,4 +1,4 @@
-module.exports = ['$timeout', 'WidgetChart', '$log', 'helpers', 'ReportUtils', function($timeout, WidgetChart, $log, helpers, ReportUtils) {
+module.exports = ['$timeout', 'WidgetChart', '$log', 'helpers', 'ReportUtils', '$sce', function($timeout, WidgetChart, $log, helpers, ReportUtils, $sce) {
 	return {
 		restrict: 'E',
 		replace: true,
@@ -39,6 +39,10 @@ module.exports = ['$timeout', 'WidgetChart', '$log', 'helpers', 'ReportUtils', f
 			};
 
 			var renderWidgetData = function() {
+				$('.chart-container .spinner-wrap').hide();
+				scope.widgetLoadingSpinner = $sce.trustAsHtml(helpers.makeSpinnerOverlay());
+				$('.chart-container .spinner-wrap').fadeIn();
+
 				scope.chartData = [];
 				var filterStr = '';
 
@@ -112,6 +116,9 @@ module.exports = ['$timeout', 'WidgetChart', '$log', 'helpers', 'ReportUtils', f
 							}
 
 							element.chart = WidgetChart.makeChart(scope.widget.type, scope.chartElem, chartLabels, chartData, chartValFormatter);
+							$('.chart-container .spinner-wrap').fadeOut(250, function() {
+								scope.widgetLoadingSpinner = null;
+							});
 						}
 					};
 				};

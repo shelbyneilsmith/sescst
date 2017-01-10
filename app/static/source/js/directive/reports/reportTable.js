@@ -10,6 +10,11 @@ module.exports = ['$templateRequest', '$compile', function($templateRequest, $co
 				var template = angular.element(html);
 				element.append(template);
 				$compile(template)(scope);
+
+				$('.report-table-wrapper .spinner-wrap').fadeOut(250, function() {
+					scope.$parent.$parent.reportLoadingSpinner = null;
+				});
+
 			});
 		}
 	};

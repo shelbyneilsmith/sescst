@@ -71,13 +71,13 @@ module.exports = ['$log', '$location', '$http', '$window', '$routeParams', 'help
 				$callback(reportData);
 			}
 		},
-		saveReport: function(editID) {
+		saveReport: function(reportTitle, editID) {
 			var reportURL= $location.url();
 			reportURL = helpers.removeURLParameter(reportURL, 'edit');
 
 			$window.onbeforeunload = null;
 
-			$http.post('/api/save-report-url', {report_url: reportURL, editing_id: editID})
+			$http.post('/api/save-report-url', {report_title: reportTitle, report_url: reportURL, editing_id: editID})
 				.then(function(results) {
 					$window.location.href = results.data;
 					$log.log(results.data);

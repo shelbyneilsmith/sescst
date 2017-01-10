@@ -1,0 +1,135 @@
+.spinner {
+	background: none;
+	position: relative;
+	width: 200px;
+	height: 200px;
+
+	& > div {
+		width: 20px;
+		height: 24px;
+		margin-left: 4px;
+		margin-top: 4px;
+		position: absolute;
+
+		& > div {
+			width: 100%;
+			height: 100%;
+			border-radius: 15px;
+			background: #192560;
+		}
+
+		&:nth-of-type(1) {
+			transform: translate(84px, 84px) rotate(45deg) translate(70px, 0);
+
+			& > div {
+				animation: uil-spin-css 1s linear infinite;
+				animation-delay: 0s;
+			}
+		}
+
+
+		&:nth-of-type(2) {
+			transform: translate(84px, 84px) rotate(90deg) translate(70px, 0);
+
+			& > div {
+				animation: uil-spin-css 1s linear infinite;
+				animation-delay: 0.12s;
+			}
+		}
+
+
+		&:nth-of-type(3) {
+			transform: translate(84px, 84px) rotate(135deg) translate(70px, 0);
+
+			& > div {
+				animation: uil-spin-css 1s linear infinite;
+				animation-delay: 0.25s;
+			}
+		}
+
+		&:nth-of-type(4) {
+			transform: translate(84px, 84px) rotate(180deg) translate(70px, 0);
+
+		& > div {
+				animation: uil-spin-css 1s linear infinite;
+				animation-delay: 0.37s;
+			}
+		}
+
+		&:nth-of-type(5) {
+			transform: translate(84px, 84px) rotate(225deg) translate(70px, 0);
+
+			& > div {
+				animation: uil-spin-css 1s linear infinite;
+				animation-delay: 0.5s;
+			}
+		}
+
+		&:nth-of-type(6) {
+			transform: translate(84px, 84px) rotate(270deg) translate(70px, 0);
+
+			& > div {
+				animation: uil-spin-css 1s linear infinite;
+				animation-delay: 0.62s;
+			}
+		}
+
+		&:nth-of-type(7) {
+			transform: translate(84px, 84px) rotate(315deg) translate(70px, 0);
+
+			& > div {
+				animation: uil-spin-css 1s linear infinite;
+				animation-delay: 0.75s;
+			}
+		}
+
+		&:nth-of-type(8) {
+			transform: translate(84px, 84px) rotate(360deg) translate(70px, 0);
+
+			& > div {
+				animation: uil-spin-css 1s linear infinite;
+				animation-delay: 0.87s;
+			}
+		}
+	}
+}
+
+@keyframes uil-spin-css {
+	0% {
+		opacity: 1;
+		transform: scale(1.5);
+	}
+	100% {
+		opacity: 0.1;
+		transform: scale(1);
+	}
+}
+
+
+.spinner-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(white, .75);
+	z-index: 999;
+
+	.spinner {
+		position: absolute;
+		top: 50%;
+		margin-top: -20px;
+		left: 50%;
+		margin-left: -20px;
+		width: auto;
+		height: auto;
+		transform: scale(.15);
+	}
+}
+
+.chart-container {
+	.spinner-overlay {
+		background-color: rgba(#f9f9f9, .75);
+	}
+}
+

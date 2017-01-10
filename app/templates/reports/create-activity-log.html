@@ -12,75 +12,75 @@
 			<form action="" method="post" name="create-activity-log">
 				{{ activity_log_form.hidden_tag() }}
 				<fieldset class="form-group">
-					<div class="form-field">
+					<div class="form-field col-md-12">
 						{{ form_macros.text_field(activity_log_form, "name", activity_log_form.name) }}
 					</div>
 
-					<div class="form-field">
+					<div class="form-field col-md-6">
 						{{ form_macros.multi_select_field(activity_log_form, "activity_topics", activity_log_form.activity_topics, "{postType: 'Activity_Topic'}", "['name', 'id']") }}
 					</div>
 
-					<div class="form-field">
+					<div class="form-field col-md-6">
 						{{ form_macros.multi_select_field(activity_log_form, "activity_types", activity_log_form.activity_types, "{postType: 'Activity_Type'}", "['name', 'id']") }}
 					</div>
 
-					<div class="form-field">
+					<div class="form-field col-md-6">
 						{{ form_macros.datepicker_field(activity_log_form, "activity_date_start", activity_log_form.activity_date_start) }}
 					</div>
 
-					<div class="form-field">
+					<div class="form-field col-md-6">
 						{{ form_macros.datepicker_field(activity_log_form, "activity_date_end", activity_log_form.activity_date_end) }}
 					</div>
 
-					<div class="form-field">
+					<div class="form-field col-md-4">
 						{{ form_macros.select_field(activity_log_form, "activity_scope", activity_log_form.activity_scope, "{postType: 'Activity_Scope'}", "['name', 'id']") }}
 					</div>
 
-					<div class="form-field">
+					<div class="form-field col-md-4">
 						{{ form_macros.select_field(activity_log_form, "delivery_method", activity_log_form.delivery_method, "{postType: 'Delivery_Method'}", "['name', 'id']") }}
 					</div>
 
-					<div class="form-field">
+					<div class="form-field col-md-4">
 						{{ form_macros.select_field(activity_log_form, "school_designation", activity_log_form.school_designation, "{postType: 'School_Designation'}", "['name', 'id']") }}
 					</div>
 
-					<div class="form-field">
+					<div class="form-field col-md-6">
 						{{ form_macros.multi_select_field(activity_log_form, "log_districts", activity_log_form.log_districts, "{postType: 'District', allowAll: true}", "['name', 'id']") }}
 					</div>
 
-					<div class="form-field">
+					<div class="form-field col-md-6">
 						{{ form_macros.multi_select_field(activity_log_form, "log_schools", activity_log_form.log_schools, "{postType: 'School', allowAll: true}", "['name', 'id']") }}
 					</div>
 
-					<div class="form-field">
+					<div class="form-field col-md-6">
 						{{ form_macros.text_field(activity_log_form, "location", activity_log_form.location) }}
 					</div>
 
-					<div class="form-field">
+					<div class="form-field col-md-6">
 						{{ form_macros.select_field(activity_log_form, "activity_hours", activity_log_form.activity_hours, drange(1, 17, 0.5), "", 'true') }}
 					</div>
 
-					<div class="form-field">
+					<div class="form-field col-md-6">
 						{{ form_macros.number_field(activity_log_form, "total_num_participants", activity_log_form.total_num_participants) }}
 					</div>
 
-					<div class="form-field">
+					<div class="form-field col-md-6">
 						{{ form_macros.number_field(activity_log_form, "num_hours_planning", activity_log_form.num_hours_planning) }}
 					</div>
 
-					<div class="form-field">
+					<div class="form-field col-md-6">
 						{{ form_macros.text_field(activity_log_form, "planner_name", activity_log_form.planner_name) }}
 					</div>
 
-					<div class="form-field">
+					<div class="form-field col-md-6">
 						{{ form_macros.text_field(activity_log_form, "activity_contact", activity_log_form.activity_contact) }}
 					</div>
 
-					<div class="form-field">
+					<div class="form-field col-md-12">
 						{{ form_macros.select_field(activity_log_form, "work_day", activity_log_form.work_day, "{postType: 'Work_Day'}", "['name', 'id']") }}
 					</div>
 
-					<div class="form-field">
+					<div class="form-field col-md-12">
 						{{ form_macros.textarea_field(activity_log_form, "report_notes", activity_log_form.report_notes) }}
 					</div>
 

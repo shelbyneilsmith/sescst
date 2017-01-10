@@ -192,8 +192,11 @@ module.exports = ['$compile', '$http', '$log', '$timeout', '$filter', 'helpers',
 
 				scope.editMode = false;
 
+				jQuery(element[0]).parent().append(helpers.makeSpinnerOverlay()).fadeIn();
+
 				$http.post('/api/save_post_field', {post_id: scope.$parent.postData.id, post_type: scope.$parent.postType, field_key: scope.keys, field_value: scope.saveValue, relationship: scope.relation})
 					.then(function(results) {
+						jQuery('.spinner-overlay').fadeOut(250, function() { jQuery(this).remove(); });
 						jQuery(element[0]).append('<span id="field-save-msg" class="success">' + results.data.success + '</span>');
 						scope.$parent.postData[scope.keys] = scope.saveValue;
 						// $log.log(results.data);

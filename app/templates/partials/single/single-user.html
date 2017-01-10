@@ -1,6 +1,6 @@
 <h1>User - {[ postData.username ]}</h1>
 
-<span class="user-role"><postfield admin-only='true' type='select' field-data='{ postType: "Role", only: "name", initValue: postData.urole }' label='Access Role' keys='"urole"'></postfield></span>
+<span class="user-role"><postfield admin-only='false' type='select' field-data='{ postType: "Role", only: "name", initValue: postData.urole }' label='Access Role' keys='"urole"'></postfield></span>
 
 <ul class="post-details list-unstyled">
 	<li class="hover-link"><postfield admin-only='false' type='text' field-data='{ initValue: postData.username }' label='Username' keys='"username"' is-title="true"></postfield></li>

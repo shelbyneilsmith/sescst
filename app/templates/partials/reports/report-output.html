@@ -3,6 +3,7 @@
 
 	<h3>{[ $parent.reportTitle ]}</h3>
 	<div class="report-table-wrapper">
+		<div class="spinner-wrap" ng-bind-html="reportLoadingSpinner"></div>
 		<report-table ng-if="reportBuilt" type="{[ reportPreset.value ]}-{[ reportType ]}-report"></report-table>
 	</div>
 
@@ -32,5 +33,5 @@
 		<report-widget ng-repeat="widget in $parent.widgets track by $index"></report-widget>
 	</div>
 
-	<button class="save-report-btn btn btn-success large" ng-click="saveReport(editingReport)">{[ saveBtnText ]}</button>
+	<button class="save-report-btn btn btn-success large" ng-click="saveReport($parent.reportTitle, editingReport)">{[ saveBtnText ]}</button>
 </div>

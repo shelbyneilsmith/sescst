@@ -4,7 +4,7 @@
 'use strict';
 
 module.exports = angular.module('helper-services', [])
-	.factory('helpers', ['$http', '$log', '$q', function($http, $log, $q) {
+	.factory('helpers', ['$http', '$log', '$q', '$location', function($http, $log, $q, $location) {
 		var helpers = {};
 
 		helpers.getCurrentUser = function(callback) {
@@ -15,6 +15,27 @@ module.exports = angular.module('helper-services', [])
 				}, function(error) {
 					$log.log(error);
 				});
+		};
+
+		helpers.makeSpinner = function() {
+			var numBalls = 8;
+			var spinnerHTML = '<div class="spinner">';
+
+			for (var i=0; i<numBalls; i++) {
+				spinnerHTML += '<div><div></div></div>';
+			}
+
+			spinnerHTML += '</div>';
+
+			return spinnerHTML;
+		};
+
+		helpers.makeSpinnerOverlay = function() {
+			var overlayHTML = '<div class="spinner-overlay">';
+			overlayHTML += helpers.makeSpinner();
+			overlayHTML += '</div>';
+
+			return overlayHTML;
 		};
 
 		helpers.getPostID = function(postType, postName, callback) {
@@ -64,6 +85,42 @@ module.exports = angular.module('helper-services', [])
 			return deferred.promise;
 		};
 
+		/**
+		 * The function for deleting the current post
+		 * @param  {integer} post_id   The id of the post to be deleted
+		 * @param  {string} post_type The type of the post to be deleted
+		 */
+		helpers.deletePost = function(post_id, post_type, post_data) {
+			var actionCallback, deleteRelMsg = '', deleteRelType = null, deleteRelID = null;
+			post_data = typeof post_data !== 'undefined' ? post_data : null;
+
+			// Check type of post, ask user if they want to
+			// delete corresponding activity log or expense sheet
+			if (post_data) {
+				if (post_data.expense_sheet) {
+					if (post_type === 'Activity_Log') {
+						deleteRelMsg = 'Delete Related Expense Sheet as Well?';
+						deleteRelID = post_data.expense_sheet;
+						deleteRelType = 'Expense_Sheet';
+					}
+				}
+				if (post_data.activity_log) {
+					if (post_type === 'Expense_Sheet') {
+						deleteRelMsg = 'Delete Related Activity Log as Well?';
+						deleteRelID = post_data.activity_log.id;
+						deleteRelType = 'Activity_Log';
+					}
+				}
+			}
+
+			if (deleteRelID) {
+				actionCallback = 'deleteRelConfirm';
+			} else {
+				actionCallback = 'redirect';
+			}
+			$location.path('/confirm').search({post_id: post_id, post_type: post_type, action_url: '/api/delete_post', action_callback: actionCallback, delete_rel_type: deleteRelType, delete_rel_id: deleteRelID, delete_rel_msg: deleteRelMsg});
+		};
+
 		helpers.isJson = function(str) {
 			try {
 				JSON.parse(str);
@@ -77,7 +134,8 @@ module.exports = angular.module('helper-services', [])
 			Number.prototype.padLeft = function(base,chr){
 				var  len = (String(base || 10).length - String(this).length)+1;
 				return len > 0? new Array(len).join(chr || '0')+this : this;
-			}
+			};
+
 			var datetime = [date.getFullYear(),
 					(date.getMonth()+1).padLeft(),
 					date.getDate().padLeft()].join('-')+' '+
@@ -174,12 +232,6 @@ module.exports = angular.module('helper-services', [])
 			var filter_date_range = [0, new Date()];
 			var filter = '[';
 			var logLevel2 = '';
-			var parentPostType = 'Activity_Log';
-
-			// if (postType === 'Expense_Sheet' || postType === 'Activity_Log') {
-			// 	parentPostType = 'Activity_Log';
-			// }
-			parentPostType = postType;
 
 			filtersArr = typeof filtersArr !== 'undefined' ? filtersArr : [];
 
@@ -211,21 +263,21 @@ module.exports = angular.module('helper-services', [])
 					if (curFilter.hasOwnProperty('reportDistrict')) {
 						filterData = curFilter.reportDistrict;
 					}
-					filter += parentPostType + ".districts.any(id=" + filterData.value + ")";
+					filter += postType + ".districts.any(id=" + filterData.value + ")";
 				}
 
 				if (filterType === 'school' || (filterType.hasOwnProperty('value') && filterType.value === 'school')) {
 					if (curFilter.hasOwnProperty('reportSchool')) {
 						filterData = curFilter.reportSchool;
 					}
-					filter += parentPostType + ".schools.any(id=" + filterData.value + ")";
+					filter += postType + ".schools.any(id=" + filterData.value + ")";
 				}
 
 				if (filterType === 'activity_type' || (filterType.hasOwnProperty('value') && filterType.value === 'activity_type')) {
 					if (curFilter.hasOwnProperty('reportActivity')) {
 						filterData = curFilter.reportActivity;
 					}
-					filter += parentPostType + ".activity_types.any(id=" + filterData.value + ")";
+					filter += postType + ".activity_types.any(id=" + filterData.value + ")";
 				}
 
 				if (i < (l - 1)) {

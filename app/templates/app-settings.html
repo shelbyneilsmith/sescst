@@ -3,10 +3,11 @@
 
 {% block content %}
 <div class="row" ng-controller='appSettingsCtrl' ng-init="curPanel='access-roles'">
-	{% include 'partials/sidebar/sidebar-app-settings.html' %}
-	<div id="app-main">
+	{% include 'partials/sidebar/sidebar-main.html' %}
+	<div id="app-main" class="app-settings-page">
 		<div class="container-fluid">
 			<h2>Application Settings</h2>
+			{% include 'partials/sidebar/app-settings-subnav.html' %}
 
 			<button class="btn btn-success" ng-click="saveAppSettings()">Save Settings</button><br /><br />
 

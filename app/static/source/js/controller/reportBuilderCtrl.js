@@ -3,7 +3,7 @@
  */
 'use strict';
 
-module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', '$window', 'helpers', '$q', '$controller', '$filter', function($scope, $log, $routeParams, ReportUtils, $location, $window, helpers, $q, $controller, $filter) {
+module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', '$window', 'helpers', '$q', '$controller', '$filter', '$sce', function($scope, $log, $routeParams, ReportUtils, $location, $window, helpers, $q, $controller, $filter, $sce) {
 	angular.extend(this, $controller('mainCtrl', {$scope: $scope}));
 
 	$scope.curDate = new Date();
@@ -11,7 +11,7 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 	$scope.saveBtnText = "Save Report";
 
 	$scope.saveReport = ReportUtils.saveReport;
-	$scope.deleteReport = ReportUtils.deleteReport;
+	// $scope.deleteReport = ReportUtils.deleteReport;
 
 	$scope.reportDateRange = [0, new Date()];
 	$scope.reportFilters = [];
@@ -214,6 +214,10 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 
 		$scope.reportDateRange = [];
 
+		$('.report-table-wrapper .spinner-wrap').hide();
+		$scope.reportLoadingSpinner = $sce.trustAsHtml(helpers.makeSpinnerOverlay());
+		$('.report-table-wrapper .spinner-wrap').fadeIn();
+
 		if (reportData) {
 			$scope.reportType = reportData.reportType;
 			$scope.reportPreset = reportData.reportPreset;
@@ -298,6 +302,7 @@ module.exports = ['$scope', '$log', '$routeParams', 'ReportUtils', '$location', 
 		}
 
 		$scope.reportFilter = helpers.buildQueryFilter(filtersData, $scope.reportPostType, $scope.datekeys);
+
 
 		helpers.getPosts($scope.reportPostType, $scope.reportFilter, function(results) {
 			if (results) {

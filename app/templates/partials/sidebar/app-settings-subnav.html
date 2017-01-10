@@ -1,5 +1,5 @@
 {% if current_user.is_authenticated %}
-<section id="app-settings-sidebar" class="app-sidebar sidebar-nav" ng-controller="sescSidebarCtrl" ng-init="initSettingsPanel()">
+<section id="app-settings-subnav" class="sidebar-nav" ng-controller="sescSidebarCtrl" ng-init="initSettingsPanel()">
 	<ul class="list-unstyled">
 		<li><a href="/admin/settings/#/access-roles" ng-click="$parent.curPanel='access-roles'" ng-class="{ active: isActive('/access-roles') }">Access Roles</a></li>
 		<li><a href="/admin/settings/#/activity-options" ng-click="$parent.curPanel='activity-options'" ng-class="{ active: isActive('/activity-options') }">Activity Options</a></li>

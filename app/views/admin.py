@@ -25,7 +25,7 @@ admin_bp = Blueprint('admin_bp', __name__)
 
 # view for the create user page
 @admin_bp.route('/admin/create-user', methods=["GET", "POST"])
-# @login_required(role='Administrator')
+@login_required(role='Administrator')
 def register_account():
 	form = RegisterUserForm()
 	if form.validate_on_submit():
