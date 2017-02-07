@@ -142,5 +142,5 @@ module.exports = angular.module('app-filters', [])
 
 			return outputVal;
 
-		}
+		};
 	}]);

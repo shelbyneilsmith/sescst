@@ -104,12 +104,14 @@ def report_builder():
 # @login_required(role='Administrator')
 def save_report_url():
 	data = json.loads(request.data.decode())
-	url = data["report_url"]
-	editing_id = data["editing_id"]
+	url = data['report_url']
+	report_title = data['report_title']
+	editing_id = data['editing_id']
 
 	if not editing_id:
 		report_url = Report_URL(
 			url=url,
+			report_title=report_title,
 			user=	current_user
 		)
 		db.session.add(report_url)
@@ -120,6 +122,7 @@ def save_report_url():
 	else:
 		cur_report = Report_URL.query.get(editing_id)
 		cur_report.url = url
+		cur_report.report_title=report_title
 		db.session.commit()
 
 		flash_message = "Updated"

@@ -253,7 +253,7 @@ module.exports = angular.module('helper-services', [])
 				}
 
 				if (filterType === 'user' || (filterType.hasOwnProperty('value') && filterType.value === 'user')) {
-					if (curFilter.hasOwnProperty('reportActivity')) {
+					if (curFilter.hasOwnProperty('reportUser')) {
 						filterData = curFilter.reportUser;
 					}
 					filter += postType + ".user.has(id=" + filterData.value + ")";

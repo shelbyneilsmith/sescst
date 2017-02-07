@@ -128,6 +128,7 @@ class Expense_SheetSchema(ma.ModelSchema):
 class Report_URLSchema(ma.ModelSchema):
 	id = fields.Int(dump_only=True)
 	url = fields.Str()
+	report_title = fields.Str()
 	user = fields.Nested('UserSchema', only=('id', 'username'), dump_only=True)
 
 class School_TypeSchema(ma.ModelSchema):

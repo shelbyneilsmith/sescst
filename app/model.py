@@ -388,6 +388,7 @@ class Report_URL(Base):
 
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 	url = db.Column(db.String(), nullable=False)
+	report_title = db.Column(db.String())
 
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	user = db.relationship("User", back_populates="report_urls")

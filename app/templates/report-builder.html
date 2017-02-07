@@ -12,15 +12,17 @@
 			<form id="report-type-form" ng-if="!reportBuilt">
 				<div class="form-field">
 					<label class="small">Report Title: </label><br />
-					<input type="text" ng-model="reportTitle" />
+					<input type="text" ng-model="$parent.reportTitle" />
 				</div>
+
 				<div class="form-field clearfix">
 					<h4>Report Type:</h4>
-					<label class="report-type-option" ng-repeat="type in reportTypeOptions">
-						<input type="radio" name="reportType" ng-model="$parent.reportType" value="{[ type.value ]}" />
+					<label class="report-type-option" ng-repeat="type in $parent.reportTypeOptions">
+						<input type="radio" name="reportType" ng-model="$parent.$parent.reportType" value="{[ type.value ]}" />
 						{[ type.label ]}
 					</label>
 				</div>
+
 				<div class="form-field">
 					<h4>Report Preset: </h4><br />
 					<small>Choose from the report presets or build a custom report.</small><br /><br />
