@@ -270,3 +270,7 @@ body > .ui-select-bootstrap.open {
 .selectize-control > .selectize-dropdown {
   top: 36px;
 }
+
+.select2-container, .select2-drop, .select2-search, .select2-search input {
+  width: 100%;
+}
