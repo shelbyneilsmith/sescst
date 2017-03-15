@@ -153,6 +153,11 @@ h1, h2, h3, h4, h5, h6 {
 		textarea {
 			width: 100%;
 		}
+
+		strong ~ span, strong ~ table td {
+			font-family: courier, monospace;
+			padding-left: 10px;
+		}
 	}
 }
 

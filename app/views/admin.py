@@ -108,6 +108,7 @@ def create_school():
 			name=form.school_name.data,
 			data_links=form.school_data_links.data
 		)
+		saveSelectField(school, form.school_district.data, 'District', 'district')
 		saveSelectField(school, form.school_type.data, 'School_Type', 'school_type')
 		saveMultiSelectField(school, form.school_levels.data, 'School_Level', 'school_levels')
 		saveMultiSelectField(school, form.school_services.data, 'Location_Service', 'location_services')

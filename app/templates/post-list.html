@@ -6,7 +6,5 @@
 	<div ng-include="getListTemplate()"></div>
 </div>
 
-{% if current_user.urole == "Administrator" %}
 <br /><br />
 <a class="btn btn-primary large" ng-href="{[createPostURL]}">Create {[postType | underscoreless]}</a>
-{% endif %}

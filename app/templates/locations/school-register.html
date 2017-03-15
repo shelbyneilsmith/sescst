@@ -18,6 +18,11 @@
 					<div class="form-field">
 						{{ form_macros.select_field(form, "school_type", form.school_type, "{postType: 'School_Type'}", "['name', 'id']") }}
 					</div>
+
+					<div class="form-field">
+						{{ form_macros.select_field(form, "school_district", form.school_district, "{postType: 'District'}", "['name', 'id']") }}
+					</div>
+
 					<div class="form-field">
 						{{ form_macros.multi_select_field(form, "school_levels", form.school_levels, "{postType: 'School_Level'}", "['name', 'id']") }}
 					</div>

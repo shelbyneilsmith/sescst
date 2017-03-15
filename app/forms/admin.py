@@ -29,6 +29,7 @@ class RegisterDistrictForm(Form):
 
 class RegisterSchoolForm(Form):
 	school_name = TextField('School Name', [Required(message='You have to set a name for this school!')])
+	school_district = TextField('School District')
 	school_type = TextField('School Type')
 	school_levels = TextField('School Levels')
 	school_services = TextField('School Services')
