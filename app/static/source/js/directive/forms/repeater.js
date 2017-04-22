@@ -13,8 +13,14 @@ module.exports = ['$http', '$log', '$templateCache', '$compile', '$templateReque
 			fields: '=',
 			repeaterType: '@',
 			inData: '=?model',
+			// fieldVal: '@?',
 		},
 		link: function(scope, element, attrs) {
+			// if (scope.fieldVal) {
+			// 	scope.inData = scope.fieldVal;
+			// 	console.log(scope.fieldVal);
+			// }
+
 			scope.newItem = [];
 			scope.editorFlags = [];
 

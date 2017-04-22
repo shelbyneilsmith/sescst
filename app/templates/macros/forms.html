@@ -1,17 +1,37 @@
-{% macro text_field(form, field_name, field) %}
+{% macro text_field(form, field_name, field, default) %}
+	{% set field_val = "" %}
+
+	{% if default %}
+		{% set field_val =  default %}
+	{% endif %}
+
+	{% if request.form[field_name] %}
+		{% set field_val = request.form[field_name] %}
+	{% endif %}
+
 	<div class='text-field' data-toggle='fieldset'>
 		<label for="{{field_name}}">{{field.label.text}}:</label><br />
-		<form-field name='{{field_name}}' type='text'></form-field>
+		<form-field name='{{field_name}}' type='text' field-val='{{field_val}}'></form-field>
 		{% for error in field.errors %}
 			<br /><span class='form-error'>{{ error }}</span>
 		{% endfor %}
 	</div>
 {% endmacro %}
 
-{% macro number_field(form, field_name, field) %}
+{% macro number_field(form, field_name, field, default) %}
+	{% set field_val = "" %}
+
+	{% if default == 0 or default %}
+		{% set field_val =  default %}
+	{% endif %}
+
+	{% if request.form[field_name] %}
+		{% set field_val = request.form[field_name] %}
+	{% endif %}
+
 	<div class='number-field' data-toggle='fieldset'>
 		<label for="{{field_name}}">{{field.label.text}}:</label><br />
-		<form-field name='{{field_name}}' type='number' placeholder='0'></form-field>
+		<form-field name='{{field_name}}' type='number' placeholder='0' field-val='{{field_val}}'></form-field>
 		{% for error in field.errors %}
 			<br /><span class='form-error'>{{ error }}</span>
 		{% endfor %}
@@ -28,10 +48,20 @@
 	</div>
 {% endmacro %}
 
-{% macro textarea_field(form, field_name, field) %}
+{% macro textarea_field(form, field_name, field, default) %}
+	{% set field_val = "" %}
+
+	{% if default %}
+		{% set field_val =  default %}
+	{% endif %}
+
+	{% if request.form[field_name] %}
+		{% set field_val = request.form[field_name] %}
+	{% endif %}
+
 	<div class='textarea-field' data-toggle='fieldset'>
 		<label for="{{field_name}}">{{field.label.text}}:</label><br />
-		<form-field name='{{field_name}}' type='textarea' rows='4'></form-field>
+		<form-field name='{{field_name}}' type='textarea' rows='4' field-val="{{field_val}}"></form-field>
 		{% for error in field.errors %}
 			<br /><span class='form-error'>{{ error }}</span>
 		{% endfor %}
@@ -39,8 +69,14 @@
 {% endmacro %}
 
 {% macro repeater_field(form, field_name, field, fields_data) %}
+	{% set rows = "" %}
+
+	{% if request.form[field_name] %}
+		{% set rows = request.form[field_name] %}
+	{% endif %}
+
 	<div class='repeater-field' data-toggle='fieldset'>
-		<repeater repeater-type="complex" label="{{ field.label.text }}" field-name="{{ field_name }}" fields="{{ fields_data }}"></repeater>
+		<repeater repeater-type="complex" label="{{ field.label.text }}" field-name="{{ field_name }}" fields="{{ fields_data }}" model="{{rows}}"></repeater>
 
 		{% for error in field.errors %}
 			<span class='form-error'>{{ error }}</span>
@@ -49,9 +85,15 @@
 {% endmacro %}
 
 {% macro datepicker_field(form, field_name, field) %}
+	{% set field_val = "" %}
+
+	{% if request.form[field_name] %}
+		{% set field_val = request.form[field_name] %}
+	{% endif %}
+
 	<div class='datepicker-field' data-toggle='fieldset'>
 		<label for="{{field_name}}">{{field.label.text}}:</label>
-		<form-field name='{{field_name}}' type='date'></form-field>
+		<form-field name='{{field_name}}' type='date' field-val="{{field_val}}"></form-field>
 		{% for error in field.errors %}
 			<br /><span class='form-error'>{{ error }}</span>
 		{% endfor %}
@@ -59,9 +101,15 @@
 {% endmacro %}
 
 {% macro select_field(form, field_name, field, select_options, key_val, simple_select) %}
+	{% set field_val = "" %}
+
+	{% if request.form[field_name] %}
+		{% set field_val = request.form[field_name] %}
+	{% endif %}
+
 	<div class='select-field' data-toggle='fieldset'>
 		<label for="{{field_name}}">{{field.label.text}}:</label><br />
-		<form-field name='{{field_name}}' placeholder='{{field.label.text}}' type='select' simple-select='{{simple_select}}' select-options="{{select_options}}" key-val="{{key_val}}"></form-field>
+		<form-field name='{{field_name}}' placeholder='{{field.label.text}}' type='select' simple-select='{{simple_select}}' select-options="{{select_options}}" key-val="{{key_val}}" field-val="{{field_val}}"></form-field>
 		{% for error in field.errors %}
 			<span class='form-error'>{{ error }}</span>
 		{% endfor %}
@@ -69,9 +117,15 @@
 {% endmacro %}
 
 {% macro multi_select_field(form, field_name, field, select_options, key_val) %}
+	{% set field_val = "" %}
+
+	{% if request.form[field_name] %}
+		{% set field_val = request.form[field_name] %}
+	{% endif %}
+
 	<div class='multi-select-field' data-toggle='fieldset'>
 		<label for="{{field_name}}">{{field.label.text}}:</label>
-		<form-field name='{{field_name}}' placeholder='{{field.label.text}}' type='multiselect' select-options="{{select_options}}" key-val="{{key_val}}"></form-field>
+		<form-field name='{{field_name}}' placeholder='{{field.label.text}}' type='multiselect' select-options="{{select_options}}" key-val="{{key_val}}" field-val="{{field_val}}"></form-field>
 		{% for error in field.errors %}
 			<span class='form-error'>{{ error }}</span>
 		{% endfor %}

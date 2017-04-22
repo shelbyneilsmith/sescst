@@ -13,7 +13,7 @@
 
 		<tr data-toggle='fieldset-entry' ng-repeat='i in inData.field_rows track by $index'>
 			<td ng-repeat='f in fields track by $index'>
-				<form-field model='inData.field_rows[$parent.$index][$index]["field_val"]' name='{[ fieldName ]}-{[ $parent.$index ]}-{[ f.field_id ]}' placeholder='{[ f.field_label ]}' type='{[ f.field_type ]}'></form-field>
+				<form-field model='inData.field_rows[$parent.$index][$index]["field_val"]' name='{[ fieldName ]}-{[ $parent.$index ]}-{[ f.field_id ]}' placeholder='{[ f.field_label ]}' type='{[ f.field_type ]}' field-val='{[inData.field_rows[$parent.$index][$index]["field_val"]]}'></form-field>
 			</td>
 			<td><button ng-if='inData.field_rows.length > 1' type='button' class='repeater-remove btn btn-default' ng-click='removeItem($parent.$index)' aria-label='Remove Item' title='Remove Item'><span class='glyphicon glyphicon-minus' aria-hidden='true'></span></button></td>
 		</tr>

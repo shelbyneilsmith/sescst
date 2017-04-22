@@ -13,7 +13,7 @@
 				{{ activity_log_form.hidden_tag() }}
 				<fieldset class="form-group">
 					<div class="form-field col-md-12">
-						{{ form_macros.text_field(activity_log_form, "name", activity_log_form.name) }}
+						{{ form_macros.text_field(activity_log_form, "name", activity_log_form.name,) }}
 					</div>
 
 					<div class="form-field col-md-6">
@@ -65,7 +65,7 @@
 					</div>
 
 					<div class="form-field col-md-6">
-						{{ form_macros.number_field(activity_log_form, "num_hours_planning", activity_log_form.num_hours_planning) }}
+						{{ form_macros.number_field(activity_log_form, "num_hours_planning", activity_log_form.num_hours_planning, 0) }}
 					</div>
 
 					<div class="form-field col-md-6">

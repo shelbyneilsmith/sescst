@@ -11,7 +11,7 @@ module.exports = ['$http', '$log', '$timeout', 'helpers', function($http, $log, 
 		<span ng-if='!multiple'>{[$select.selected[optionKey]]}</span> \
 		<span ng-if='multiple'>{[$item[optionKey]]}</span> \
 		</ui-select-match> \
-		<ui-select-choices repeat='item in (uiSelectOptions | filter: $select.search)' value='{[$select.selected[optionVal]]}''> \
+		<ui-select-choices repeat='item in (uiSelectOptions | filter: $select.search) track by item.id' value='{[$select.selected[optionVal]]}''> \
 		<span ng-bind-html='item[optionKey] | highlight: $select.search'></span> \
 		</ui-select-choices></ui-select></div>";
 

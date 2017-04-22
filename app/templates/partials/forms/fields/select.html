@@ -1,4 +1,4 @@
-<select ng-if="simpleSelect" ng-model="$parent.fieldModel"  name='{[ $parent.name ]}' ng-options="item as item for item in $parent.selectOptions track by item"></select>
+<select ng-if="simpleSelect" ng-model="$parent.fieldModel"  name='{[ $parent.name ]}' ng-options="item as item for item in $parent.selectOptions track by item" value="{[$parent.fieldVal]}"></select>
 
 <select-2-field ng-if="!simpleSelect" field-name='{[ $parent.name ]}' multiple='false' label="{[ $parent.placeholder ]}" select-options="$parent.selectOptions" model="$parent.fieldModel" key-val="$parent.keyVal" min-width="300px"></select-2-field>
 

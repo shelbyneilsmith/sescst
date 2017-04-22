@@ -11,6 +11,7 @@ module.exports = ['$http', '$log', '$templateCache', '$compile', '$templateReque
 			fieldModel: '=?model',
 			name: '@',
 			placeholder: '@',
+			fieldVal: '@',
 			type: '@',
 			autoFocus: '@',
 			selectOptions: '=?',
@@ -19,8 +20,22 @@ module.exports = ['$http', '$log', '$templateCache', '$compile', '$templateReque
 			rows: '@',
 		},
 		link: function(scope, element, attrs) {
+			if (scope.fieldVal) {
+				if (scope.type === 'number' || scope.type === 'money') {
+					scope.fieldVal = parseFloat(scope.fieldVal);
+				}
+
+				scope.fieldModel = scope.fieldVal;
+			} else {
+				scope.fieldVal = '';
+			}
+
 			if (scope.type !== 'select' && scope.type !== 'multiselect') {
 				scope.fieldModel = typeof scope.fieldModel !== 'undefined' ? scope.fieldModel : '';
+			} else {
+				if (!scope.simpleSelect) {
+					scope.fieldModel = typeof scope.fieldModel !== 'undefined' ? angular.fromJson(scope.fieldModel) : '';
+				}
 			}
 
 			$templateRequest('../templates/partials/forms/fields/' + scope.type + '.html').then(function(html) {
