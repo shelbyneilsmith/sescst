@@ -55,6 +55,6 @@ docs/_build/
 # Gulp stuff
 node_modules
 gulpfile.js
-package.json
 
+.sass-cache
 *.DS_Store
